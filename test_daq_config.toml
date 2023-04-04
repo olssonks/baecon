@@ -1,0 +1,27 @@
+name = 'Daq1'
+
+instrument = 'NIDAQ_Base'
+
+[parameters]
+device_name = "Dev1"
+read_sample_rate = 50000.0
+read_sample_rate_out = 1000.0
+read_samples_per_chan = 10000.0
+reads_per_sample = 1
+read_samples_total = 10000.0
+read_channels = ['ai1']
+
+[latent_parameters]
+units = "volts"
+voltage_limits = 2
+terminal_type = "RSE"
+read_clock_source = "OnboardClock"
+read_active_edge = "rising_edge"
+read_sample_mode = "finite_samples"
+read_timeout = "infinite_timeout"
+read_trigger_channel = 'PFI0'
+read_fill_mode = 'by_channel'
+
+[preparations]
+read = ['analog_input']
+read_method = 'analog_input'

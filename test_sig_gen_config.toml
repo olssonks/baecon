@@ -1,0 +1,17 @@
+name = "SG1"
+
+instrument = "SG380"
+
+[parameters]
+frequency = 2.8e9
+phase = 0
+amplitude = 0.0
+modulation = "Off"
+modulation_Source = "External" 
+
+[latent_parameters]
+IPaddress = '10.229.42.86'
+port = '5025'
+
+## Alternatively use GPIB
+## GPIB = '27'

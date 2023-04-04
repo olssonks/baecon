@@ -1,0 +1,9 @@
+instrument = 'SG380'
+parameter = 'frequency'
+min = 1
+max = 2
+points = 10
+repetitions = 1
+scale = 'linear'
+randomize = 'False'
+note = ''
