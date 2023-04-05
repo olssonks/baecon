@@ -140,9 +140,9 @@ class SG380(Instrument):
             parameter (str): Parameter on device to change.
             value (any): New value for the device parameter.
         """        
-        msg = self.commands[parameter](value, read_toggle='')
+        msg = self.commands[parameter](self, value, read_toggle='')
         self.device.write(msg)
-        self.parameters['parameter'] = value
+        self.parameters[parameter] = value
         return
         
         
@@ -160,7 +160,7 @@ class SG380(Instrument):
         """        
         msg = self.commands[parameter](self, value='', read_toggle = '?')
         reading = self.device.query(msg)
-        self.parameters['parameter'] = reading
+        self.parameters[parameter] = reading
         return reading
     
 
@@ -205,7 +205,7 @@ class SG380(Instrument):
         Returns:
             str: Message to send to device.
         """    
-        if float(self.current_Freq) < 1: ## 1 MHz
+        if float(self.parameters['frequency']) < 1: ## 1 MHz
             prefix = 'AMPL'
         else:
             prefix = 'AMPR'
@@ -226,7 +226,7 @@ class SG380(Instrument):
             str: Message to send to device.
         """    
         ## 0 or 1 for off or on
-        if float(self.current_Freq) < 1: ## 1 MHz
+        if float(self.parameters['frequency']) < 1: ## 1 MHz
             prefix = 'ENBL'
         else:
             prefix = 'ENBR'
@@ -279,7 +279,7 @@ class SG380(Instrument):
             func_number = ''
         else:
             func_number = modulation_functions[value]
-        message = (modulation_types[self.mod_type] 
+        message = (modulation_types[self.parameters['mod_type']] 
                    + read_toggle + func_number)
         return message
         
@@ -300,9 +300,9 @@ class SG380(Instrument):
     
     
     def SetMWSweep(self, center, span, rate):
-        ## rate in Hz
-        cntr = center * frequency_units[self.frequency_units]
-        dev = span/2 * frequency_units[self.frequency_units]
+        ## needs updating
+        cntr = center
+        dev = span/2
         
         bands = [band * 1e6 for band in \
                  Sweep_bands[self.get_freq_sweep_range(cntr)]

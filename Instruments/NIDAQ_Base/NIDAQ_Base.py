@@ -1,4 +1,4 @@
-from ... instrument import Instrument
+from baecon import Instrument
 import PyDAQmx
 import numpy as np
 

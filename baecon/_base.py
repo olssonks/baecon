@@ -1,11 +1,9 @@
 from . instrument import Instrument, Instruments_directory
 from . import utils
 
-import importlib, inspect, copy, os
+import importlib, inspect, os, sys, json
 
 from dataclasses import dataclass, field
-from typing import Union
-import queue, threading
 
 import numpy as np
 import xarray as xr
@@ -22,10 +20,7 @@ class Measurement_Settings:
 class Measurement_Data:
     data_template: xr.DataArray = field(default_factory=xr.DataArray)
     data_set: xr.Dataset = field(default_factory=xr.Dataset)
-    
-@dataclass
-class abort:
-    flag = False
+
 
 
 def make_measurement_settings(meas_configs:dict)->Measurement_Settings:
@@ -71,11 +66,11 @@ def generate_measurement_config(ms:Measurement_Settings):
     for key in list(ms.scan_collection.keys()):
         scans.update({key: ms.scan_collection[key]['settings']})
         
-    meas_settings = {'acquisition_instruments': acq_inst,
+    meas_config = {'acquisition_instruments': acq_inst,
                      'scan_instruments': scan_inst,
                      'scan_collection': scans,
                      'averages':ms.averages}
-    return meas_settings
+    return meas_config
 
 def save_measurement_config(ms:Measurement_Settings, out_file:str)->None:
     """Generatres configuration dictioary from Measurement_Settings object
@@ -121,6 +116,8 @@ def make_instrument(config:dict)->dict:
     inst_path = os.path.abspath(f'{Instruments_directory}\\{to_import}\\{to_import}.py')
     spec = importlib.util.spec_from_file_location(to_import, inst_path)
     instrument_module = importlib.util.module_from_spec(spec)
+    sys.modules[to_import] = instrument_module
+    spec.loader.exec_module(instrument_module)
     available_modules = dict(inspect.getmembers(instrument_module, inspect.isclass))
     instrument = available_modules[to_import](config)
     print(f'dev: {instrument}')
@@ -174,7 +171,7 @@ def make_scan(scan_settings:dict, instrument:Instrument)->dict:
                 'randomize': scan_settings['randomize']}
     return {scan_key: {'settings': scan_settings, 'scan': scan}}
 
- 
+
 def make_scan_schedule(scan_settings:dict)-> np.ndarray:
     """Makes the order of parameter values to scan through (called schedule) 
         based on the scan settings 'min', 'max', 'points', and 'repititions'. 
@@ -210,12 +207,23 @@ def make_scan_schedule(scan_settings:dict)-> np.ndarray:
         array = np.logspace(scan_settings['min'], scan_settings['max'], scan_settings['points'])
         return np.tile(array, scan_settings['repetitions'])
     def custom():
-        array = np.array(custom_schedule())
+        array = np.array(custom_schedule(scan_settings['note']))
         return np.tile(array, scan_settings['repitions'])
     def constant():
         return np.tile(scan_settings['min'], scan_settings['repetitions'])
     schedule = {'linear': linear, 'log': log, 'custom': custom, 'constant': constant}
     return schedule[scan_settings['scale']]()
+
+    
+def custom_schedule(note:str)->np.ndarray:
+    file_name = json.loads(note)['custom']
+    l_type = os.path.splitext(file_name)[-1]
+    with open(file_name, 'r') as f:
+        if 'npy' in l_type:
+            array = np.load(f, 'r')
+        else:
+            array = np.loadtxt(f)
+    return array
     
 ## how to implement method to add/change scan settings??
 # def define_scan_settings():
@@ -260,115 +268,3 @@ def create_data_template(Measurement_Setings:Measurement_Settings)->xr.DataArray
                                         dims = list(coords.keys()),
                                         coords = coords)
     return template
-
-
-def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Queue,
-                    parameter_holder:dict, total_depth:int, present_depth:int,
-                    abort)->None:
-
-    if present_depth == total_depth - 1:
-        scan_now = scan_list[present_depth]
-        for idx in scan_now['schedule']:
-            parameter_holder[scan_now['parameter']] = idx
-            data = {}
-            for acq_name, acq_method in list(acquisition_methods.items()):
-                data[acq_name] = acq_method.read()
-            data_queue.put({'parameters': parameter_holder.copy(), 
-                            'data': data}
-            )
-            if abort.flag == 'abort':
-                break
-    else:
-        scan_now = scan_list[present_depth]
-        for idx in scan_now['schedule']:
-            parameter_holder[scan_now['parameter']] = idx
-            scan_recursion(scan_list, acquisition_methods, data_queue,
-                    parameter_holder, total_depth, present_depth+1, abort)
-            if abort.flag == 'abort':
-                break
-    return
-    
-def consecutive_measurement(scans, 
-                            acquisition_methods, 
-                            data_queue,
-                            abort:abort)->None:
-    
-    total_depth = len(scans)
-    current_depth = 0
-    parameter_holder = {}
-    
-    scan_list = make_scan_list(scans)
-    
-    scan_recursion(scan_list, acquisition_methods, data_queue, 
-                        parameter_holder, total_depth, current_depth,
-                        abort)
-    return
-    
-def make_scan_list(scans):
-    scan_list = []
-    for key in list(scans.keys()):
-        scan = scans[key]['scan']
-        scan_list.append(scan)
-    return scan_list
-
-
-def measure_thread(ms:Measurement_Settings, data_queue, abort:abort):
-    scans = ms.scan_collection
-    acq_methods = ms.acquisition_instruments
-    for idx in np.arange(ms.averages, dtype=np.int32):
-        consecutive_measurement(scans, acq_methods, data_queue, abort)
-        data_queue.put(['scan_done'])
-    data_queue.put(['measurement_done'])
-    return
-
-def data_thread(md:Measurement_Data, data_queue, abort:abort):
-    print('start data thread')
-    data_done = ''
-    idx = 0
-    while not data_done == 'measurement_done':
-        data_arrays = copy.deepcopy(md.data_template)
-        data_done = get_scan_data(data_arrays, data_queue, data_done, abort)
-        for acq_key in list(data_arrays.keys()):
-            md.data_set[f'{acq_key}_{idx}'] = data_arrays[acq_key]
-        idx+=1
-        if abort.flag:
-                break
-        if data_done == 'scan_done':
-            data_done = ''
-    return
-
-def get_scan_data(data_arrays, data_queue, data_done, abort): 
-    while not (data_done == 'scan_done' or data_done == 'measurement_done'):
-        if abort.flag:
-            break
-        new_data = data_queue.get(timeout = 5)
-        print(new_data)
-        if len(new_data) == 1:
-            data_done = new_data[0]
-        else:
-            data = new_data['data']
-            for acq_key in list(data.keys()):
-                data_arrays[acq_key].loc[new_data['parameters']] = data[acq_key]
-    return data_done
-
-def abort_monitor(abort:abort):
-    while abort.flag == False:
-        keystrk=input('Input "abort" to end measurement \n')
-        if keystrk == "abort":
-            abort.flag = keystrk
-            break
-        else: 
-            print('Input not understood')
-    return
-    
-def run_measurement(ms:Measurement_Settings, md:Measurement_Data):
-    
-    
-    m_t=threading.Thread(target=measure_thread, args=(abort_flag,))
-    d_t=threading.Thread(target=data_thread, args=(abort_flag,))
-    a_t=threading.Thread(target=abort_monitor, args=(abort_flag,))
-    m_t.start()
-    d_t.start()
-    a_t.start()
-    
-    return

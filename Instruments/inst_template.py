@@ -1,7 +1,7 @@
-from ...instrument import Instrument, Instruments_directory
+from baecon import Instrument
 
 
-class New_Instrument(Instrumet):
+class New_Instrument(Instrument):
     def __init__(self, configuration: dict = None) -> None:
         """Add initionalization specifcs for the type of insturment.
 

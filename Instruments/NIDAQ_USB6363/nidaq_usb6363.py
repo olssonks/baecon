@@ -1,4 +1,4 @@
-from NIDAQ_Base import NIDAQ_Base
+from ..NIDAQ_Base import NIDAQ_Base
 
 class NIDAQ_USB6363(NIDAQ_Base):
     

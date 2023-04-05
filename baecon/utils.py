@@ -1,9 +1,8 @@
 import baecon as bc
 
-
 import toml, yaml, json, os #for config file operations
 
-import sys, fileinput
+import sys, fileinput, argparse
 
 ## for file_chooser
 from pathlib import Path
@@ -170,6 +169,7 @@ def generate_measurement_config_from_file(config_list_file:str, out_file:str)->N
         {'acquisition_instruments': {'instrument_name': configuration_file_name, ...},
         'scan_instruments': {'instrument_name': configuration_file_name, ...}, 
         'scan_collections': {'scan_name': configuration_file_name, ...}
+        'averages': (int)
         }
     Args:
         config_list_file (str): Name of file to load.
@@ -184,9 +184,26 @@ def generate_measurement_config_from_file(config_list_file:str, out_file:str)->N
         bc.add_instrument(file, ms.scan_instruments)
     for file in list(file_list['scan_collection'].values):
         bc.add_scan(file, ms.scan_collection)
+    ms.averages = file_list['averages']
     bc.save_measurement_config(ms, out_file)
     return
+
+def command_parser():
+    parser = argparse.ArgumentParser()
     
+    parser.add_argument('-c', '--config_file',
+        metavar='C',
+        default='None',
+        help='Measurement configuration file'
+        )
+    
+    parser.add_argument('-g', '--gen_config',
+        metavar='G',
+        default='None',
+        help='Generate measurement configuration from file with list of configuration files.'
+        )
+    return
+
 # class local_file_picker(ui.dialog):
 
 #     def __init__(self, directory: str, *,
