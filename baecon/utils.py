@@ -2,11 +2,16 @@ import baecon as bc
 
 import toml, yaml, json, os #for config file operations
 
-import sys, fileinput, argparse
+import sys, fileinput, argparse, importlib
 
 ## for file_chooser
 from pathlib import Path
 from typing import Optional
+
+# import xarray as xr
+# import numpy as np
+# import pandas as pd
+# import zarr
 
 #from nicegui import ui
 
@@ -146,16 +151,16 @@ load_functions = {'.toml':toml_load, '.yaml':yaml_load, '.json':json_load}
 dump_functions = {'.toml':toml_dump, '.yaml':yaml_dump, '.json':json_dump}
 
 
-def set_instrument_directory(Instruments_directory:str):
-    """Sets default instruments directory in `Instruments` to the input
+def set_device_directory(Devices_directory:str):
+    """Sets default devices directory in `Devices` to the input
         directory.
 
     Args:
-        Instruments_irectory (str): Directory of Instruments
+        Devices_directory (str): Directory holding :class:Device modules.
     """
-    for line in fileinput.FileInput('instrument.py',inplace=1):
-        if line.startswith('Instruments_directory'):
-            print('Instruments_directory = \'%s\'' % Instruments_directory)
+    for line in fileinput.FileInput('device.py',inplace=1):
+        if line.startswith('Devices_directory'):
+            print('Devices_directory = \'%s\'' % Devices_directory)
         else:
             sys.stdout.write(line)
     return
@@ -166,8 +171,8 @@ def generate_measurement_config_from_file(config_list_file:str, out_file:str)->N
         individual configuration files, then saves Measurement_Settings to a 
         measurement configuration file. config_list_file will be a dict like 
         file (e.g., json, yaml, toml) with structure:
-        {'acquisition_instruments': {'instrument_name': configuration_file_name, ...},
-        'scan_instruments': {'instrument_name': configuration_file_name, ...}, 
+        {'acquisition_devices': {'device_name': configuration_file_name, ...},
+        'scan_devices': {'device_name': configuration_file_name, ...}, 
         'scan_collections': {'scan_name': configuration_file_name, ...}
         'averages': (int)
         }
@@ -175,33 +180,85 @@ def generate_measurement_config_from_file(config_list_file:str, out_file:str)->N
         config_list_file (str): Name of file to load.
         out_file (str): Name of file to save configuration of the generated 
         Measurement_Settings
-    """    
-    ms = bc.Measurement_Settings()
+    """
+    acq_insts, scan_insts, scans = {}, {},{}
+    #ms = bc.Measurement_Settings()
     file_list = load_config(config_list_file)
-    for file in list(file_list['acquisition_instruments'].values):
-        bc.add_instrument(file, ms.acquisition_instruments)
-    for file in list(file_list['scan_instruments'].values):
-        bc.add_instrument(file, ms.scan_instruments)
-    for file in list(file_list['scan_collection'].values):
-        bc.add_scan(file, ms.scan_collection)
-    ms.averages = file_list['averages']
-    bc.save_measurement_config(ms, out_file)
+    for inst_name, file in list(file_list['acquisition_devices'].items()):
+        config = load_config(file)
+        acq_insts.update({inst_name: config})
+    for inst_name, file in list(file_list['scan_devices'].items()):
+        config = load_config(file)
+        scan_insts.update({inst_name: config})
+    for scan_name, file in list(file_list['scan_collection'].items()):
+        config = load_config(file)
+        scans.update({scan_name: config})
+
+    meas_config = {'acquisition_devices': acq_insts,
+                     'scan_devices': scan_insts,
+                     'scan_collection': scans,
+                     'averages':file_list['averages']}
+    
+    dump_config(meas_config, out_file)
     return
 
-def command_parser():
-    parser = argparse.ArgumentParser()
+def save_measurement_config(ms:bc.Measurement_Settings, out_file:str)->None:
+    """Generatres configuration dictioary from Measurement_Settings object
+        and saves to specified file.
+
+    Args:
+        ms (Measurement_Settings): Measurement settings to save.
+        out_file (str): Name of file to save.
+    """    
+    meas_settings = bc.generate_measurement_config(ms)
+    dump_config(meas_settings, out_file)
+    return
     
-    parser.add_argument('-c', '--config_file',
-        metavar='C',
-        default='None',
-        help='Measurement configuration file'
-        )
+def save_baecon_data(md:bc.Measurement_Data, 
+                     file_name:str, 
+                     format:str ='.zarr',
+                     options=None)->None:
+    """Saves measurement data to choice of `format`. The default format is
+        a Zarr group file. Possible formats: `zarr`, `netcdf`, `hdf5`, and `csv`.
     
-    parser.add_argument('-g', '--gen_config',
-        metavar='G',
-        default='None',
-        help='Generate measurement configuration from file with list of configuration files.'
-        )
+    Need to check settings saved as metadata correctly
+    
+    Possible formats to implement in the future: parquet, feather.
+    Args:
+        md (bc.Measurement_Data): _description_
+        file_name (str): _description_
+        format (str, optional): _description_. Defaults to '.zarr'options=None.
+    """    
+    def use_zarr():
+        if options:
+            zarr_group = md.data_set.to_zarr(file_name, **options)
+        else:
+            zarr_group = md.data_set.to_zarr(file_name, mode='w')
+        return
+    def use_netcdf():
+        if options:
+            netcdf_group = md.data_set.to_netcdf(file_name, **options)
+        else:
+            netcdf_group = md.data_set.to_netcdf(file_name)
+        return
+    def use_hdf5():
+        df = md.data_set.to_pandas()
+        if options:
+            df.to_hdf(file_name, **options)
+        else: 
+            df.to_hdf(file_name)
+        return
+    def use_csv():
+        df = md.data_set.to_dataframe()
+        df.to_csv(file_name)
+        return
+    formats = {'.zarr':use_zarr,
+               '.nc'  :use_netcdf,
+               '.h5'  :use_hdf5,
+               '.csv' :use_csv
+    }
+    
+    formats[format]()
     return
 
 # class local_file_picker(ui.dialog):
@@ -268,3 +325,52 @@ def command_parser():
 #         rows = await ui.run_javascript(f'getElement({self.grid.id}).gridOptions.api.getSelectedRows()')
 #         full_path = [str(Path(self.path.resolve(), rows[0]['name']))]
 #         self.submit(full_path)
+
+def arg_parser():
+    parser = argparse.ArgumentParser()
+    
+    parser.add_argument('-c', '--config_file',
+        metavar='C',
+        default='None',
+        help='Measurement configuration file.'
+        )
+    
+    parser.add_argument('-g', '--gen_config',
+        metavar='G',
+        default='None',
+        help='''Generate measurement configuration from file with list of 
+            configuration files. Use with `generate_measurement_configuration`
+            tool.
+        '''
+        )
+    
+    parser.add_argument('-e', '--engine',
+        metavar='E',
+        default='None',
+        help='''Measurement engine to use. 
+        '''
+        )
+    
+    parser.add_argument('-o', '--output_file',
+        metavar='E',
+        default='None',
+        help='''Output file to save to. 
+        '''
+        )
+    args = parser.parse_args()
+    return args
+    
+def load_module_from_path(file_path:str):
+
+    file_name = file_path.split('\\')[-1]
+    
+    to_import = os.path.splitext(file_name)[0]
+    
+    inst_path = os.path.abspath(file_path)
+    spec = importlib.util.spec_from_file_location(to_import, inst_path)
+    device_module = importlib.util.module_from_spec(spec)
+    sys.modules[to_import] = device_module
+    spec.loader.exec_module(device_module)
+    return device_module
+    
+    

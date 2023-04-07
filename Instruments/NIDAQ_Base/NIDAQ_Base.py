@@ -1,9 +1,9 @@
-from baecon import Instrument
+from baecon import Device
 import PyDAQmx
 import numpy as np
 
 
-class NIDAQ_Base(Instrument):
+class NIDAQ_Base(Device):
     def __init__(self, configuration: dict=None) -> None:
         self.parameters = {
             "device_name": "",
@@ -32,7 +32,7 @@ class NIDAQ_Base(Instrument):
         self.prepared_read_function = None
         self.read_data = []
 
-        self.prepare_instrument(configuration)
+        self.prepare_device(configuration)
 
         return
         
@@ -40,7 +40,7 @@ class NIDAQ_Base(Instrument):
         """Resets DAQ completely when object is closed
             Note:
                 This may cause issues when use the same DAQ as multiple
-                instruments, e.g., reading analog inputs (acquisition) 
+                devices, e.g., reading analog inputs (acquisition) 
                 and writing analog outputs (scan).
         """ 
         PyDAQmx.ResetDevice(self.parameters['device_name'])
@@ -56,10 +56,10 @@ class NIDAQ_Base(Instrument):
         self.prepared_read_function()
         return self.read_data
 
-    def update_instrument(self):
+    def update_device(self):
         self.stop_task(self.prepared_read_task)
         self.clear_task(self.prepared_read_task)
-        self.prepare_instrument(self.configuration)
+        self.prepare_device(self.configuration)
         return
 
     def start_task(self, task):
@@ -155,7 +155,7 @@ class NIDAQ_Base(Instrument):
 
         return
 
-    def prepare_instrument(self, configuration) -> None:
+    def prepare_device(self, configuration) -> None:
         preparation_methods = {
             "analog_input": self.prepare_analog_input,
             "digital_trigger": self.prepare_read_digital_trigger,

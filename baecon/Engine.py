@@ -14,8 +14,9 @@ Procedure
     -save raw and processed data
 
 '''
-from . instrument import Instrument
-from ._base import Measurement_Data, Measurement_Settings, abort
+from . device import Instrument
+from . base import Measurement_Data, Measurement_Settings
+
 
 from dataclasses import dataclass
 from typing import Union
@@ -27,6 +28,9 @@ import queue
 import threading
 import copy
 
+@dataclass
+class abort:
+    flag = False
 
 def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Queue,
                     parameter_holder:dict, total_depth:int, present_depth:int,

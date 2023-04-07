@@ -1,8 +1,8 @@
-from baecon import Instrument
+from baecon import Device
 
 import pyvisa
 
-class SG380(Instrument):
+class SG380(Device):
     
     def __init__(self, configuration:dict=None):
             
@@ -10,11 +10,11 @@ class SG380(Instrument):
                            'phase': 0,
                            'amplitude': 0,
                            'enabled': False,
-                           'mod_enabled': False,
-                           'mod_type': 'IQ',
-                           'mod_function': 'External'}
+                           'modulation_enabled': False,
+                           'modulation_type': 'IQ',
+                           'modulation_function': 'External'}
         
-        self.latent_parameters = {'address': '127.0.0.1',
+        self.latent_parameters = {'IPaddress': '127.0.0.1',
                                   'port': '5025',
                                   'read_termination': 'r\n'}
 
@@ -22,8 +22,7 @@ class SG380(Instrument):
         
         super().__init__(configuration)
         
-        for param, value in list({**self.parameters,
-                                  **self.latent_parameters}.items()):
+        for param, value in list(self.parameters.items()):
             self.write(param, value)
         
         return
@@ -50,7 +49,7 @@ class SG380(Instrument):
         Commmunication handled with `PyVISA-Py <https://pyvisa.readthedocs.io/projects/pyvisa-py/en/latest/index.html>`_.
 
         Args:
-            configuration (dict): Dictionary containing instrument parameter configruations.
+            configuration (dict): Dictionary containing device parameter configruations.
 
         Returns:
             device: `PyVISA TCPIPSocket <https://pyvisa.readthedocs.io/en/latest/api/resources.html#pyvisa.resources.TCPIPSocket>`_\
@@ -88,7 +87,7 @@ class SG380(Instrument):
         Commmunication handled with `PyVISA-Py <https://pyvisa.readthedocs.io/projects/pyvisa-py/en/latest/index.html>`_.
 
         Args:
-            configuration (dict): Dictionary containing instrument parameter configruations.
+            configuration (dict): Dictionary containing device parameter configruations.
 
         Returns:
             device: `PyVISA GPIBInstrument <https://pyvisa.readthedocs.io/en/latest/api/resources.html#pyvisa.resources.GPIBInstrument>`_\
@@ -100,7 +99,7 @@ class SG380(Instrument):
             device = rm.open_resource('GPIB0::'+self.address+'::INSTR')
             device.read_termination = self.latent_parameters['read_termination']
         except KeyError:
-            print("GPIB Number not specified, check instrument configurations.")
+            print("GPIB Number not specified, check device configurations.")
             print("Device connection aborted.")
             return
         
@@ -248,9 +247,9 @@ class SG380(Instrument):
         Returns:
             str: Message to send to device.
         """    
-        modulation_types = {'AM': 0, 'FM': 1, 'PM': 2, 
-                            'Sweep': 3, 'Pulse': 4, 
-                            'Blank': 5, 'IQ':6}
+        modulation_types = {'AM': '0', 'FM': '1', 'PM': '2', 
+                            'Sweep': '3', 'Pulse': '4', 
+                            'Blank': '5', 'IQ':'6'}
         if value == '':
             mod_type = ''
         else:
@@ -261,7 +260,8 @@ class SG380(Instrument):
     
     def mod_function(self, value, read_toggle):
         """Sets or queries what type of modulation function to use, such as 
-        ramp or square wave.
+        ramp or square wave. Depending on the `modulation Type` the communciation
+        command changes. 
 
         Args:
             value (str): Modulation function to use
@@ -269,17 +269,18 @@ class SG380(Instrument):
 
         Returns:
             str: Message to send to device.
-        """    
-        modulation_types = {'AM': 0, 'FM': 1, 'PM': 2, 
-                            'Sweep': 3, 'Pulse': 4, 
-                            'Blank': 5, 'IQ':6}
-        modulation_functions = {'Sine':0 , 'Ramp': 1, 'Triangle': 2,
-                                'Square':3, 'Noise': 4, 'External': 5}
+        """ 
+        modulation_types = {'AM': ' MFNC', 'FM': ' MFNC', 'PM': 'MFNC', 
+                            'Sweep': 'SFNC', 'Pulse': 'PFNC', 
+                            'Blank': 'PFNC', 'IQ':'QFNC'}
+        
+        modulation_functions = {'Sine':'0' , 'Ramp': '1', 'Triangle': '2',
+                                'Square':'3', 'Noise': '4', 'External': '5'}
         if value == '':
             func_number = ''
         else:
             func_number = modulation_functions[value]
-        message = (modulation_types[self.parameters['mod_type']] 
+        message = (modulation_types[self.parameters['modulation_type']] 
                    + read_toggle + func_number)
         return message
         
@@ -322,10 +323,10 @@ class SG380(Instrument):
     commands = {'frequency': freq, 
                 'phase': phase,
                 'amplitude': amp,
-                'enable': status,
-                'modulation Enabled': mod_enable,
-                'modulation Type': mod_type,
-                'modulation Function': mod_function
+                'enabled': status,
+                'modulation_enabled': mod_enable,
+                'modulation_type': mod_type,
+                'modulation_function': mod_function
                 }
     
     # translate_dict = {'Frequency': {'command': 'FREQ','units': 'MHz',} 

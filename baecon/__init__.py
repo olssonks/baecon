@@ -1,21 +1,20 @@
 __version__ = '0.1'
 
-from baecon._base import (
+from baecon.base import (
     Measurement_Settings,
-    Measurement_Data,
     make_measurement_settings,
     generate_measurement_config,
-    save_measurement_config,
-    add_instrument,
-    make_instrument,
+    add_device,
+    make_device,
     add_scan,
     make_scan,
-    make_scan_schedule,
-    create_data_template
+    make_scan_schedule
 )
 
-from baecon.instrument import Instrument, Instruments_directory
+from baecon.device import Device, Devices_directory
 
-from baecon.engine import do_measurement
+from baecon.data import Measurement_Data, create_data_template
+
+from baecon.engine import perform_measurement
 
 from baecon import utils
