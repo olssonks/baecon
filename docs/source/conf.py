@@ -32,6 +32,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.intersphinx',
               'sphinx.ext.todo',
               'sphinx.ext.napoleon',
+              'furo',
             ]
 
 templates_path = ['_templates']
@@ -43,8 +44,9 @@ todo_include_todos = True
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'pydata-sphinx-theme'
-html_static_path = ['_static']
+html_theme = 'furo'
+html_static_path = ['_static/furo']
+
 
 pygments_style = "sphinx"
 pygments_dark_style = "monokai"
