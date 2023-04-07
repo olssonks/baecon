@@ -32,7 +32,6 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.intersphinx',
               'sphinx.ext.todo',
               'sphinx.ext.napoleon',
-              'furo',
             ]
 
 templates_path = ['_templates']
