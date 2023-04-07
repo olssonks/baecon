@@ -11,25 +11,25 @@ import numpy as np
 
 @dataclass
 class Measurement_Settings:
-    """Data structure for holding measurement settings which are acquisition
-    devices, scan devices, scan collection, and averages (repeats)
-    of the scan to perform.
+    """Data structure for holding measurement settings 
+
+    which are acquisition devices, scan devices, scan collection, and averages (repeats) of the scan to perform.
 
     Attributes:
         acquisition_devices (dict): Dictionary holding the acquisition 
             devices to be used during the measurement. Entries are of the
-            form: ``{inst_name: device}`` using :class:`Device`.
+            form: {inst_name: device} using .
         scan_devices (dict): Dictionary holding the scan
             devices to be used during the measurement. Entries are of the
-            form: ``{inst_name: device}`` using :class:`Device`.
+            form: {inst_name: device} using.
         scan_collection (dict): Dictionary holding the scans to perform
             during the measurement. Entries are of the form:
-            ``{scan_name: scan_settings}``. The *scan_name* is a combination
+            {scan_name: scan_settings}. The *scan_name* is a combination
             of the scan device for that scan, and the device parameter
             that is being scanned, e.g., *SG1-frequency*.
         averages (int): Number of times to repeat the measurement. No averaging
             is done in the measurement function, but is instead handled when analyzing
-            the data with :py:mod:`baecon.data`.
+            the data with.
     """
 
     acquisition_devices: dict = field(default_factory=dict)
@@ -96,9 +96,9 @@ def generate_measurement_config(ms: Measurement_Settings):
 
 def add_device(device_config: dict, devices: dict):
     """Adds an device object constructed from the configuration in 
-        config_file to the device dictionary devices. This dictionary 
-        will be the :attr:`Measurement_Settings.acquisition_devices` or 
-        :attr:`Measurement_Settings.scan_devices`.
+    config_file to the device dictionary devices. This dictionary 
+    will be the :attr:`Measurement_Settings.acquisition_devices` or 
+    :attr:`Measurement_Settings.scan_devices`.
 
     Args:
         config_file (str): file name of device configurations

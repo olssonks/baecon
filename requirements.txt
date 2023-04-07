@@ -1,0 +1,7 @@
+numpy==1.24.2
+PyDAQmx==1.4.6
+PyVISA==1.13.0
+PyYAML==6.0
+setuptools==67.6.1
+toml==0.10.2
+xarray==2023.3.0

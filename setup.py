@@ -16,7 +16,7 @@ setup(
         description=DESCRIPTION,
         long_description=LONG_DESCRIPTION,
         packages=find_packages(),
-        install_requires=[],
+        install_requires=['numpy', 'xarray', 'pandas'],
         zip_safe=False,
         keywords=['python', 'experiment', 'laboratory', 
                   'control', 'instrument'],
