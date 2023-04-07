@@ -197,15 +197,14 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="baecon.base.Measurement_Settings">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">Measurement_Settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acquisition_devices:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_devices:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_collection:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averages:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.base.Measurement_Settings" title="Permalink to this definition">#</a></dt>
-<dd><p>Data structure for holding measurement settings which are acquisition
-devices, scan devices, scan collection, and averages (repeats)
-of the scan to perform.</p>
+<dd><p>Data structure for holding measurement settings</p>
+<p>which are acquisition devices, scan devices, scan collection, and averages (repeats) of the scan to perform.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="baecon.base.Measurement_Settings.acquisition_devices">
 <span class="sig-name descname"><span class="pre">acquisition_devices</span></span><a class="headerlink" href="#baecon.base.Measurement_Settings.acquisition_devices" title="Permalink to this definition">#</a></dt>
 <dd><p>Dictionary holding the acquisition
 devices to be used during the measurement. Entries are of the
-form: <code class="docutils literal notranslate"><span class="pre">{inst_name:</span> <span class="pre">device}</span></code> using <a class="reference internal" href="device.html#baecon.base.Device" title="baecon.base.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></a>.</p>
+form: {inst_name: device} using .</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -218,7 +217,7 @@ form: <code class="docutils literal notranslate"><span class="pre">{inst_name:</
 <span class="sig-name descname"><span class="pre">scan_devices</span></span><a class="headerlink" href="#baecon.base.Measurement_Settings.scan_devices" title="Permalink to this definition">#</a></dt>
 <dd><p>Dictionary holding the scan
 devices to be used during the measurement. Entries are of the
-form: <code class="docutils literal notranslate"><span class="pre">{inst_name:</span> <span class="pre">device}</span></code> using <a class="reference internal" href="device.html#baecon.base.Device" title="baecon.base.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></a>.</p>
+form: {inst_name: device} using.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -231,7 +230,7 @@ form: <code class="docutils literal notranslate"><span class="pre">{inst_name:</
 <span class="sig-name descname"><span class="pre">scan_collection</span></span><a class="headerlink" href="#baecon.base.Measurement_Settings.scan_collection" title="Permalink to this definition">#</a></dt>
 <dd><p>Dictionary holding the scans to perform
 during the measurement. Entries are of the form:
-<code class="docutils literal notranslate"><span class="pre">{scan_name:</span> <span class="pre">scan_settings}</span></code>. The <em>scan_name</em> is a combination
+{scan_name: scan_settings}. The <em>scan_name</em> is a combination
 of the scan device for that scan, and the device parameter
 that is being scanned, e.g., <em>SG1-frequency</em>.</p>
 <dl class="field-list simple">
@@ -246,7 +245,7 @@ that is being scanned, e.g., <em>SG1-frequency</em>.</p>
 <span class="sig-name descname"><span class="pre">averages</span></span><a class="headerlink" href="#baecon.base.Measurement_Settings.averages" title="Permalink to this definition">#</a></dt>
 <dd><p>Number of times to repeat the measurement. No averaging
 is done in the measurement function, but is instead handled when analyzing
-the data with <code class="xref py py-mod docutils literal notranslate"><span class="pre">baecon.data</span></code>.</p>
+the data with.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>int</p>
@@ -259,12 +258,10 @@ the data with <code class="xref py py-mod docutils literal notranslate"><span cl
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.base.add_device">
 <span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">add_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.base.add_device" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>Adds an device object constructed from the configuration in</dt><dd><p>config_file to the device dictionary devices. This dictionary
+<dd><p>Adds an device object constructed from the configuration in
+config_file to the device dictionary devices. This dictionary
 will be the <a class="reference internal" href="#baecon.base.Measurement_Settings.acquisition_devices" title="baecon.base.Measurement_Settings.acquisition_devices"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.acquisition_devices</span></code></a> or
 <a class="reference internal" href="#baecon.base.Measurement_Settings.scan_devices" title="baecon.base.Measurement_Settings.scan_devices"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.scan_devices</span></code></a>.</p>
-</dd>
-</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
