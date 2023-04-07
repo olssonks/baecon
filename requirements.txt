@@ -1,7 +1,7 @@
-numpy>1.20.0
-PyDAQmx>1.4.0
-PyVISA>1.11
-PyYAML>5.3
-setuptools>67.0.0
-toml>0.10.2
-xarray>2023.1.0
+numpy>=1.20.0
+PyDAQmx>=1.4.0
+PyVISA>=1.11
+PyYAML>=5.3
+setuptools>=67.0.0
+toml>=0.10.2
+xarray>=2023.1.0
