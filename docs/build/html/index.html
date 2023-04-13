@@ -157,6 +157,21 @@
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
       
@@ -268,6 +283,21 @@ document.write(`
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
         
@@ -318,75 +348,39 @@ document.write(`
   <section id="baecon-documentation">
 <h1>Baecon Documentation<a class="headerlink" href="#baecon-documentation" title="Permalink to this heading">#</a></h1>
 <p><strong>Baecon</strong> (/ˈbiːkən/), or <strong>Ba</strong>sic <strong>E</strong>xperiment <strong>Con</strong>trol, is a Python library
-for controlling laboratory instruments to perform experiments.</p>
-<p>Measurement automation, in its most <em>basic</em> terms, consist of the computer
-sending a message to the instrument to change a parameter and/or get the value
-of that parameter. Baecon is structed around the this by limiting the methods
-used to communicate with the instrument.</p>
+for controlling laboratory deivce to perform experiments.</p>
+<p>Measurement automation, in its most <em>basic</em> terms, consists of the computer
+sending a message to a device to change a parameter and/or get the value
+of that parameter or other parameters. Baecon is structed around the this idea
+by limiting the methods used to communicate with the devices. A device in
+Baecon can only a read command or a write command <em>during the measurement procedure</em>.
+Before or after the measurement procedure devices are free to communicate for
+preparing and configuring the device.</p>
 <p>The simplicity of Baecon is partially accomplished by shifting the heavy
-lifting to the user to build the module for an instrument themselves to fit.
-With users their own modules, Baecon isn’t limited to any specific communication
-protocol. We have a few examples of the instrument modules, and we hope to
-provide more modules user contribute there own.</p>
+lifting to the user to build modules for devices that follow the Baecon
+communication standards. With users writing their own modules, Baecon isn’t
+limited to any specific communication protocol. We have a few examples of
+device modules, and we hope to provide more modules we and others user
+contribute there own.</p>
+<p>All the information for the measurement is stored in <code class="docutils literal notranslate"><span class="pre">JSON</span></code> parsible configuration
+files. A full measurement can be stored as a single file, or as individual
+configurations for the scan settings and devices. The default configuration
+file type is <code class="docutils literal notranslate"><span class="pre">.toml</span></code>, but <code class="docutils literal notranslate"><span class="pre">.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">.json</span></code> files are also compatible.</p>
 <p>Baecon operates with a command line interface or with the GUI made with
 the <a class="reference external" href="https://nicegui.io/">NiceGUI</a> package.</p>
 <div class="toctree-wrapper compound">
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="base.html">Base</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="base.html#baecon.base.Measurement_Settings"><code class="docutils literal notranslate"><span class="pre">Measurement_Settings</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#baecon.base.add_device"><code class="docutils literal notranslate"><span class="pre">add_device()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#baecon.base.add_scan"><code class="docutils literal notranslate"><span class="pre">add_scan()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#baecon.base.custom_schedule"><code class="docutils literal notranslate"><span class="pre">custom_schedule()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#baecon.base.define_scan_settings"><code class="docutils literal notranslate"><span class="pre">define_scan_settings()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#baecon.base.generate_measurement_config"><code class="docutils literal notranslate"><span class="pre">generate_measurement_config()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#baecon.base.load_custom_scan_file"><code class="docutils literal notranslate"><span class="pre">load_custom_scan_file()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#baecon.base.make_device"><code class="docutils literal notranslate"><span class="pre">make_device()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#baecon.base.make_measurement_settings"><code class="docutils literal notranslate"><span class="pre">make_measurement_settings()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#baecon.base.make_scan"><code class="docutils literal notranslate"><span class="pre">make_scan()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="base.html#baecon.base.make_scan_schedule"><code class="docutils literal notranslate"><span class="pre">make_scan_schedule()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="device.html">Device</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="device.html#baecon.base.Device.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="device.html#baecon.base.Device.parameters"><code class="docutils literal notranslate"><span class="pre">parameters</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="device.html#baecon.base.Device.latent_parameters"><code class="docutils literal notranslate"><span class="pre">latent_parameters</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="device.html#baecon.base.Device.configuration"><code class="docutils literal notranslate"><span class="pre">configuration</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="device.html#baecon.base.Device.acq_data_size"><code class="docutils literal notranslate"><span class="pre">acq_data_size</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="device.html#baecon.base.Device.intitalize_parameters"><code class="docutils literal notranslate"><span class="pre">intitalize_parameters()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="device.html#baecon.base.Device.read"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="device.html#baecon.base.Device.write"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="base.html">Base</a></li>
+<li class="toctree-l1"><a class="reference internal" href="device.html">Device</a></li>
 <li class="toctree-l1"><a class="reference internal" href="engine.html">Engine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="data.html">Data</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="data.html#baecon.data.Measurement_Data"><code class="docutils literal notranslate"><span class="pre">Measurement_Data</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="data.html#baecon.data.create_data_template"><code class="docutils literal notranslate"><span class="pre">create_data_template()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="data.html#baecon.data.data_from_module"><code class="docutils literal notranslate"><span class="pre">data_from_module()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.arg_parser"><code class="docutils literal notranslate"><span class="pre">arg_parser()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.dump_config"><code class="docutils literal notranslate"><span class="pre">dump_config()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.generate_measurement_config_from_file"><code class="docutils literal notranslate"><span class="pre">generate_measurement_config_from_file()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.json_dump"><code class="docutils literal notranslate"><span class="pre">json_dump()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.json_load"><code class="docutils literal notranslate"><span class="pre">json_load()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.load_config"><code class="docutils literal notranslate"><span class="pre">load_config()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.load_module_from_path"><code class="docutils literal notranslate"><span class="pre">load_module_from_path()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.save_baecon_data"><code class="docutils literal notranslate"><span class="pre">save_baecon_data()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.save_measurement_config"><code class="docutils literal notranslate"><span class="pre">save_measurement_config()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.set_device_directory"><code class="docutils literal notranslate"><span class="pre">set_device_directory()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.toml_dump"><code class="docutils literal notranslate"><span class="pre">toml_dump()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.toml_load"><code class="docutils literal notranslate"><span class="pre">toml_load()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.yaml_dump"><code class="docutils literal notranslate"><span class="pre">yaml_dump()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#baecon.utils.yaml_load"><code class="docutils literal notranslate"><span class="pre">yaml_load()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils</a></li>
+<li class="toctree-l1"><a class="reference internal" href="todo.html">To Dos</a></li>
 </ul>
 </div>
-</section>
 <section id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">#</a></h1>
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">base</span></code></p></li>
 <li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">base.Device</span></code></p></li>
@@ -397,6 +391,7 @@ the <a class="reference external" href="https://nicegui.io/">NiceGUI</a> package
 <li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
 <li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
 </ul>
+</section>
 </section>
 
 
@@ -437,10 +432,8 @@ the <a class="reference external" href="https://nicegui.io/">NiceGUI</a> package
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Baecon Documentation</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#indices-and-tables">Indices and tables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
-
   </nav></div>
 
   <div class="sidebar-secondary-item">

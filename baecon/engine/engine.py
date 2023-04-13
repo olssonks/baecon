@@ -1,21 +1,36 @@
+''':note:
+   This is the default engine. We should be able to add/import additional 
+   engines, like one based on OptBayes.
+
+   This engine performs the scans recursively in the order they are listed
+   in the scan_collection.
+
+   ``for i in scan1: for j in scan2: for k in scan3: ...``
+   
+'''
+
 import baecon as bc
 
 import queue, threading, copy
 from dataclasses import dataclass
 import numpy as np
 
-
 @dataclass
 class abort:
+    """Used to stop all threads with keyboard input ``'abort'``.
+    
+    """   
     flag = False
 
 def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Queue,
                     parameter_holder:dict, total_depth:int, present_depth:int,
                     abort:abort)->None:
-    """Peforms measurement scan with supplied. At each parameter all acquisiton
-        deivces will be called in the order they appear in `acquisition_methods`.
-        The scan is performed recursively in the order the scans a listed in
-        `scan_list`.
+    """Peforms measurement scan with supplied. 
+       At each parameter all acquisiton
+       deivces will be called in the order they appear in `acquisition_methods`.
+       The scan is performed recursively in the order the scans a listed in
+       `scan_list`.
+
 
     Args:
         scan_list (dict): Scans to perform.
@@ -28,7 +43,7 @@ def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Qu
             are used in the scan.
         present_depth (int): Depth of current position in nested loops. Used to 
             keep track of recursion.
-        abort (abort): :class:abort used to break loop recursion.
+        abort (abort): :py:class:abort used to break loop recursion.
     """    
     if present_depth == total_depth - 1:
         scan_now = scan_list[present_depth]
@@ -56,15 +71,16 @@ def consecutive_measurement(scan_collection:dict,
                             acquisition_devices:dict, 
                             data_queue:queue.Queue,
                             abort:abort)->None:
-    """Performs measurement in order of scans listed in scan_collection. The scan underneath will
-        finish before the scan above moves on to the next point.
-
+    """Performs measurement in order of scans listed in scan_collection. 
+       The scan underneath will finish before the scan above moves on to the 
+       next point.
+    
     Args:
-        scans (dict): _description_
-        acquisition_methods (dict): _description_
-        data_queue (queue.Queue): _description_
-        abort (abort): _description_
-    """   
+        scan_collection (dict): Collection of scans for the measurement to perform
+        acquisition_devices (dict): Devices for acquiring data
+        data_queue (queue.Queue): Queue use to pass measurement to the data thread
+        abort (abort): Exits measurement if ``abort.flag == True``
+    """
     total_depth = len(scan_collection)
     current_depth = 0
     parameter_holder = {}
@@ -77,14 +93,14 @@ def consecutive_measurement(scan_collection:dict,
     return
     
 def make_scan_list(scan_collection:dict)->list:
-    """Builds a list of scans from the scan settings of each entry in the
-        scan collection.
+    """Builds a list of scans from the scan settings of each entry in the 
+       scan collection.
 
     Args:
-        scan_collection (dict): Scan collection from :class:`Measurement_Settings`
+        scan_collection (dict): Scan collection from :py:class:`Measurement_Settings`
 
     Returns:
-        list: _description_
+        list: List of scans to perform
     """    
     try:
         scan_list = []

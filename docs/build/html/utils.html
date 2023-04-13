@@ -41,6 +41,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'utils';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="To Dos" href="todo.html" />
     <link rel="prev" title="Data" href="data.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -157,6 +158,21 @@
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
       
@@ -268,6 +284,21 @@ document.write(`
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
         
@@ -380,8 +411,10 @@ document.write(`
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.utils.dump_config">
 <span class="sig-prename descclassname"><span class="pre">baecon.utils.</span></span><span class="sig-name descname"><span class="pre">dump_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.utils.dump_config" title="Permalink to this definition">#</a></dt>
-<dd><p>Saves configuration dictionary into <code class="docutils literal notranslate"><span class="pre">file</span></code>.</p>
-<p>File type may be <code class="docutils literal notranslate"><span class="pre">.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">.yml</span></code>, or <code class="docutils literal notranslate"><span class="pre">.json</span></code>.</p>
+<dd><dl class="simple">
+<dt>Saves configuration dictionary into <code class="docutils literal notranslate"><span class="pre">file</span></code>.</dt><dd><p>File type may be <code class="docutils literal notranslate"><span class="pre">.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">.yml</span></code>, or <code class="docutils literal notranslate"><span class="pre">.json</span></code>.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -397,8 +430,8 @@ need extendsion, like encoding type.</p></li>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.utils.generate_measurement_config_from_file">
 <span class="sig-prename descclassname"><span class="pre">baecon.utils.</span></span><span class="sig-name descname"><span class="pre">generate_measurement_config_from_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config_list_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.utils.generate_measurement_config_from_file" title="Permalink to this definition">#</a></dt>
-<dd><p>Generates measurement configuration from list of indiviual files, yielding
-a single file for the measurement.</p>
+<dd><dl>
+<dt>Generates measurement configuration from list of indiviual files, yielding</dt><dd><p>a single file for the measurement.</p>
 <blockquote>
 <div><p>The <cite>config_list_file</cite> is a list of files of seperate configurations, e.g.,
 configuration for individual scans, devices etc.This function
@@ -410,6 +443,8 @@ file (e.g., json, yaml, toml) with structure:</p>
 <span class="pre">'scan_collections':</span> <span class="pre">{'scan_name':</span> <span class="pre">configuration_file_name,</span> <span class="pre">...}</span>
 <span class="pre">'averages':</span> <span class="pre">(int)}</span></code></p>
 </div></blockquote>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -430,9 +465,8 @@ file (e.g., json, yaml, toml) with structure:</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config</strong> (<em>dict</em>) – Configuration dictionary to save.</p></li>
 <li><p><strong>file</strong> (<em>str</em>) – path of <code class="docutils literal notranslate"><span class="pre">toml</span></code> file.</p></li>
-<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality</p></li>
-<li><p><strong>extendsion</strong> (<em>need</em>) – </p></li>
-<li><p><strong>type</strong> (<em>like encoding</em>) – </p></li>
+<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality
+need extendsion, like encoding type</p></li>
 </ul>
 </dd>
 </dl>
@@ -446,9 +480,8 @@ file (e.g., json, yaml, toml) with structure:</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> (<em>str</em>) – path of <code class="docutils literal notranslate"><span class="pre">json</span></code> file.</p></li>
-<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality</p></li>
-<li><p><strong>extendsion</strong> (<em>need</em>) – </p></li>
-<li><p><strong>type</strong> (<em>like encoding</em>) – </p></li>
+<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality
+need extendsion, like encoding type</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -463,8 +496,10 @@ file (e.g., json, yaml, toml) with structure:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.utils.load_config">
 <span class="sig-prename descclassname"><span class="pre">baecon.utils.</span></span><span class="sig-name descname"><span class="pre">load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#baecon.utils.load_config" title="Permalink to this definition">#</a></dt>
-<dd><p>Loads configuration file <code class="docutils literal notranslate"><span class="pre">file</span></code> and returns dictionary of configurations.</p>
-<p>File type may be <code class="docutils literal notranslate"><span class="pre">.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">.yml</span></code>, or <code class="docutils literal notranslate"><span class="pre">.json</span></code>.</p>
+<dd><dl class="simple">
+<dt>Loads configuration file <code class="docutils literal notranslate"><span class="pre">file</span></code> and returns dictionary of configurations.</dt><dd><p>File type may be <code class="docutils literal notranslate"><span class="pre">.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">.yml</span></code>, or <code class="docutils literal notranslate"><span class="pre">.json</span></code>.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -486,9 +521,11 @@ file (e.g., json, yaml, toml) with structure:</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.utils.load_module_from_path">
 <span class="sig-prename descclassname"><span class="pre">baecon.utils.</span></span><span class="sig-name descname"><span class="pre">load_module_from_path</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.utils.load_module_from_path" title="Permalink to this definition">#</a></dt>
-<dd><p>Loads module from specified path.
-This is used to load specific device files dynamically, as well as different
-analysis file for <code class="xref py py-mod docutils literal notranslate"><span class="pre">data</span></code></p>
+<dd><dl class="simple">
+<dt>Loads module from specified path.</dt><dd><p>This is used to load specific <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code>
+analysis file for <code class="xref py py-mod docutils literal notranslate"><span class="pre">data</span></code>.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – String or path to file of module.</p>
@@ -506,18 +543,20 @@ analysis file for <code class="xref py py-mod docutils literal notranslate"><spa
 <dt class="sig sig-object py" id="baecon.utils.save_baecon_data">
 <span class="sig-prename descclassname"><span class="pre">baecon.utils.</span></span><span class="sig-name descname"><span class="pre">save_baecon_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">md</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="data.html#baecon.data.Measurement_Data" title="baecon.data.Measurement_Data"><span class="pre">Measurement_Data</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'.zarr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.utils.save_baecon_data" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
-<dt>Saves measurement data to choice of <code class="docutils literal notranslate"><span class="pre">format</span></code>. The default format is</dt><dd><p>a Zarr group file. Possible formats: <code class="docutils literal notranslate"><span class="pre">zarr</span></code>, <code class="docutils literal notranslate"><span class="pre">netcdf</span></code>, <code class="docutils literal notranslate"><span class="pre">hdf5</span></code>, and <code class="docutils literal notranslate"><span class="pre">csv</span></code>.</p>
+<dt>Saves measurement data to choice of <code class="docutils literal notranslate"><span class="pre">format</span></code>.</dt><dd><p>The default format is a Zarr group file. Possible formats:
+<code class="docutils literal notranslate"><span class="pre">zarr</span></code>, <code class="docutils literal notranslate"><span class="pre">netcdf</span></code>, <code class="docutils literal notranslate"><span class="pre">hdf5</span></code>, and <code class="docutils literal notranslate"><span class="pre">csv</span></code>.</p>
 </dd>
 </dl>
-<p><code class="docutils literal notranslate"><span class="pre">zarr</span></code> and <code class="docutils literal notranslate"><span class="pre">netcdf</span></code> play well with <code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code>. For the other formats
-data is coverted <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> then saved.</p>
-<dl class="field-list">
-<dt class="field-odd">Todo<span class="colon">:</span></dt>
-<dd class="field-odd"><p>Need to check settings saved as metadata correctly</p>
+<p><code class="docutils literal notranslate"><span class="pre">zarr</span></code> and <code class="docutils literal notranslate"><span class="pre">netcdf</span></code> play well with <code class="xref py py-mod docutils literal notranslate"><span class="pre">xarray</span></code>. For the other
+formats data is coverted <code class="xref py py-mod docutils literal notranslate"><span class="pre">pandas</span></code> then saved.</p>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>Need to check settings saved as metadata correctly</p>
 <p>Possible formats to implement in the future: parquet, feather.</p>
-</dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
 <li><p><strong>md</strong> (<code class="xref py py-mod docutils literal notranslate"><span class="pre">Measurement_Data</span></code>) – Configuration of measurement.</p></li>
 <li><p><strong>file_name</strong> (<em>str</em>) – File name for saving data.</p></li>
 <li><p><strong>format</strong> (<em>str</em><em>, </em><em>optional</em>) – File format to use, defaults to ‘.zarr’</p></li>
@@ -531,8 +570,10 @@ data is coverted <code class="xref py py-mod docutils literal notranslate"><span
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.utils.save_measurement_config">
 <span class="sig-prename descclassname"><span class="pre">baecon.utils.</span></span><span class="sig-name descname"><span class="pre">save_measurement_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">out_file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.utils.save_measurement_config" title="Permalink to this definition">#</a></dt>
-<dd><p>Generatres configuration dictioary from Measurement_Settings object
-and saves to specified file.</p>
+<dd><dl class="simple">
+<dt>Generatres configuration dictioary from Measurement_Settings object</dt><dd><p>and saves to specified file.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -566,9 +607,8 @@ and saves to specified file.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config</strong> (<em>dict</em>) – Configuration dictionary to save.</p></li>
 <li><p><strong>file</strong> (<em>str</em>) – path of <code class="docutils literal notranslate"><span class="pre">toml</span></code> file.</p></li>
-<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality</p></li>
-<li><p><strong>extendsion</strong> (<em>need</em>) – </p></li>
-<li><p><strong>type</strong> (<em>like encoding</em>) – </p></li>
+<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality
+need extendsion, like encoding type</p></li>
 </ul>
 </dd>
 </dl>
@@ -582,9 +622,8 @@ and saves to specified file.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> (<em>str</em>) – path of <code class="docutils literal notranslate"><span class="pre">toml</span></code> file.</p></li>
-<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality</p></li>
-<li><p><strong>extendsion</strong> (<em>need</em>) – </p></li>
-<li><p><strong>type.</strong> (<em>like encoding</em>) – </p></li>
+<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality
+need extendsion, like encoding type.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -605,9 +644,8 @@ and saves to specified file.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>config</strong> (<em>dict</em>) – Configuration dictionary to save.</p></li>
 <li><p><strong>file</strong> (<em>str</em><em> or </em><em>path</em>) – name or path of <code class="docutils literal notranslate"><span class="pre">yaml</span></code> file.</p></li>
-<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality</p></li>
-<li><p><strong>extendsion</strong> (<em>need</em>) – </p></li>
-<li><p><strong>type</strong> (<em>like encoding</em>) – </p></li>
+<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality
+need extendsion, like encoding type</p></li>
 </ul>
 </dd>
 </dl>
@@ -621,9 +659,8 @@ and saves to specified file.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> (<em>str</em>) – path of <code class="docutils literal notranslate"><span class="pre">yaml</span></code> file.</p></li>
-<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality</p></li>
-<li><p><strong>extendsion</strong> (<em>need</em>) – </p></li>
-<li><p><strong>type</strong> (<em>like encoding</em>) – </p></li>
+<li><p><strong>options</strong> (<em>optional</em>) – Can be used in the future if functionality
+need extendsion, like encoding type</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -656,6 +693,15 @@ and saves to specified file.</p>
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Data</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="todo.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">To Dos</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div></div>
   

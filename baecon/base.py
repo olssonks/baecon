@@ -8,14 +8,12 @@ import json
 from dataclasses import dataclass, field
 import numpy as np
 
-
 @dataclass
 class Measurement_Settings:
     """Data structure for holding measurement settings. 
-
-    The four measurement settings are acquisition devices, scan devices, 
-    scan collection, and averages (repeats) of the scan to perform. These
-    four settings are all that is needed to run a meaurement.
+       The four measurement settings are acquisition devices, scan devices, 
+       scan collection, and averages (repeats) of the scan to perform. These
+       four settings are all that is needed to run a meaurement.
 
     Attributes:
         acquisition_devices (dict): Dictionary holding the acquisition 
@@ -47,17 +45,15 @@ class Measurement_Settings:
 
 
 def make_measurement_settings(meas_config: dict) -> Measurement_Settings:
-    """Make a Measurement_Settings object from configurations in the 
-    ``meas_configs`` dictionary. 
-        
-    The dictionary has keys **acquisition_devices**, **scan_devices**, 
-    **scan_collection**, and **averages** (i.e., the attributes of a Measurement
-    settings object).
+    """Make a Measurement_Settings object from configurations in the ``meas_configs`` dictionary. 
+       The dictionary has keys **acquisition_devices**, **scan_devices**, 
+       **scan_collection**, and **averages** (i.e., the attributes of a Measurement
+       settings object).
 
     Args:
         meas_configs (dict): Dictionary with configurations for
         
-            - :attr:`Measurement_Settings.acquisistion_devices` 
+            - :attr:`Measurement_Settings.acquisition_devices` 
             - :attr:`Measurement_Settings.scan_devices`
             - :attr:`Measurement_Settings.scan_collection`
             - :attr:`Measurement_Settings.averages`
@@ -80,14 +76,13 @@ def make_measurement_settings(meas_config: dict) -> Measurement_Settings:
 
 def generate_measurement_config(ms: Measurement_Settings)->dict:
     """Make configuration dictionary from Measurement_Settings object.
+       Configuration file will be a dict like file (e.g., ``json``, ``yaml``, 
+       ``toml``) with structure:
     
-    Configuration file will be a dict like file (e.g., ``json``, ``yaml``, 
-    ``toml``) with structure:
-    
-    ``{'acquisition_devices': {'device_name': configuration, ...},
-    'scan_devices': {'device_name': configuration, ...}, 
-    'scan_collections': {'scan_name': settings, ...}
-    }``
+       ``{'acquisition_devices': {'device_name': configuration, ...},
+       'scan_devices': {'device_name': configuration, ...}, 
+       'scan_collections': {'scan_name': settings, ...}
+       }``
 
     Args:
         ms (Measurement_Settings): Measurement settings from which to generate 
@@ -114,9 +109,8 @@ def generate_measurement_config(ms: Measurement_Settings)->dict:
 
 def add_device(device_config: dict, devices: dict)->None:
     """Constructs a device from ``device_config``, addig it to ``devices``. 
-    
-    This dictionary will be the :attr:`Measurement_Settings.acquisition_devices`
-    or :attr:`Measurement_Settings.scan_devices`.
+       This dictionary will be the :attr:`Measurement_Settings.acquisition_devices`
+       or :attr:`Measurement_Settings.scan_devices`.
 
     Args:
         device_config (dict): Configuration for the device to add.
@@ -129,12 +123,12 @@ def add_device(device_config: dict, devices: dict)->None:
 
 
 def make_device(config: dict) -> dict:
-    """ Create a :class:`Device` object from the supplied configuration.
-        
-    The module specified in config['device'] is imported and makes
-    an device of that module type (e.g., SG380). 
-    Returns a dictionary of configurations, now with the device object
-    as the value of the 'device' entry.
+    """ Create a :class:`Device` object from the supplied configuration. 
+       The module specified in config['device'] is imported and makes
+       an device of that module type (e.g., SG380). 
+       
+       Returns a dictionary of configurations, now with the device object
+       as the value of the 'device' entry.
 
     Args:
         config (dict): Configuration required to create a :class:`Device` object.
@@ -166,10 +160,9 @@ def make_device(config: dict) -> dict:
 def add_scan(scan_settings: dict,
              scan_device: Device,
              ms: Measurement_Settings)->None:
-    """Make and add scan to :attr:`Measurement_Settings.scan_collection`. 
-    
-    Makes scan collection based on ``scan_settings`` and ``scan_device`` 
-    and adds this collection to ``ms``
+    """Make and add scan to :attr:`Measurement_Settings.scan_collection`.
+       Makes scan collection based on ``scan_settings`` and ``scan_device`` and 
+       adds this collection to ``ms``.
 
     Args:
         scan_settings (dict): Dictionary of settings for the scan.
@@ -186,8 +179,7 @@ def add_scan(scan_settings: dict,
 
 def make_scan(scan_settings: dict, device: Device) -> dict:
     """Makes a scan collection from ``scan_settings`` and ``device``. 
-    
-    Returns a dictionary element to add to :attr:`Measurement_Settings.scan_collection`.
+       Returns a dictionary element to add to :attr:`Measurement_Settings.scan_collection`.
 
     Args:
         scan_settings (dict): Settings for a single scan.
@@ -216,10 +208,9 @@ def make_scan(scan_settings: dict, device: Device) -> dict:
 
 def make_scan_schedule(scan_settings: dict) -> np.ndarray:
     """Makes scan schedule to add to the scan colletion.
-    
-    The *schedule* is the order of parameter values to scan through
-    based on the scan settings 'min', 'max', 'points', and 'repititions'. 
-    Returns a numpy.ndarray with the schedule.
+       The *schedule* is the order of parameter values to scan through
+       based on the scan settings 'min', 'max', 'points', and 'repititions'. 
+       Returns a numpy.ndarray with the schedule.
 
         The schedules has four default scales: **linear**, **log**, **custom**, and 
         **constant**. The scales **linear** and **log** generate schedules in linear 
@@ -267,13 +258,13 @@ def make_scan_schedule(scan_settings: dict) -> np.ndarray:
 
 
 def custom_schedule(note: str) -> np.ndarray:
-    """Create a custom scan schedule from a saved file specified in the 
-        note setting as ``custom: file_name``. File type should be ``.txt`` 
-        or ``.npy``. 
+    """Create a custom scan schedule from a saved file. 
+       The file to load will be specified in the note setting as ``custom: file_name``. 
+       File type should be ``.txt`` or ``.npy``. 
 
-        :todo:
+    .. todo::
         The method can be expand with other file types. May want to change
-        to `'custom'` using a method supplied by `'note'`.
+        to ``'custom'`` using a method supplied by ``'note'``.
 
     Args:
         note (str): ``JSON`` parsable string from the note field in a scan
@@ -295,16 +286,17 @@ def custom_schedule(note: str) -> np.ndarray:
 
 def load_custom_scan_file():
     """
-    :todo:
-    Need to specify where to look for custom scan file. Possibly put in the 
-    :py:mod:``engine`` directory
+    .. todo::
+
+        Need to specify where to look for custom scan file. Possibly put in the 
+        :py:mod:`engine` directory
     """
     return
 
 # how to implement method to add/change scan settings??
 def define_scan_settings():
     """Function used to define the possible scan settings. Might be best to put 
-        this in :py:mod:`utils` with a function on how to update it.
+       this in :py:mod:`utils` with a function on how to update it.
 
     Returns:
         scan_settings (dict): Parameters that define a scan. 

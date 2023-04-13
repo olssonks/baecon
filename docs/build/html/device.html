@@ -158,6 +158,21 @@
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
       
@@ -269,6 +284,21 @@ document.write(`
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
         
@@ -342,9 +372,13 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="module-baecon.base.Device">
-<span id="device"></span><h1>Device<a class="headerlink" href="#module-baecon.base.Device" title="Permalink to this heading">#</a></h1>
-<p>Experimental devices are designated into two catagories: <strong>scanning devices</strong>
+  <section id="device">
+<h1>Device<a class="headerlink" href="#device" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="baecon.device.Device">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.device.</span></span><span class="sig-name descname"><span class="pre">Device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device" title="Permalink to this definition">#</a></dt>
+<dd><p>Class for handling control and communication with experimental devices.
+Experimental devices are designated into two catagories: <strong>scanning devices</strong>
 and <strong>acquisition devices</strong>, with this class serving as
 the base class for both. Scanning devices are the devices whose
 properties are changed from reading to reading. Acquisition devices
@@ -352,89 +386,64 @@ perform the reading after a property has changed. Devices can be
 both scanning and aquisistion instruments, like a sourcemeter. The
 distinction between the two happens when the <code class="xref py py-class docutils literal notranslate"><span class="pre">Measurement_Settings</span></code>
 are defined.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>In the user defined child classes (e.g, SG380),
-users will need to override the <a class="reference internal" href="#baecon.base.Device.parameters" title="baecon.base.Device.parameters"><code class="xref py py-attr docutils literal notranslate"><span class="pre">parameters</span></code></a> and
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">latent_paramenters</span></code> atrributes, and the <code class="xref py py-func docutils literal notranslate"><span class="pre">Device.read()</span></code>
-and <a class="reference internal" href="#baecon.base.Device.write" title="baecon.base.Device.write"><code class="xref py py-func docutils literal notranslate"><span class="pre">write()</span></code></a> methods. Additional methods in the child class
+<blockquote>
+<div><dl class="simple">
+<dt>Note:</dt><dd><p>In the user defined child classes (e.g, SG380),
+users will need to override the <code class="xref py py-attr docutils literal notranslate"><span class="pre">parameters</span></code> and
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">latent_paramenters</span></code> atrributes, and the <a class="reference internal" href="#baecon.device.Device.read" title="baecon.device.Device.read"><code class="xref py py-func docutils literal notranslate"><span class="pre">Device.read()</span></code></a>
+and <a class="reference internal" href="#baecon.device.Device.write" title="baecon.device.Device.write"><code class="xref py py-func docutils literal notranslate"><span class="pre">write()</span></code></a> methods. Additional methods in the child class
 will needed to be defined to support these required attributes
 and methods.</p>
-</div>
-<dl class="py attribute">
-<dt class="sig sig-object py" id="baecon.base.Device.name">
-<span class="sig-prename descclassname"><span class="pre">baecon.base.Device.</span></span><span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#baecon.base.Device.name" title="Permalink to this definition">#</a></dt>
-<dd><p>Alias for the device to distringuish it from the
-same device class. Example: SG1 for a signal generator.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>str</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="baecon.base.Device.parameters">
-<span class="sig-prename descclassname"><span class="pre">baecon.base.Device.</span></span><span class="sig-name descname"><span class="pre">parameters</span></span><a class="headerlink" href="#baecon.base.Device.parameters" title="Permalink to this definition">#</a></dt>
-<dd><p>Properties of the device that would be scanned through
-in an measurement sequence. Examples: voltage, frequency,
+<dt>Attributes:</dt><dd><dl class="simple">
+<dt>name (str): Alias for the device to distringuish it from the</dt><dd><p>same device class. Example: SG1 for a signal generator.</p>
+</dd>
+<dt>parameters(dict): Properties of the device that would be scanned through</dt><dd><p>in an measurement sequence. Examples: voltage, frequency,
 power, …</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="baecon.base.Device.latent_parameters">
-<span class="sig-prename descclassname"><span class="pre">baecon.base.Device.</span></span><span class="sig-name descname"><span class="pre">latent_parameters</span></span><a class="headerlink" href="#baecon.base.Device.latent_parameters" title="Permalink to this definition">#</a></dt>
-<dd><p>Properties of the device that would be the same
-from measurement to measurement. Exampls: connection settings
+<dt>latent_parameters(dict): Properties of the device that would be the same</dt><dd><p>from measurement to measurement. Exampls: connection settings
 (e.g., IP address), output port, …</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="baecon.base.Device.configuration">
-<span class="sig-prename descclassname"><span class="pre">baecon.base.Device.</span></span><span class="sig-name descname"><span class="pre">configuration</span></span><a class="headerlink" href="#baecon.base.Device.configuration" title="Permalink to this definition">#</a></dt>
-<dd><p>Full configuration of the device: name,
-parameters, and latent_parameters. Passing this dictionary
+<dt>configuration (dict): Full configuration of the device: name,</dt><dd><p>parameters, and latent_parameters. Passing this dictionary
 when creating the device object fully defines the
 device.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>dict</p>
 </dd>
-</dl>
-</dd></dl>
-
-<dl class="py attribute">
-<dt class="sig sig-object py" id="baecon.base.Device.acq_data_size">
-<span class="sig-prename descclassname"><span class="pre">baecon.base.Device.</span></span><span class="sig-name descname"><span class="pre">acq_data_size</span></span><a class="headerlink" href="#baecon.base.Device.acq_data_size" title="Permalink to this definition">#</a></dt>
-<dd><p>Size of the data taken during a
-reading by an acquisition device. For example, a single
+<dt>acq_data_size (int or tupel): Size of the data taken during a</dt><dd><p>reading by an acquisition device. For example, a single
 reading of voltage would be size 1, size for an image would be
 the pixel dimensions. Child classes for devices intended
 for acquisition should override this based on a parameter.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</div></blockquote>
+<dl class="py method">
+<dt class="sig sig-object py" id="baecon.device.Device.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.device.Device.__init__" title="Permalink to this definition">#</a></dt>
+<dd><dl>
+<dt>Initializes device object with supplied configuration dictionary.</dt><dd><p>The supplied dictionary is then stored in the configuration attribue.
+The configuration dictionary has the form:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>``{&#39;name&#39;: name string,
+&#39;parameters&#39;: parameter dictionary,
+&#39;latent_parameters&#39;: latent_parameter dictionary}``
+</pre></div>
+</div>
+</dd>
+</dl>
 <dl class="field-list simple">
-<dt class="field-odd">Type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>int or tupel</p>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>configuration</strong> (<em>dict</em>) – Full configuration of the device: name,
+parameters, and latent_parameters. Passing this dictionary
+when creating the device object fully defines the
+device.</p>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="baecon.base.Device.intitalize_parameters">
-<span class="sig-prename descclassname"><span class="pre">baecon.base.Device.</span></span><span class="sig-name descname"><span class="pre">intitalize_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.base.Device.intitalize_parameters" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>Populate the parameters and latent_parameters attributes from</dt><dd><p>configuration dictionary.</p>
-</dd>
-</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="baecon.device.Device.intitalize_parameters">
+<span class="sig-name descname"><span class="pre">intitalize_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device.intitalize_parameters" title="Permalink to this definition">#</a></dt>
+<dd><p>Populate the parameters and latent_parameters attributes from configuration dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>configuration</strong> (<em>dict</em>) – Full configuration of the instrument: name,
@@ -445,32 +454,50 @@ device.</p>
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="baecon.base.Device.read">
-<span class="sig-prename descclassname"><span class="pre">baecon.base.Device.</span></span><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.base.Device.read" title="Permalink to this definition">#</a></dt>
-<dd><p>_summary_</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="baecon.device.Device.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device.read" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Function used to read parameter from device during a measurement.</dt><dd><p>The user decides how this write command is performed in the
+device child class. <code class="docutils literal notranslate"><span class="pre">read</span></code> only takes two inputs the parameter
+to read, and the value which can be used to format how the parameter
+is read, like units for example. If value is not required for the
+device type, set it to <code class="docutils literal notranslate"><span class="pre">value=None</span></code> in the overriding
+<code class="docutils literal notranslate"><span class="pre">read</span> <span class="pre">function</span></code> of in child class.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>parameter</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>value</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>parameter</strong> (<em>str</em>) – Device parameter to read.</p></li>
+<li><p><strong>value</strong> (<em>str</em>) – Value (i.e., arguement) if needed for specific device.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Reading from device.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="baecon.device.Device.write">
+<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device.write" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Function used to write parameter to device during a measurement.</dt><dd><p>The user decides how this write command is performed in the
+device child class. <code class="docutils literal notranslate"><span class="pre">write</span></code> only takes two inputs the parameter
+to write to, and the value to write. Values need not be numeric.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>parameter</strong> (<em>str</em>) – Device parameter to write to.</p></li>
+<li><p><strong>value</strong> (<em>str</em>) – Value to write to device.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="py function">
-<dt class="sig sig-object py" id="baecon.base.Device.write">
-<span class="sig-prename descclassname"><span class="pre">baecon.base.Device.</span></span><span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.base.Device.write" title="Permalink to this definition">#</a></dt>
-<dd><p>_summary_</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>parameter</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>value</strong> (<em>_type_</em>) – _description_</p></li>
-</ul>
-</dd>
-</dl>
 </dd></dl>
 
 </section>
@@ -522,14 +549,13 @@ device.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.base.Device.name"><code class="docutils literal notranslate"><span class="pre">name</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.base.Device.parameters"><code class="docutils literal notranslate"><span class="pre">parameters</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.base.Device.latent_parameters"><code class="docutils literal notranslate"><span class="pre">latent_parameters</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.base.Device.configuration"><code class="docutils literal notranslate"><span class="pre">configuration</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.base.Device.acq_data_size"><code class="docutils literal notranslate"><span class="pre">acq_data_size</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.base.Device.intitalize_parameters"><code class="docutils literal notranslate"><span class="pre">intitalize_parameters()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.base.Device.read"><code class="docutils literal notranslate"><span class="pre">read()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.base.Device.write"><code class="docutils literal notranslate"><span class="pre">write()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.device.Device"><code class="docutils literal notranslate"><span class="pre">Device</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.device.Device.__init__"><code class="docutils literal notranslate"><span class="pre">Device.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.device.Device.intitalize_parameters"><code class="docutils literal notranslate"><span class="pre">Device.intitalize_parameters()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.device.Device.read"><code class="docutils literal notranslate"><span class="pre">Device.read()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.device.Device.write"><code class="docutils literal notranslate"><span class="pre">Device.write()</span></code></a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 

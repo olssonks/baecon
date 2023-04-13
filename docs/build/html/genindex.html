@@ -155,6 +155,21 @@
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
       
@@ -262,6 +277,21 @@ document.write(`
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
         
@@ -313,7 +343,8 @@ document.write(`
 <h1 id="index">Index</h1>
 
 <div class="genindex-jumpbox">
- <a href="#A"><strong>A</strong></a>
+ <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
  | <a href="#B"><strong>B</strong></a>
  | <a href="#C"><strong>C</strong></a>
  | <a href="#D"><strong>D</strong></a>
@@ -322,7 +353,6 @@ document.write(`
  | <a href="#J"><strong>J</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
- | <a href="#N"><strong>N</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
@@ -331,10 +361,18 @@ document.write(`
  | <a href="#Y"><strong>Y</strong></a>
  
 </div>
+<h2 id="_">_</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="device.html#baecon.device.Device.__init__">__init__() (baecon.device.Device method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="device.html#baecon.base.Device.acq_data_size">acq_data_size (in module baecon.base.Device)</a>
+      <li><a href="engine.html#baecon.engine.abort">abort (class in baecon.engine)</a>
 </li>
       <li><a href="base.html#baecon.base.Measurement_Settings.acquisition_devices">acquisition_devices (baecon.base.Measurement_Settings attribute)</a>
 </li>
@@ -361,13 +399,6 @@ document.write(`
 
       <ul>
         <li><a href="base.html#module-baecon.base">module</a>
-</li>
-      </ul></li>
-      <li>
-    baecon.base.Device
-
-      <ul>
-        <li><a href="device.html#module-baecon.base.Device">module</a>
 </li>
       </ul></li>
       <li>
@@ -399,7 +430,7 @@ document.write(`
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="device.html#baecon.base.Device.configuration">configuration (in module baecon.base.Device)</a>
+      <li><a href="engine.html#baecon.engine.consecutive_measurement">consecutive_measurement() (in module baecon.engine)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -417,11 +448,13 @@ document.write(`
 </li>
       <li><a href="data.html#baecon.data.Measurement_Data.data_set">data_set (baecon.data.Measurement_Data attribute)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="data.html#baecon.data.Measurement_Data.data_template">data_template (baecon.data.Measurement_Data attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="base.html#baecon.base.define_scan_settings">define_scan_settings() (in module baecon.base)</a>
+</li>
+      <li><a href="device.html#baecon.device.Device">Device (class in baecon.device)</a>
 </li>
       <li><a href="utils.html#baecon.utils.dump_config">dump_config() (in module baecon.utils)</a>
 </li>
@@ -443,7 +476,7 @@ document.write(`
 <h2 id="I">I</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="device.html#baecon.base.Device.intitalize_parameters">intitalize_parameters() (in module baecon.base.Device)</a>
+      <li><a href="device.html#baecon.device.Device.intitalize_parameters">intitalize_parameters() (baecon.device.Device method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -463,8 +496,6 @@ document.write(`
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="device.html#baecon.base.Device.latent_parameters">latent_parameters (in module baecon.base.Device)</a>
-</li>
       <li><a href="utils.html#baecon.utils.load_config">load_config() (in module baecon.utils)</a>
 </li>
   </ul></td>
@@ -485,21 +516,21 @@ document.write(`
 </li>
       <li><a href="base.html#baecon.base.make_scan">make_scan() (in module baecon.base)</a>
 </li>
+      <li><a href="engine.html#baecon.engine.make_scan_list">make_scan_list() (in module baecon.engine)</a>
+</li>
       <li><a href="base.html#baecon.base.make_scan_schedule">make_scan_schedule() (in module baecon.base)</a>
 </li>
       <li><a href="data.html#baecon.data.Measurement_Data">Measurement_Data (class in baecon.data)</a>
 </li>
-      <li><a href="base.html#baecon.base.Measurement_Settings">Measurement_Settings (class in baecon.base)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="base.html#baecon.base.Measurement_Settings">Measurement_Settings (class in baecon.base)</a>
+</li>
       <li>
     module
 
       <ul>
         <li><a href="base.html#module-baecon.base">baecon.base</a>
-</li>
-        <li><a href="device.html#module-baecon.base.Device">baecon.base.Device</a>
 </li>
         <li><a href="data.html#module-baecon.data">baecon.data</a>
 </li>
@@ -511,20 +542,8 @@ document.write(`
   </ul></td>
 </tr></table>
 
-<h2 id="N">N</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="device.html#baecon.base.Device.name">name (in module baecon.base.Device)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="device.html#baecon.base.Device.parameters">parameters (in module baecon.base.Device)</a>
-</li>
-  </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="data.html#baecon.data.Measurement_Data.processed_data">processed_data (baecon.data.Measurement_Data attribute)</a>
 </li>
@@ -534,7 +553,7 @@ document.write(`
 <h2 id="R">R</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="device.html#baecon.base.Device.read">read() (in module baecon.base.Device)</a>
+      <li><a href="device.html#baecon.device.Device.read">read() (baecon.device.Device method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -546,11 +565,13 @@ document.write(`
 </li>
       <li><a href="utils.html#baecon.utils.save_measurement_config">save_measurement_config() (in module baecon.utils)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="base.html#baecon.base.Measurement_Settings.scan_collection">scan_collection (baecon.base.Measurement_Settings attribute)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="base.html#baecon.base.Measurement_Settings.scan_devices">scan_devices (baecon.base.Measurement_Settings attribute)</a>
+</li>
+      <li><a href="engine.html#baecon.engine.scan_recursion">scan_recursion() (in module baecon.engine)</a>
 </li>
       <li><a href="utils.html#baecon.utils.set_device_directory">set_device_directory() (in module baecon.utils)</a>
 </li>
@@ -572,7 +593,7 @@ document.write(`
 <h2 id="W">W</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="device.html#baecon.base.Device.write">write() (in module baecon.base.Device)</a>
+      <li><a href="device.html#baecon.device.Device.write">write() (baecon.device.Device method)</a>
 </li>
   </ul></td>
 </tr></table>

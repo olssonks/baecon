@@ -158,6 +158,21 @@
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
       
@@ -269,6 +284,21 @@ document.write(`
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
         
@@ -347,10 +377,12 @@ document.write(`
 <dl class="py class">
 <dt class="sig sig-object py" id="baecon.base.Measurement_Settings">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">Measurement_Settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">acquisition_devices:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_devices:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_collection:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averages:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.base.Measurement_Settings" title="Permalink to this definition">#</a></dt>
-<dd><p>Data structure for holding measurement settings.</p>
-<p>The four measurement settings are acquisition devices, scan devices,
+<dd><dl class="simple">
+<dt>Data structure for holding measurement settings.</dt><dd><p>The four measurement settings are acquisition devices, scan devices,
 scan collection, and averages (repeats) of the scan to perform. These
 four settings are all that is needed to run a meaurement.</p>
+</dd>
+</dl>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="baecon.base.Measurement_Settings.acquisition_devices">
 <span class="sig-name descname"><span class="pre">acquisition_devices</span></span><a class="headerlink" href="#baecon.base.Measurement_Settings.acquisition_devices" title="Permalink to this definition">#</a></dt>
@@ -413,9 +445,11 @@ by <a class="reference internal" href="data.html#module-baecon.data" title="baec
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.base.add_device">
 <span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">add_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">devices</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.base.add_device" title="Permalink to this definition">#</a></dt>
-<dd><p>Constructs a device from <code class="docutils literal notranslate"><span class="pre">device_config</span></code>, addig it to <code class="docutils literal notranslate"><span class="pre">devices</span></code>.</p>
-<p>This dictionary will be the <a class="reference internal" href="#baecon.base.Measurement_Settings.acquisition_devices" title="baecon.base.Measurement_Settings.acquisition_devices"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.acquisition_devices</span></code></a>
+<dd><dl class="simple">
+<dt>Constructs a device from <code class="docutils literal notranslate"><span class="pre">device_config</span></code>, addig it to <code class="docutils literal notranslate"><span class="pre">devices</span></code>.</dt><dd><p>This dictionary will be the <a class="reference internal" href="#baecon.base.Measurement_Settings.acquisition_devices" title="baecon.base.Measurement_Settings.acquisition_devices"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.acquisition_devices</span></code></a>
 or <a class="reference internal" href="#baecon.base.Measurement_Settings.scan_devices" title="baecon.base.Measurement_Settings.scan_devices"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.scan_devices</span></code></a>.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -430,14 +464,16 @@ or <a class="reference internal" href="#baecon.base.Measurement_Settings.scan_de
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.base.add_scan">
 <span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">add_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Device</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.base.add_scan" title="Permalink to this definition">#</a></dt>
-<dd><p>Make and add scan to <a class="reference internal" href="#baecon.base.Measurement_Settings.scan_collection" title="baecon.base.Measurement_Settings.scan_collection"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.scan_collection</span></code></a>.</p>
-<p>Makes scan collection based on <code class="docutils literal notranslate"><span class="pre">scan_settings</span></code> and <code class="docutils literal notranslate"><span class="pre">scan_device</span></code>
-and adds this collection to <code class="docutils literal notranslate"><span class="pre">ms</span></code></p>
+<dd><dl class="simple">
+<dt>Make and add scan to <a class="reference internal" href="#baecon.base.Measurement_Settings.scan_collection" title="baecon.base.Measurement_Settings.scan_collection"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.scan_collection</span></code></a>.</dt><dd><p>Makes scan collection based on <code class="docutils literal notranslate"><span class="pre">scan_settings</span></code> and <code class="docutils literal notranslate"><span class="pre">scan_device</span></code> and
+adds this collection to <code class="docutils literal notranslate"><span class="pre">ms</span></code>.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>scan_settings</strong> (<em>dict</em>) – Dictionary of settings for the scan.</p></li>
-<li><p><strong>scan_device</strong> (<em>Device</em>) – <a class="reference internal" href="device.html#module-baecon.base.Device" title="baecon.base.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></a> which will be scanned.</p></li>
+<li><p><strong>scan_device</strong> (<a class="reference internal" href="device.html#device.Device" title="device.Device"><em>Device</em></a>) – <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> which will be scanned.</p></li>
 <li><p><strong>ms</strong> (<a class="reference internal" href="#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><em>Measurement_Settings</em></a>) – Settings for the measurement.</p></li>
 </ul>
 </dd>
@@ -447,17 +483,16 @@ and adds this collection to <code class="docutils literal notranslate"><span cla
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.base.custom_schedule">
 <span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">custom_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">note</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#baecon.base.custom_schedule" title="Permalink to this definition">#</a></dt>
-<dd><dl>
-<dt>Create a custom scan schedule from a saved file specified in the</dt><dd><p>note setting as <code class="docutils literal notranslate"><span class="pre">custom:</span> <span class="pre">file_name</span></code>. File type should be <code class="docutils literal notranslate"><span class="pre">.txt</span></code>
-or <code class="docutils literal notranslate"><span class="pre">.npy</span></code>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">todo<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
-<p>The method can be expand with other file types. May want to change
-to <cite>‘custom’</cite> using a method supplied by <cite>‘note’</cite>.</p>
+<dd><dl class="simple">
+<dt>Create a custom scan schedule from a saved file.</dt><dd><p>The file to load will be specified in the note setting as <code class="docutils literal notranslate"><span class="pre">custom:</span> <span class="pre">file_name</span></code>.
+File type should be <code class="docutils literal notranslate"><span class="pre">.txt</span></code> or <code class="docutils literal notranslate"><span class="pre">.npy</span></code>.</p>
 </dd>
 </dl>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>The method can be expand with other file types. May want to change
+to <code class="docutils literal notranslate"><span class="pre">'custom'</span></code> using a method supplied by <code class="docutils literal notranslate"><span class="pre">'note'</span></code>.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>note</strong> (<em>str</em>) – <code class="docutils literal notranslate"><span class="pre">JSON</span></code> parsable string from the note field in a scan
@@ -492,13 +527,15 @@ collection</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.base.generate_measurement_config">
 <span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">generate_measurement_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#baecon.base.generate_measurement_config" title="Permalink to this definition">#</a></dt>
-<dd><p>Make configuration dictionary from Measurement_Settings object.</p>
-<p>Configuration file will be a dict like file (e.g., <code class="docutils literal notranslate"><span class="pre">json</span></code>, <code class="docutils literal notranslate"><span class="pre">yaml</span></code>,
+<dd><dl>
+<dt>Make configuration dictionary from Measurement_Settings object.</dt><dd><p>Configuration file will be a dict like file (e.g., <code class="docutils literal notranslate"><span class="pre">json</span></code>, <code class="docutils literal notranslate"><span class="pre">yaml</span></code>,
 <code class="docutils literal notranslate"><span class="pre">toml</span></code>) with structure:</p>
 <p><code class="docutils literal notranslate"><span class="pre">{'acquisition_devices':</span> <span class="pre">{'device_name':</span> <span class="pre">configuration,</span> <span class="pre">...},</span>
 <span class="pre">'scan_devices':</span> <span class="pre">{'device_name':</span> <span class="pre">configuration,</span> <span class="pre">...},</span>
 <span class="pre">'scan_collections':</span> <span class="pre">{'scan_name':</span> <span class="pre">settings,</span> <span class="pre">...}</span>
 <span class="pre">}</span></code></p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -522,25 +559,26 @@ collection</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.base.load_custom_scan_file">
 <span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">load_custom_scan_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#baecon.base.load_custom_scan_file" title="Permalink to this definition">#</a></dt>
-<dd><dl class="field-list simple">
-<dt class="field-odd">Todo<span class="colon">:</span></dt>
-<dd class="field-odd"><p></p></dd>
-</dl>
+<dd><div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
 <p>Need to specify where to look for custom scan file. Possibly put in the
-:py:mod:<code class="docutils literal notranslate"><span class="pre">engine</span></code> directory</p>
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">engine</span></code> directory</p>
+</div>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.base.make_device">
 <span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">make_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#baecon.base.make_device" title="Permalink to this definition">#</a></dt>
-<dd><p>Create a <a class="reference internal" href="device.html#module-baecon.base.Device" title="baecon.base.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></a> object from the supplied configuration.</p>
-<p>The module specified in config[‘device’] is imported and makes
-an device of that module type (e.g., SG380).
-Returns a dictionary of configurations, now with the device object
+<dd><dl>
+<dt>Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> object from the supplied configuration.</dt><dd><p>The module specified in config[‘device’] is imported and makes
+an device of that module type (e.g., SG380).</p>
+<p>Returns a dictionary of configurations, now with the device object
 as the value of the ‘device’ entry.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>config</strong> (<em>dict</em>) – Configuration required to create a <a class="reference internal" href="device.html#module-baecon.base.Device" title="baecon.base.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></a> object.</p>
+<dd class="field-odd"><p><strong>config</strong> (<em>dict</em>) – Configuration required to create a <code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code> object.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>New device configuration with device object.</p>
@@ -554,16 +592,17 @@ as the value of the ‘device’ entry.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.base.make_measurement_settings">
 <span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">make_measurement_settings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meas_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></span><a class="headerlink" href="#baecon.base.make_measurement_settings" title="Permalink to this definition">#</a></dt>
-<dd><p>Make a Measurement_Settings object from configurations in the
-<code class="docutils literal notranslate"><span class="pre">meas_configs</span></code> dictionary.</p>
-<p>The dictionary has keys <strong>acquisition_devices</strong>, <strong>scan_devices</strong>,
+<dd><dl class="simple">
+<dt>Make a Measurement_Settings object from configurations in the <code class="docutils literal notranslate"><span class="pre">meas_configs</span></code> dictionary.</dt><dd><p>The dictionary has keys <strong>acquisition_devices</strong>, <strong>scan_devices</strong>,
 <strong>scan_collection</strong>, and <strong>averages</strong> (i.e., the attributes of a Measurement
 settings object).</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>meas_configs</strong> (<em>dict</em>) – <p>Dictionary with configurations for</p>
 <ul class="simple">
-<li><p><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.acquisistion_devices</span></code></p></li>
+<li><p><a class="reference internal" href="#baecon.base.Measurement_Settings.acquisition_devices" title="baecon.base.Measurement_Settings.acquisition_devices"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.acquisition_devices</span></code></a></p></li>
 <li><p><a class="reference internal" href="#baecon.base.Measurement_Settings.scan_devices" title="baecon.base.Measurement_Settings.scan_devices"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.scan_devices</span></code></a></p></li>
 <li><p><a class="reference internal" href="#baecon.base.Measurement_Settings.scan_collection" title="baecon.base.Measurement_Settings.scan_collection"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.scan_collection</span></code></a></p></li>
 <li><p><a class="reference internal" href="#baecon.base.Measurement_Settings.averages" title="baecon.base.Measurement_Settings.averages"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.averages</span></code></a></p></li>
@@ -582,8 +621,10 @@ settings object).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.base.make_scan">
 <span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">make_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Device</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#baecon.base.make_scan" title="Permalink to this definition">#</a></dt>
-<dd><p>Makes a scan collection from <code class="docutils literal notranslate"><span class="pre">scan_settings</span></code> and <code class="docutils literal notranslate"><span class="pre">device</span></code>.</p>
-<p>Returns a dictionary element to add to <a class="reference internal" href="#baecon.base.Measurement_Settings.scan_collection" title="baecon.base.Measurement_Settings.scan_collection"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.scan_collection</span></code></a>.</p>
+<dd><dl class="simple">
+<dt>Makes a scan collection from <code class="docutils literal notranslate"><span class="pre">scan_settings</span></code> and <code class="docutils literal notranslate"><span class="pre">device</span></code>.</dt><dd><p>Returns a dictionary element to add to <a class="reference internal" href="#baecon.base.Measurement_Settings.scan_collection" title="baecon.base.Measurement_Settings.scan_collection"><code class="xref py py-attr docutils literal notranslate"><span class="pre">Measurement_Settings.scan_collection</span></code></a>.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>scan_settings</strong> (<em>dict</em>) – Settings for a single scan.</p>
@@ -600,8 +641,8 @@ settings object).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.base.make_scan_schedule">
 <span class="sig-prename descclassname"><span class="pre">baecon.base.</span></span><span class="sig-name descname"><span class="pre">make_scan_schedule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">scan_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ndarray</span></span></span><a class="headerlink" href="#baecon.base.make_scan_schedule" title="Permalink to this definition">#</a></dt>
-<dd><p>Makes scan schedule to add to the scan colletion.</p>
-<p>The <em>schedule</em> is the order of parameter values to scan through
+<dd><dl>
+<dt>Makes scan schedule to add to the scan colletion.</dt><dd><p>The <em>schedule</em> is the order of parameter values to scan through
 based on the scan settings ‘min’, ‘max’, ‘points’, and ‘repititions’.
 Returns a numpy.ndarray with the schedule.</p>
 <blockquote>
@@ -618,6 +659,8 @@ measurement is running.</p>
 <p>yields the schedule:</p>
 <p><code class="docutils literal notranslate"><span class="pre">np.ndarray([1.0,</span> <span class="pre">1.25,</span> <span class="pre">1.5,</span> <span class="pre">1.75,</span> <span class="pre">2.0,</span> <span class="pre">1.0,</span> <span class="pre">1.25,</span> <span class="pre">1.5,</span> <span class="pre">1.75,</span> <span class="pre">2.0])</span></code></p>
 </div></blockquote>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>scan_settings</strong> (<em>dict</em>) – Scan settings</p>

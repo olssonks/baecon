@@ -1,10 +1,3 @@
-import baecon as bc
-
-from dataclasses import dataclass, field
-import xarray as xr
-import numpy as np
-
-
 ''':note:
     Most analysis will occur with specifically imported modules per experiment.
     Module will have a main function `analyze_data` that will return the
@@ -14,11 +7,30 @@ import numpy as np
     data analysis and plotting thread. May need an object that is just the 
     most recent data taken, and not the full :py:mod:`xarrray.DataArray` object.
 
-:todo:
-    * add some basic analysis functions like averaging samples
-    * Saving reduced data?? May want to make another data structure, the processed data
-        may not have the same dimensions as the `Measurement_Data.dataset`
+.. todo::
+
+    - add some basic analysis functions like averaging samples
+    - Saving reduced data?? May want to make another data structure, 
+      the processed data may not have the same dimensions as 
+      the `Measurement_Data.dataset`
+    
 '''
+
+''':note:
+   This is the default engine. We should be able to add/import additional 
+   engines, like one based on OptBayes.
+
+   This engine performs the scans recursively in the order they are listed
+   in the scan_collection.
+
+   ``for i in scan1: for j in scan2: for k in scan3: ...``
+'''
+
+import baecon as bc
+
+from dataclasses import dataclass, field
+import xarray as xr
+import numpy as np
 
 @dataclass
 class Measurement_Data:

@@ -1,7 +1,7 @@
 Device
-============
+======
 
-
-.. automodule:: baecon.base.Device
-    :imported-members:
+.. autoclass:: baecon.device.Device
     :members:
+    
+    .. automethod:: __init__

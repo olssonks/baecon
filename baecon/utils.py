@@ -18,8 +18,7 @@ from typing import Optional
 
 def load_config(file:str, options = None)->dict:
     """Loads configuration file ``file`` and returns dictionary of configurations. 
-    
-    File type may be ``.toml``, ``.yml``, or ``.json``.
+       File type may be ``.toml``, ``.yml``, or ``.json``.
 
     Args:
         file (str): Configuration file to load.
@@ -37,8 +36,7 @@ def load_config(file:str, options = None)->dict:
 
 def dump_config(config:dict, file:str, options = None)->None:
     """Saves configuration dictionary into ``file``.
-    
-    File type may be ``.toml``, ``.yml``, or ``.json``.
+       File type may be ``.toml``, ``.yml``, or ``.json``.
 
     Args:
         config (dict): Configuration dictionary to load
@@ -151,7 +149,7 @@ dump_functions = {'.toml':toml_dump, '.yml':yaml_dump, '.json':json_dump}
 
 def set_device_directory(Devices_directory:str):
     """Sets default devices directory in :py:class:`Device` to the input
-        directory.
+       directory.
 
     Args:
         Devices_directory (str): New directory for the devices.
@@ -166,7 +164,7 @@ def set_device_directory(Devices_directory:str):
 
 def generate_measurement_config_from_file(config_list_file:str, out_file:str)->None:
     """Generates measurement configuration from list of indiviual files, yielding
-    a single file for the measurement.
+       a single file for the measurement.
     
         The `config_list_file` is a list of files of seperate configurations, e.g.,
         configuration for individual scans, devices etc.This function
@@ -207,7 +205,7 @@ def generate_measurement_config_from_file(config_list_file:str, out_file:str)->N
 
 def save_measurement_config(ms:bc.Measurement_Settings, out_file:str)->None:
     """Generatres configuration dictioary from Measurement_Settings object
-    and saves to specified file.
+       and saves to specified file.
 
     Args:
         ms (Measurement_Settings): Measurement settings to save.
@@ -227,13 +225,14 @@ def save_baecon_data(md:bc.Measurement_Data,
                      file_name:str, 
                      format:str ='.zarr',
                      options=None)->None:
-    """Saves measurement data to choice of ``format``. The default format is
-        a Zarr group file. Possible formats: ``zarr``, ``netcdf``, ``hdf5``, and ``csv``.
+    """Saves measurement data to choice of ``format``. 
+       The default format is a Zarr group file. Possible formats: 
+       ``zarr``, ``netcdf``, ``hdf5``, and ``csv``.
         
-    ``zarr`` and ``netcdf`` play well with :py:mod:`xarray`. For the other formats
-    data is coverted :py:mod:`pandas` then saved. 
+    ``zarr`` and ``netcdf`` play well with :py:mod:`xarray`. For the other 
+    formats data is coverted :py:mod:`pandas` then saved. 
     
-    :todo:
+    .. todo::
         Need to check settings saved as metadata correctly
         
         Possible formats to implement in the future: parquet, feather.
@@ -327,8 +326,8 @@ def arg_parser():
     
 def load_module_from_path(file_path:str):
     """Loads module from specified path.
-    This is used to load specific device files dynamically, as well as different
-    analysis file for :py:mod:`data`
+       This is used to load specific :py:class:`Device`
+       analysis file for :py:mod:`data`.
 
     Args:
         file_path (str): String or path to file of module.

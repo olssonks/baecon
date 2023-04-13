@@ -1,5 +1,5 @@
 Data
-=============
+====
 
 .. automodule:: baecon.data
     :imported-members:

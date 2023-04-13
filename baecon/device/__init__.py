@@ -1,1 +1,1 @@
-from .device import Device, Devices_directory
+from .device import *

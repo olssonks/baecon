@@ -158,6 +158,21 @@
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
       
@@ -269,6 +284,21 @@ document.write(`
                       </a>
                     </li>
                 
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
   </ul>
 </nav></div>
         
@@ -344,6 +374,25 @@ document.write(`
                   
   <section id="module-baecon.data">
 <span id="data"></span><h1>Data<a class="headerlink" href="#module-baecon.data" title="Permalink to this heading">#</a></h1>
+<dl class="field-list">
+<dt class="field-odd">note<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Most analysis will occur with specifically imported modules per experiment.
+Module will have a main function <cite>analyze_data</cite> that will return the
+reduced data to plot.</p>
+<p>Need to think about how to pass data from the measurement thread to the
+data analysis and plotting thread. May need an object that is just the
+most recent data taken, and not the full <code class="xref py py-mod docutils literal notranslate"><span class="pre">xarrray.DataArray</span></code> object.</p>
+</dd>
+</dl>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<ul class="simple">
+<li><p>add some basic analysis functions like averaging samples</p></li>
+<li><p>Saving reduced data?? May want to make another data structure,
+the processed data may not have the same dimensions as
+the <cite>Measurement_Data.dataset</cite></p></li>
+</ul>
+</div>
 <dl class="py class">
 <dt class="sig sig-object py" id="baecon.data.Measurement_Data">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.data.</span></span><span class="sig-name descname"><span class="pre">Measurement_Data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_template:</span> <span class="pre">~xarray.core.dataarray.DataArray</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_set:</span> <span class="pre">~xarray.core.dataset.Dataset</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processed_data:</span> <span class="pre">~xarray.core.dataset.Dataset</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.data.Measurement_Data" title="Permalink to this definition">#</a></dt>
