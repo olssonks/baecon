@@ -32,7 +32,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.intersphinx',
               'sphinx.ext.todo',
               'sphinx.ext.napoleon',
-              #'groundwork-sphinx-theme',
+              'pydata-sphinx-theme',
             ]
 
 templates_path = ['_templates']
