@@ -13,4 +13,4 @@ sphinx-autodoc-typehints
 sphinx-paramlinks<0.6.0
 sphinx-togglebutton
 sphinx-copybutton
-pydata-sphinx-theme
+pydata_sphinx_theme
