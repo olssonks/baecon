@@ -15,6 +15,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 sys.path.append('C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\baecon')
 
 import baecon
+import pydata_sphinx_theme
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -32,7 +33,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.intersphinx',
               'sphinx.ext.todo',
               'sphinx.ext.napoleon',
-              'pydata-sphinx-theme',
+              #'groundwork-sphinx-theme',
             ]
 
 templates_path = ['_templates']
