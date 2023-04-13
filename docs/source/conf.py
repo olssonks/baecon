@@ -48,6 +48,11 @@ todo_include_todos = True
 html_theme = 'pydata_sphinx_theme'
 html_static_path = ['_static']
 
+html_theme_options = {
+  "show_toc_level": 2,
+  "secondary_sidebar_items": ["page-toc", "edit-this-page", "sourcelink"],
+}
+
 
 pygments_style = "sphinx"
 pygments_dark_style = "monokai"

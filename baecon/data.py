@@ -1,6 +1,6 @@
 ''':note:
     Most analysis will occur with specifically imported modules per experiment.
-    Module will have a main function `analyze_data` that will return the
+    Module will have a main function *analyze_data* that will return the
     reduced data to plot.
     
     Need to think about how to pass data from the measurement thread to the
@@ -14,16 +14,6 @@
       the processed data may not have the same dimensions as 
       the `Measurement_Data.dataset`
     
-'''
-
-''':note:
-   This is the default engine. We should be able to add/import additional 
-   engines, like one based on OptBayes.
-
-   This engine performs the scans recursively in the order they are listed
-   in the scan_collection.
-
-   ``for i in scan1: for j in scan2: for k in scan3: ...``
 '''
 
 import baecon as bc
