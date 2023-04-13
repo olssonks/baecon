@@ -1,0 +1,86 @@
+# from baecon import Device
+
+# class PulseStreamer(Device):
+#     def __init__(self, configuration: dict = None) -> None:
+#         """Add initionalization specifcs for the type of insturment.
+
+#         Args:
+#             configuration (dict, optional): _description_. Defaults to None.
+#         """        
+#         super.__init__(configuration)
+        
+#         return
+
+
+#     # Writing and Reading will be device specfic as connect types and command are all different
+#     def write(self, parameter, value):
+#         """Add functionally to change the `parameter` to `value` on the 
+#             instrument.
+
+#         Args:
+#             parameter (_type_): _description_
+#             value (_type_): _description_
+#         """
+#         return
+
+#     def read(self, parameter, value):
+#         """Add functionally to read the value of `parameter` from the instrument.
+
+#         Args:
+#             parameter (_type_): _description_
+#             value (_type_): _description_
+#         """
+#         return
+
+#     def close_instrument(self) -> None:
+        
+#         return
+
+
+# # end Instrument class
+
+
+def convert_to_swab(pattern):
+    new_pattern = []
+    duration_counter = 0
+    for pulse in pattern:
+        start, length = pulse
+        start = start-duration_counter
+        p1 = (start, 0)
+        p2 = (length, 1)
+        duration_counter = start+length
+        new_pattern.extend([p1, p2])
+    if not new_pattern[-1][1] == 0:
+        new_pattern.append((0,0))
+    return new_pattern
+    
+laser = [6, 20]
+mw = [5,1]
+read = [[6.3, 1], [16.3, 1]]
+
+laser_type = ['laser']
+mw_type = ['mw']
+read_type = ['read', 'read'] ## maybe use sig and ref 
+
+## sweep microwave, keep total duration fixed
+
+##in Swabian style
+total = 26 ## max of sum of each chan
+laser = [[6,0], [20,1], [0,0]]
+mw = [[5+t, 0], [1,1], [20-t, 0]] 
+read = [[6.3, 0], [1,1], [9, 0], [1,1], [0,0]]
+
+## t = sweep parm
+
+def get_pulse_indices_swab(pattern_swab):
+    return [i for i, j in enumerate(pattern_swab) 
+            if j[1] > 0]
+    
+def generate_sweep(sweep_list, pattern, types, chan):
+    indices = get_pulse_indices_swab(pattern)
+    mask = np.zeros(len(pattern))
+    mask[indices] = 1
+    sweep_num = len(sweep_list)
+    full_sweep = np.tile(mask, (sweep_num, 1)) * sweep_list
+    full_sweep_pattern = np.tile(pattern, (sweep_num,1)) + full_sweep
+    return full_sweep_pattern 

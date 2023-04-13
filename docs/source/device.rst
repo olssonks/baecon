@@ -1,5 +1,7 @@
-Device Class
-===========
+Device
+============
 
-.. autoclass:: baecon.base.Device
+
+.. automodule:: baecon.base.Device
+    :imported-members:
     :members:

@@ -1,14 +1,8 @@
-"""Device
-Notes:
-   - configuration will be a dictionary, read from some file in engine (toml, yaml, json, etc.)
-   
-   - set_parameter calls write calls other function (and may one more function)
-       - calling three functions slow??? Speed up?
-"""
 import os
 
 ##current working directory
 Devices_directory = ".\\Instruments" #"C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\Instruments"
+
 
 class Device:
     """Experimental devices are designated into two catagories: **scanning devices** 
@@ -23,8 +17,8 @@ class Device:
         Note:
             In the user defined child classes (e.g, SG380),
             users will need to override the :attr:`parameters` and 
-            :attr:`latent_paramenters` atrributes, and the :method:`read` 
-            and `method:`write` methods. Additional methods in the child class 
+            :attr:`latent_paramenters` atrributes, and the :py:func:`Device.read` 
+            and :py:func:`write` methods. Additional methods in the child class 
             will needed to be defined to support these required attributes 
             and methods.
 
@@ -133,10 +127,11 @@ class Device:
         attrs = dir(self)
         for key in list(self.configuration.keys()):
             if key in attrs:
-                self.self.configuration[key] = self.__getattribute__(key)
+                self.configuration[key] = self.__getattribute__(key)
         return
 
-    # Writing and Reading will be device specfic as connect types and command are all different
+    # Writing and Reading will be device specfic as connection types 
+    # and commands are different for all devices
     def write(self, parameter, value):
         """_summary_
 
@@ -161,6 +156,7 @@ class Device:
         for param, value in list({**self.parameters, 
                                  **self.latent_parameters}.items()):
             self.write(param, value)
+        self.update_configuration()
         return
 
     def set_parameter(self, parameter, value) -> None:

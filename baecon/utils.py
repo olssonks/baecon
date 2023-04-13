@@ -17,16 +17,18 @@ from typing import Optional
 
 
 def load_config(file:str, options = None)->dict:
-    """Loads configuration file `file` and returns dictionary of configurations.
-        File type may be `.toml`, `.yaml`, or `.json`.
+    """Loads configuration file ``file`` and returns dictionary of configurations. 
+    
+    File type may be ``.toml``, ``.yml``, or ``.json``.
 
     Args:
         file (str): Configuration file to load.
         options (optional): Can be used in the future if functionality 
         need extendsion, like encoding type.
-
+        
     Returns:
         dict: Configuration dictionary
+
     """    
     file = os.path.normpath(file)
     _, file_exetension = os.path.splitext(file)
@@ -34,17 +36,16 @@ def load_config(file:str, options = None)->dict:
     return configuration
 
 def dump_config(config:dict, file:str, options = None)->None:
-    """Saves configuration dictionary into `file`.
-        File type may be `.toml`, `.yaml`, or `.json`.
+    """Saves configuration dictionary into ``file``.
+    
+    File type may be ``.toml``, ``.yml``, or ``.json``.
 
     Args:
         config (dict): Configuration dictionary to load
         file (str): Configuration file to load.
         options (optional): Can be used in the future if functionality 
-        need extendsion, like encoding type.
+            need extendsion, like encoding type.
 
-    Returns:
-        dict: Configuration dictionary
     """    
 
     file = os.path.normpath(file)
@@ -53,15 +54,15 @@ def dump_config(config:dict, file:str, options = None)->None:
     return
     
 def toml_load(file:str, options = None)->dict:
-    """Reads `toml` file and returns `dict`. 
+    """Reads ``toml`` file and returns ``dict``. 
 
     Args:
-        file (str): path of `toml` file.
+        file (str): path of ``toml`` file.
         options (optional): Can be used in the future if functionality 
-        need extendsion, like encoding type.
+            need extendsion, like encoding type.
 
     Returns:
-        dict: Dictionary of `toml` file contents.
+        dict: Dictionary of ``toml`` file contents.
     """
     with open(file,'r') as f:
         loaded_toml = toml.load(f)
@@ -69,15 +70,15 @@ def toml_load(file:str, options = None)->dict:
 
 
 def yaml_load(file:str, options = None)->dict:
-    """Reads `yaml` file and returns `dict`. 
+    """Reads ``yaml`` file and returns ``dict``. 
 
     Args:
-        file (str): path of `yaml` file.
+        file (str): path of ``yaml`` file.
         options (optional): Can be used in the future if functionality 
-        need extendsion, like encoding type
+            need extendsion, like encoding type
 
     Returns:
-        dict: Dictionary of `yaml` file contents.
+        dict: Dictionary of ``yaml`` file contents.
     """
     with open(file,'r') as f:
         loaded_yaml = yaml.safe_load(f)
@@ -85,15 +86,15 @@ def yaml_load(file:str, options = None)->dict:
     
     
 def json_load(file:str, options = None)->dict:
-    """Reads `json` file and returns `dict`. 
+    """Reads ``json`` file and returns ``dict``. 
 
     Args:
-        file (str): path of `json` file.
+        file (str): path of ``json`` file.
         options (optional): Can be used in the future if functionality 
-        need extendsion, like encoding type
+            need extendsion, like encoding type
 
     Returns:
-        dict: Dictionary of `json` file contents.
+        dict: Dictionary of ``json`` file contents.
     """
     with open(file,'r') as f:
         loaded_json = json.loads(f)
@@ -101,15 +102,14 @@ def json_load(file:str, options = None)->dict:
 
 
 def toml_dump(config:dict, file:str, options = None)->None:
-    """Write configuration dictionary (`config`) to a  `toml` file.
+    """Write configuration dictionary (``config``) to a ``toml`` file.
+    
     Args:
         config (dict): Configuration dictionary to save.
-        file (str): path of `toml` file.
+        file (str): path of ``toml`` file.
         options (optional): Can be used in the future if functionality 
-        need extendsion, like encoding type
+            need extendsion, like encoding type
 
-    Returns:
-        None
     """    
     with open(file, 'w') as f:
         toml.dump(config, f)
@@ -117,15 +117,14 @@ def toml_dump(config:dict, file:str, options = None)->None:
     
     
 def yaml_dump(config:dict, file:str, options = None)->None:
-    """Write configuration dictionary (`config`) to a  `yaml` file.
+    """Write configuration dictionary (``config``) to a  ``yaml`` file.
+    
     Args:
         config (dict): Configuration dictionary to save.
-        file (str or path): name or path of `yaml` file.
+        file (str or path): name or path of ``yaml`` file.
         options (optional): Can be used in the future if functionality 
-        need extendsion, like encoding type
+            need extendsion, like encoding type
 
-    Returns:
-        None
     """
     with open(file, 'w') as f:
         yaml.dump(config, f)
@@ -133,30 +132,29 @@ def yaml_dump(config:dict, file:str, options = None)->None:
     
     
 def json_dump(config:dict, file:str, options = None)->None:
-    """Write configuration dictionary (`config`) to a  `json` file.
+    """Write configuration dictionary (``config``) to a  ``json`` file.
+    
     Args:
         config (dict): Configuration dictionary to save.
-        file (str): path of `toml` file.
+        file (str): path of ``toml`` file.
         options (optional): Can be used in the future if functionality 
-        need extendsion, like encoding type
+            need extendsion, like encoding type
 
-    Returns:
-        None
     """
     with open(file, 'w') as f:
         json.dump(config, f)
     return
 
-load_functions = {'.toml':toml_load, '.yaml':yaml_load, '.json':json_load}
-dump_functions = {'.toml':toml_dump, '.yaml':yaml_dump, '.json':json_dump}
+load_functions = {'.toml':toml_load, '.yml':yaml_load, '.json':json_load}
+dump_functions = {'.toml':toml_dump, '.yml':yaml_dump, '.json':json_dump}
 
 
 def set_device_directory(Devices_directory:str):
-    """Sets default devices directory in `Devices` to the input
+    """Sets default devices directory in :py:class:`Device` to the input
         directory.
 
     Args:
-        Devices_directory (str): Directory holding :class:Device modules.
+        Devices_directory (str): New directory for the devices.
     """
     for line in fileinput.FileInput('device.py',inplace=1):
         if line.startswith('Devices_directory'):
@@ -167,19 +165,24 @@ def set_device_directory(Devices_directory:str):
 
 
 def generate_measurement_config_from_file(config_list_file:str, out_file:str)->None:
-    """Generates a Measurement_Settings object from file containing list of 
-        individual configuration files, then saves Measurement_Settings to a 
-        measurement configuration file. config_list_file will be a dict like 
+    """Generates measurement configuration from list of indiviual files, yielding
+    a single file for the measurement.
+    
+        The `config_list_file` is a list of files of seperate configurations, e.g.,
+        configuration for individual scans, devices etc.This function
+        loads each individual file into a :py:class:`Measurement_Settings`
+        object, then measurement configuration file. config_list_file will be a dict like 
         file (e.g., json, yaml, toml) with structure:
-        {'acquisition_devices': {'device_name': configuration_file_name, ...},
+        
+        ``{'acquisition_devices': {'device_name': configuration_file_name, ...},
         'scan_devices': {'device_name': configuration_file_name, ...}, 
         'scan_collections': {'scan_name': configuration_file_name, ...}
-        'averages': (int)
-        }
+        'averages': (int)}``
+        
     Args:
-        config_list_file (str): Name of file to load.
-        out_file (str): Name of file to save configuration of the generated 
-        Measurement_Settings
+        config_list_file (str): Name of list file to load.
+        out_file (str): Name of file for saving the configuration of the generated 
+        Measurement_Settings.
     """
     acq_insts, scan_insts, scans = {}, {},{}
     #ms = bc.Measurement_Settings()
@@ -204,7 +207,7 @@ def generate_measurement_config_from_file(config_list_file:str, out_file:str)->N
 
 def save_measurement_config(ms:bc.Measurement_Settings, out_file:str)->None:
     """Generatres configuration dictioary from Measurement_Settings object
-        and saves to specified file.
+    and saves to specified file.
 
     Args:
         ms (Measurement_Settings): Measurement settings to save.
@@ -214,20 +217,33 @@ def save_measurement_config(ms:bc.Measurement_Settings, out_file:str)->None:
     dump_config(meas_settings, out_file)
     return
     
+def save_scan_collection():
+    return
+    
+def save_instrument():
+    return
+    
 def save_baecon_data(md:bc.Measurement_Data, 
                      file_name:str, 
                      format:str ='.zarr',
                      options=None)->None:
-    """Saves measurement data to choice of `format`. The default format is
-        a Zarr group file. Possible formats: `zarr`, `netcdf`, `hdf5`, and `csv`.
+    """Saves measurement data to choice of ``format``. The default format is
+        a Zarr group file. Possible formats: ``zarr``, ``netcdf``, ``hdf5``, and ``csv``.
+        
+    ``zarr`` and ``netcdf`` play well with :py:mod:`xarray`. For the other formats
+    data is coverted :py:mod:`pandas` then saved. 
     
-    Need to check settings saved as metadata correctly
+    :todo:
+        Need to check settings saved as metadata correctly
+        
+        Possible formats to implement in the future: parquet, feather.
     
-    Possible formats to implement in the future: parquet, feather.
     Args:
-        md (bc.Measurement_Data): _description_
-        file_name (str): _description_
-        format (str, optional): _description_. Defaults to '.zarr'options=None.
+        md (:py:mod:`Measurement_Data`): Configuration of measurement.
+        file_name (str): File name for saving data.
+        format (str, optional): File format to use, defaults to '.zarr'
+        options (optional): Options for extension in the future, likely 
+        chunking and compression.
     """    
     def use_zarr():
         if options:
@@ -261,72 +277,21 @@ def save_baecon_data(md:bc.Measurement_Data,
     formats[format]()
     return
 
-# class local_file_picker(ui.dialog):
-
-#     def __init__(self, directory: str, *,
-#                  upper_limit: Optional[str] = ..., show_hidden_files: bool = False) -> None:
-#         """Local File Picker
-
-#         This is a simple file picker that allows you to select a file from the local filesystem where NiceGUI is running.
-
-#         :param directory: The directory to start in.
-#         :param upper_limit: The directory to stop at (None: no limit, default: same as the starting directory).
-#         :param show_hidden_files: Whether to show hidden files.
-#         """
-#         super().__init__()
-
-#         self.path = Path(directory).expanduser()
-#         if upper_limit is None:
-#             self.upper_limit = None
-#         else:
-#             self.upper_limit = Path(directory if upper_limit == ... else upper_limit).expanduser()
-#         self.show_hidden_files = show_hidden_files
-
-#         with self, ui.card():
-#             self.grid = ui.aggrid({
-#                 'columnDefs': [{'field': 'name', 'headerName': 'File'}],
-#                 'rowSelection': 'single',
-#             }, html_columns=[0]).classes('w-96').on('cellDoubleClicked', self.handle_double_click)
-#             with ui.row().classes('w-full justify-end'):
-#                 ui.button('Cancel', on_click=self.close).props('outline')
-#                 ui.button('Ok', on_click=self._handle_ok)
-#         self.update_grid()
-
-#     def update_grid(self) -> None:
-#         paths = list(self.path.glob('*'))
-#         if not self.show_hidden_files:
-#             paths = [p for p in paths if not p.name.startswith('.')]
-#         paths.sort(key=lambda p: p.name.lower())
-#         paths.sort(key=lambda p: not p.is_dir())
-
-#         self.grid.options['rowData'] = [
-#             {
-#                 'name': f'📁 <strong>{p.name}</strong>' if p.is_dir() else p.name,
-#                 'path': str(p),
-#             }
-#             for p in paths
-#         ]
-#         if self.upper_limit is None and self.path != self.path.parent or \
-#                 self.upper_limit is not None and self.path != self.upper_limit:
-#             self.grid.options['rowData'].insert(0, {
-#                 'name': '📁 <strong>..</strong>',
-#                 'path': str(self.path.parent),
-#             })
-#         self.grid.update()
-
-#     async def handle_double_click(self, msg: dict) -> None:
-#         self.path = Path(msg['args']['data']['path'])
-#         if self.path.is_dir():
-#             self.update_grid()
-#         else:
-#             self.submit([str(self.path.resolve())])
-
-#     async def _handle_ok(self):
-#         rows = await ui.run_javascript(f'getElement({self.grid.id}).gridOptions.api.getSelectedRows()')
-#         full_path = [str(Path(self.path.resolve(), rows[0]['name']))]
-#         self.submit(full_path)
 
 def arg_parser():
+    """Argument parser for command line interface.
+    
+        * ``-c``, ``--config_file``: Full measurement configuration file.
+        * ``-g``, ``--gen_file``: File listing invididual config files for use
+            with :py:func:`generate_measurement_config_from_file`.
+        * ``-e``, ``--engine``: Measurement :py:mod:`engine` to use. 
+            **currently not implemented but there could a standard engine, OptBayes engine, and others**
+        * ``-o``, ``--output``: Output file for saving data, or for saving a 
+            generated config file.
+
+    Returns:
+        dict: parsed arguements
+    """    
     parser = argparse.ArgumentParser()
     
     parser.add_argument('-c', '--config_file',
@@ -361,7 +326,16 @@ def arg_parser():
     return args
     
 def load_module_from_path(file_path:str):
+    """Loads module from specified path.
+    This is used to load specific device files dynamically, as well as different
+    analysis file for :py:mod:`data`
 
+    Args:
+        file_path (str): String or path to file of module.
+
+    Returns:
+        (python module): Module that was loaded
+    """
     file_name = file_path.split('\\')[-1]
     
     to_import = os.path.splitext(file_name)[0]

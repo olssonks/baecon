@@ -1,13 +1,14 @@
 name = "SG1"
 
-instrument = "SG380"
+device = "SG380"
 
 [parameters]
-frequency = 2.8e9
+frequency = 2.8e3
 phase = 0
 amplitude = 0.0
-modulation = "Off"
-modulation_Source = "External" 
+modulation_enabled = false
+modulation_type = 'IQ'
+modulation_function = 'External'
 
 [latent_parameters]
 IPaddress = '10.229.42.86'

@@ -8,7 +8,8 @@ from baecon.base import (
     make_device,
     add_scan,
     make_scan,
-    make_scan_schedule
+    make_scan_schedule,
+    define_scan_settings
 )
 
 from baecon.device import Device, Devices_directory

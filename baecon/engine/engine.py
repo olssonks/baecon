@@ -157,7 +157,7 @@ def perform_measurement(ms:bc.Measurement_Settings)->bc.Measurement_Data:
 
     meas_data = bc.Measurement_Data()
     meas_data.data_template = bc.create_data_template(ms)
-    meas_data.put_measurement_settings(ms)
+    meas_data.assign_measurement_settings(ms)
         
     m_t=threading.Thread(target=measure_thread, args=(ms, data_cue, abort_flag,))
     d_t=threading.Thread(target=data_thread, args=(meas_data, data_cue, abort_flag,))

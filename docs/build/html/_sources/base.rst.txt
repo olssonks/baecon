@@ -1,4 +1,4 @@
-baecon.base
+Base
 ===========
 
 .. automodule:: baecon.base
