@@ -1,22 +1,35 @@
-.. image:: C:\Users\\walsworth1\Documents\\Jupyter_Notebooks\\baecon\\baecon_2.png
+<div align="center">
+<!-- ![Baecon Logo](https://github.com/olssonks/baecon/blob/main/baecon.png) -->
+<img src="https://github.com/olssonks/baecon/blob/main/baecon.png" alt="Baecon Logo" / >
+
+---
 
 +++++++++++++++++++++++++++++++++
 Baecon - Basic Experiment Control
 +++++++++++++++++++++++++++++++++
 
 **Baecon** (/ˈbiːkən/), or **Ba**\ sic **E**\ xperiment **Con**\ trol, is a Python library 
-for controlling laboratory instruments to automate performing measurements. 
+for controlling laboratory deivce to perform experiments. 
 
-Measurement automation, in its most *basic* terms, consist of the computer 
-sending a message to the instrument to change a parameter and/or get the value
-of that parameter. Baecon is structed around the this by limiting the methods
-used to communicate with the instrument. 
+Measurement automation, in its most *basic* terms, consists of the computer 
+sending a message to a device to change a parameter and/or get the value
+of that parameter or other parameters. Baecon is structed around the this idea
+by limiting the methods used to communicate with the devices. A device in 
+Baecon can only a read command or a write command *during the measurement procedure*. 
+Before or after the measurement procedure devices are free to communicate for
+preparing and configuring the device.
 
 The simplicity of Baecon is partially accomplished by shifting the heavy 
-lifting to the user to build the module for an instrument themselves to fit.
-With users their own modules, Baecon isn't limited to any specific communication
-protocol. We have a few examples of the instrument modules, and we hope to 
-provide more modules user contribute there own.
+lifting to the user to build modules for devices that follow the Baecon 
+communication standards. With users writing their own modules, Baecon isn't 
+limited to any specific communication protocol. We have a few examples of 
+device modules, and we hope to provide more modules we and others user 
+contribute there own.
+
+All the information for the measurement is stored in ``JSON`` parsible configuration
+files. A full measurement can be stored as a single file, or as individual 
+configurations for the scan settings and devices. The default configuration 
+file type is ``.toml``, but ``.yml`` and ``.json`` files are also compatible.
 
 Baecon operates with a command line interface or with the GUI made with
 the `NiceGUI <https://nicegui.io/>`_ package. 
