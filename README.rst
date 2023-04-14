@@ -1,8 +1,4 @@
-<div align="center">
-<!-- ![Baecon Logo](https://github.com/olssonks/baecon/blob/main/baecon.png) -->
-<img src="https://github.com/olssonks/baecon/blob/main/baecon.png" alt="Baecon Logo" / >
-
----
+.. image:: https://github.com/olssonks/baecon/blob/main/baecon.svg
 
 +++++++++++++++++++++++++++++++++
 Baecon - Basic Experiment Control
