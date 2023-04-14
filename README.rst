@@ -43,15 +43,30 @@ Still to do:
 Overview
 ========
 
-.. conver to table
+.. convert to table
 
-Module, Purpose
-`**baecon.base** <https://github.com/olssonks/baecon/blob/main/baecon/base.py>`_, Makes and organizes scans of instrument settings
-`**baecon.device** <https://github.com/olssonks/baecon/blob/main/baecon/device/device.py>`_, Base class for experimental instruments
-`**baecon.engine** <https://github.com/olssonks/baecon/blob/main/baecon/engine/engine.py>`_, Performs and controls the measurement
-`**baecon.data** <https://github.com/olssonks/baecon/blob/main/baecon/data.py>`_, Data and analysis of measurements
-`**baecon.utils** <https://github.com/olssonks/baecon/blob/main/baecon/utils.py>`_, File I/O and other utility functions
+.. Module, Purpose
+.. `**baecon.base** <https://github.com/olssonks/baecon/blob/main/baecon/base.py>`_, Makes and organizes scans of instrument settings
+.. `**baecon.device** <https://github.com/olssonks/baecon/blob/main/baecon/device/device.py>`_, Base class for experimental devices
+.. `**baecon.engine** <https://github.com/olssonks/baecon/blob/main/baecon/engine/engine.py>`_, Performs and controls the measurement
+.. `**baecon.data** <https://github.com/olssonks/baecon/blob/main/baecon/data.py>`_, Data and analysis of measurements
+.. `**baecon.utils** <https://github.com/olssonks/baecon/blob/main/baecon/utils.py>`_, File I/O and other utility functions
 
++---------------------------------------------------------------------------------------------+--------------------------------------------------+
+| Module                                                                                      | Purpose                                          |
++=============================================================================================+==================================================+
+| `**baecon.base** <https://github.com/olssonks/baecon/blob/main/baecon/base.py>`_            | Makes and organizes scans of instrument settings |
++---------------------------------------------------------------------------------------------+--------------------------------------------------+
+| `**baecon.device** <https://github.com/olssonks/baecon/blob/main/baecon/device/device.py>`_ | Base class for experimental devices          |
++---------------------------------------------------------------------------------------------+--------------------------------------------------+
+| `**baecon.engine** <https://github.com/olssonks/baecon/blob/main/baecon/engine/engine.py>`_ | Performs and controls the measurement            |
++---------------------------------------------------------------------------------------------+--------------------------------------------------+
+| `**baecon.data** <https://github.com/olssonks/baecon/blob/main/baecon/data.py>`_            | Data and analysis of measurements                |
++---------------------------------------------------------------------------------------------+--------------------------------------------------+
+| `**baecon.utils** <https://github.com/olssonks/baecon/blob/main/baecon/utils.py>`_          | File I/O and other utility functions             |
++---------------------------------------------------------------------------------------------+--------------------------------------------------+
+|                                                                                             |                                                  |
++---------------------------------------------------------------------------------------------+--------------------------------------------------+
 
 
 Installation
