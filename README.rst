@@ -1,4 +1,7 @@
 .. image:: https://github.com/olssonks/baecon/blob/main/baecon.svg
+    :align: center
+
+---
 
 +++++++++++++++++++++++++++++++++
 Baecon - Basic Experiment Control
