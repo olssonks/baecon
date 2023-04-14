@@ -3,11 +3,17 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
+.. raw:: html
+
+    <style> .red {color:#aa0060; font-weight:bold; font-size:16px} </style>
+
+.. role:: red
+
 ++++++++++++++++++++
 Baecon Documentation
 ++++++++++++++++++++
 
-**Baecon** (/ˈbiːkən/), or **Ba**\ sic **E**\ xperiment **Con**\ trol, is a Python library 
+:red:`Baecon` (/ˈbiːkən/), or :red:`Ba`\ sic :red:`E`\ xperiment :red:`Con`\ trol, is a Python library 
 for controlling laboratory deivce to perform experiments. 
 
 Measurement automation, in its most *basic* terms, consists of the computer 
