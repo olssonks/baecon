@@ -1,5 +1,4 @@
 .. image:: https://github.com/olssonks/baecon/blob/main/baecon.svg
-    :align: middle
 
 ----
 
