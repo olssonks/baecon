@@ -46,21 +46,20 @@ the `NiceGUI <https://nicegui.io/>`_ package.
 .. `baecon.data <https://github.com/olssonks/baecon/blob/main/baecon/data.py>`_, Data and analysis of measurements
 .. `baecon.utils <https://github.com/olssonks/baecon/blob/main/baecon/utils.py>`_, File I/O and other utility functions
 
-+-----------------------------------------------------------------------------------------+--------------------------------------------------+
-| Module                                                                                  | Purpose                                          |
-+=========================================================================================+==================================================+
-| `baecon.base <https://github.com/olssonks/baecon/blob/main/baecon/base.py>`_            | Makes and organizes scans of instrument settings |
-+-----------------------------------------------------------------------------------------+--------------------------------------------------+
-| `baecon.device <https://github.com/olssonks/baecon/blob/main/baecon/device/device.py>`_ | Base class for experimental instruments          |
-+-----------------------------------------------------------------------------------------+--------------------------------------------------+
-| `baecon.engine <https://github.com/olssonks/baecon/blob/main/baecon/engine/engine.py>`_ | Performs and controls the measurement            |
-+-----------------------------------------------------------------------------------------+--------------------------------------------------+
-| `baecon.data <https://github.com/olssonks/baecon/blob/main/baecon/data.py>`_            | Data and analysis of measurements                |
-+-----------------------------------------------------------------------------------------+--------------------------------------------------+
-| `baecon.utils <https://github.com/olssonks/baecon/blob/main/baecon/utils.py>`_          | File I/O and other utility functions             |
-+-----------------------------------------------------------------------------------------+--------------------------------------------------+
-|                                                                                         |                                                  |
-+-----------------------------------------------------------------------------------------+--------------------------------------------------+
++----------------------+--------------------------------------------------+
+| Module               | Purpose                                          |
++======================+==================================================+
+| :red:`baecon.base`   | Makes and organizes scans of instrument settings |
++----------------------+--------------------------------------------------+
+| :red:`baecon.device` | Base class for experimental instruments          |
++----------------------+--------------------------------------------------+
+| :red:`baecon.engine` | Performs and controls the measurement            |
++----------------------+--------------------------------------------------+
+| :red:`baecon.data`   | Data and analysis of measurements                |
++----------------------+--------------------------------------------------+
+| :red:`baecon.utils`  | File I/O and other utility functions             |
++----------------------+--------------------------------------------------+
+
 .. toctree::
    :maxdepth: 1
    :caption: Contents:
