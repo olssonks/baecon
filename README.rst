@@ -1,3 +1,9 @@
+.. raw:: html
+
+    <style> .red {color:#aa0060; font-weight:bold; font-size:16px} </style>
+
+.. role:: red
+
 .. image:: https://github.com/olssonks/baecon/blob/main/baecon.svg
 
 ----
@@ -6,7 +12,7 @@
 Baecon - Basic Experiment Control
 +++++++++++++++++++++++++++++++++
 
-**Baecon** (/ˈbiːkən/), or **Ba**\ sic **E**\ xperiment **Con**\ trol, is a Python library 
+:red:`Baecon` (/ˈbiːkən/), or :red:`Ba`\ sic :red:`E`\ xperiment :red:`Con`\ trol, is a Python library 
 for controlling laboratory deivce to perform experiments. 
 
 Measurement automation, in its most *basic* terms, consists of the computer 
