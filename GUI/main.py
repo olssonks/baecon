@@ -3,7 +3,7 @@ from nicegui import ui, app
 import gui_utils
 from cards import *
 
-from main_functions import *
+
 
 gui_config = gui_utils.load_gui_config("C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\test_measurement_settings.toml")
 
