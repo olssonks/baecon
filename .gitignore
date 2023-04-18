@@ -1,2 +1,3 @@
-./.vscode
-./GUI/nicegui_repo
+.vscode
+GUI/nicegui_repo/nicegui
+__pycache__
