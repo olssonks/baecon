@@ -6,7 +6,6 @@ def main():
     
     meas_config = bc.utils.load_config(args.config_file)
     
-    
     meas_settings = bc.make_measurement_settings(meas_config)
     
     if not args.engine== 'None':
@@ -14,6 +13,7 @@ def main():
         
         data = engine.perform_measurement(meas_settings)
     else:
+        #run using the default engine
         data = bc.perform_measurement(meas_settings)
 
     save_file = args.output_file
