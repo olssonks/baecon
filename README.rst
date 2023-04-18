@@ -1,5 +1,7 @@
 .. image:: https://github.com/olssonks/baecon/blob/main/baecon.svg
 
+|docs|
+
 ----
 
 +++++++++++++++++++++++++++++++++
@@ -89,3 +91,9 @@ Baecon is open-source and available under the MIT License.
 How to cite
 ===========
 Arxiv then maybe Journal of Open Source Software
+
+
+.. |docs| image:: https://readthedocs.org/projects/docs/badge/?version=latest
+    :alt: Documentation Status
+    :scale: 100%
+    :target: https://baecon.readthedocs.io/en/latest/

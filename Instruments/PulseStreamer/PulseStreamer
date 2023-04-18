@@ -1,43 +1,52 @@
-# from baecon import Device
+from baecon import Device
 
-# class PulseStreamer(Device):
-#     def __init__(self, configuration: dict = None) -> None:
-#         """Add initionalization specifcs for the type of insturment.
 
-#         Args:
-#             configuration (dict, optional): _description_. Defaults to None.
-#         """        
-#         super.__init__(configuration)
+@dataclass
+class Sequence: ## Maybe different name to not be confused with PulseStreamer sequencies
+
+class PulseStreamer(Device):
+    def __init__(self, configuration: dict = None) -> None:
+        """Add initionalization specifcs for the type of insturment.
+
+        Args:
+            configuration (dict, optional): _description_. Defaults to None.
+        """
+        self.parameters = {'sequence': ""
+                           }
         
-#         return
-
-
-#     # Writing and Reading will be device specfic as connect types and command are all different
-#     def write(self, parameter, value):
-#         """Add functionally to change the `parameter` to `value` on the 
-#             instrument.
-
-#         Args:
-#             parameter (_type_): _description_
-#             value (_type_): _description_
-#         """
-#         return
-
-#     def read(self, parameter, value):
-#         """Add functionally to read the value of `parameter` from the instrument.
-
-#         Args:
-#             parameter (_type_): _description_
-#             value (_type_): _description_
-#         """
-#         return
-
-#     def close_instrument(self) -> None:
+        self.latent_parameters = {'IPaddress': '127.0.0.1'} 
         
-#         return
+        super.__init__(configuration)
+        
+        return
 
 
-# # end Instrument class
+    # Writing and Reading will be device specfic as connect types and command are all different
+    def write(self, parameter, value):
+        """Add functionally to change the `parameter` to `value` on the 
+            instrument.
+
+        Args:
+            parameter (_type_): _description_
+            value (_type_): _description_
+        """
+        return
+
+    def read(self, parameter, value):
+        """Add functionally to read the value of `parameter` from the instrument.
+
+        Args:
+            parameter (_type_): _description_
+            value (_type_): _description_
+        """
+        return
+
+    def close_instrument(self) -> None:
+        
+        return
+
+
+# end Instrument class
 
 
 def convert_to_swab(pattern):
@@ -70,6 +79,11 @@ laser = [[6,0], [20,1], [0,0]]
 mw = [[5+t, 0], [1,1], [20-t, 0]] 
 read = [[6.3, 0], [1,1], [9, 0], [1,1], [0,0]]
 
+## also have types in Swabian Style
+laser_type_swab = [None, 'laser', None]
+mw_type_swab = [None, 'mw', None]
+read_type_swab = [None, 'read', None, 'read', None]
+
 ## t = sweep parm
 
 def get_pulse_indices_swab(pattern_swab):
@@ -84,3 +98,5 @@ def generate_sweep(sweep_list, pattern, types, chan):
     full_sweep = np.tile(mask, (sweep_num, 1)) * sweep_list
     full_sweep_pattern = np.tile(pattern, (sweep_num,1)) + full_sweep
     return full_sweep_pattern 
+
+    
