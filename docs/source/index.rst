@@ -64,6 +64,7 @@ the `NiceGUI <https://nicegui.io/>`_ package.
    :maxdepth: 1
    :caption: Contents:
 
+   guides/quickstart
    base
    device
    engine
