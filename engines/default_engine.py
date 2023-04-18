@@ -6,12 +6,26 @@ import numpy as np
 
 @dataclass
 class abort:
+    """Used to stop all threads with keyboard input ``abort``.
+    """    
     flag = False
 
-def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Queue,
-                    parameter_holder:dict, total_depth:int, present_depth:int,
-                    abort:abort)->None:
+def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Queue, 
+                   parameter_holder:dict, total_depth:int, present_depth:int, 
+                   abort:abort)->None:
+    """Recusively step through the can collection in order that scans are listed.
+    
+    
 
+    Args:
+        scan_list (dict): _description_
+        acquisition_methods (dict): _description_
+        data_queue (queue.Queue): _description_
+        parameter_holder (dict): _description_
+        total_depth (int): _description_
+        present_depth (int): _description_
+        abort (abort): _description_
+    """    
     if present_depth == total_depth - 1:
         scan_now = scan_list[present_depth]
         for idx in scan_now['schedule']:
