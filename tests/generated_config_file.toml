@@ -1,0 +1,56 @@
+averages = 1
+
+[acquisition_devices.Daq1]
+name = "Daq2"
+device = "NIDAQ_Base"
+
+[scan_devices.SG1]
+name = "SG1"
+device = "SG380"
+
+[scan_collection.SG1-frequency]
+name = "SG1"
+device = "SG380"
+parameter = "frequency"
+min = 2000.0
+max = 4000.0
+points = 501
+repetitions = 1
+scale = "linear"
+randomize = "False"
+note = ""
+
+[acquisition_devices.Daq1.parameters]
+device_name = "Dev2"
+read_sample_rate = 1000000.0
+read_sample_rate_out = 1000.0
+read_samples_per_chan = 121.0
+reads_per_sample = 1
+read_samples_total = 121.0
+read_channels = [ "ai17",]
+
+[acquisition_devices.Daq1.latent_parameters]
+units = "volts"
+voltage_limits = 5
+terminal_type = "Differential"
+read_clock_source = "OnboardClock"
+read_active_edge = "rising_edge"
+read_sample_mode = "finite_samples"
+read_timeout = "infinite_timeout"
+read_trigger_channel = "PFI0"
+read_fill_mode = "by_channel"
+
+[acquisition_devices.Daq1.preparations]
+read = [ "analog_input",]
+read_method = "analog_input"
+
+[scan_devices.SG1.parameters]
+frequency = 2800.0
+phase = 0
+amplitude = 0.0
+modulation_enabled = false
+modulation_type = "IQ"
+modulation_function = "External"
+
+[scan_devices.SG1.latent_parameters]
+GPIB = "27"
