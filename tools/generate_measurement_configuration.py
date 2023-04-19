@@ -1,3 +1,7 @@
+import sys
+sys.path.insert(0,'C:\\baecon')
+
+
 import baecon as bc
 
 def main():

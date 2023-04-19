@@ -12,27 +12,27 @@ device = "SG380"
 name = "SG1"
 device = "SG380"
 parameter = "frequency"
-minimum = 1
-maximum = 2
-points = 10
+min = 2000.0
+max = 4000.0
+points = 501
 repetitions = 1
 scale = "linear"
 randomize = "False"
 note = ""
 
 [acquisition_devices.Daq1.parameters]
-device_name = "Dev1"
-read_sample_rate = 50000.0
+device_name = "Dev2"
+read_sample_rate = 1000000.0
 read_sample_rate_out = 1000.0
-read_samples_per_chan = 10000.0
+read_samples_per_chan = 121.0
 reads_per_sample = 1
-read_samples_total = 10000.0
-read_channels = [ "ai1",]
+read_samples_total = 121.0
+read_channels = [ "ai17",]
 
 [acquisition_devices.Daq1.latent_parameters]
 units = "volts"
-voltage_limits = 2
-terminal_type = "RSE"
+voltage_limits = 5
+terminal_type = "Differential"
 read_clock_source = "OnboardClock"
 read_active_edge = "rising_edge"
 read_sample_mode = "finite_samples"
@@ -53,5 +53,4 @@ modulation_type = "IQ"
 modulation_function = "External"
 
 [scan_devices.SG1.latent_parameters]
-IPaddress = "10.229.42.86"
-port = "5025"
+GPIB = "27"
