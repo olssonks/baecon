@@ -563,6 +563,65 @@ the config file and <cite>-o</cite> for the file saving the data.</p>
 </pre></div>
 </div>
 </section>
+<section id="data">
+<h2>Data<a class="headerlink" href="#data" title="Permalink to this heading">#</a></h2>
+<p>The raw data is an <code class="docutils literal notranslate"><span class="pre">xarray.Dataset</span></code> saved as a <code class="docutils literal notranslate"><span class="pre">zarr</span></code> file. For example,
+if we used the frequency scan above (1 to 2 in 10 points) and the DAQ measuring
+5 samples per frequency (instead of 1000), the <code class="docutils literal notranslate"><span class="pre">Dataset</span></code> accessing the
+data would look like</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">58</span><span class="p">]:</span> <span class="n">data</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">open_zarr</span><span class="p">(</span><span class="s1">&#39;measurement_data.zarr&#39;</span><span class="p">)</span>
+<span class="n">In</span> <span class="p">[</span><span class="mi">59</span><span class="p">]:</span> <span class="n">data</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">59</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">(</span><span class="n">frequency</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="n">Daq</span><span class="p">:</span> <span class="mi">5</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([[</span><span class="mf">0.06845721</span><span class="p">,</span> <span class="mf">0.45418917</span><span class="p">,</span> <span class="mf">0.02972986</span><span class="p">,</span> <span class="mf">0.81162959</span><span class="p">,</span> <span class="mf">0.84204303</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.95977484</span><span class="p">,</span> <span class="mf">0.38657898</span><span class="p">,</span> <span class="mf">0.74791127</span><span class="p">,</span> <span class="mf">0.18752947</span><span class="p">,</span> <span class="mf">0.3381117</span> <span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.85138632</span><span class="p">,</span> <span class="mf">0.27183962</span><span class="p">,</span> <span class="mf">0.21410397</span><span class="p">,</span> <span class="mf">0.94043282</span><span class="p">,</span> <span class="mf">0.85798746</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.56255822</span><span class="p">,</span> <span class="mf">0.88850187</span><span class="p">,</span> <span class="mf">0.33879754</span><span class="p">,</span> <span class="mf">0.32365884</span><span class="p">,</span> <span class="mf">0.29647427</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.75152129</span><span class="p">,</span> <span class="mf">0.00900204</span><span class="p">,</span> <span class="mf">0.94235881</span><span class="p">,</span> <span class="mf">0.86847581</span><span class="p">,</span> <span class="mf">0.63654923</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.43740333</span><span class="p">,</span> <span class="mf">0.49427344</span><span class="p">,</span> <span class="mf">0.72159747</span><span class="p">,</span> <span class="mf">0.94617294</span><span class="p">,</span> <span class="mf">0.29943479</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.95340883</span><span class="p">,</span> <span class="mf">0.71562499</span><span class="p">,</span> <span class="mf">0.94736602</span><span class="p">,</span> <span class="mf">0.36457894</span><span class="p">,</span> <span class="mf">0.69176947</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.21102173</span><span class="p">,</span> <span class="mf">0.32918041</span><span class="p">,</span> <span class="mf">0.24226033</span><span class="p">,</span> <span class="mf">0.64908989</span><span class="p">,</span> <span class="mf">0.1524366</span> <span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.80007326</span><span class="p">,</span> <span class="mf">0.98316083</span><span class="p">,</span> <span class="mf">0.35993896</span><span class="p">,</span> <span class="mf">0.39380294</span><span class="p">,</span> <span class="mf">0.51551403</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.65309653</span><span class="p">,</span> <span class="mf">0.48531812</span><span class="p">,</span> <span class="mf">0.77776049</span><span class="p">,</span> <span class="mf">0.73338655</span><span class="p">,</span> <span class="mf">0.12133202</span><span class="p">]])</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+<span class="o">*</span> <span class="n">frequency</span>  <span class="p">(</span><span class="n">frequency</span><span class="p">)</span> <span class="n">float64</span> <span class="mf">1.0</span> <span class="mf">1.111</span> <span class="mf">1.222</span> <span class="mf">1.333</span> <span class="o">...</span> <span class="mf">1.778</span> <span class="mf">1.889</span> <span class="mf">2.0</span>
+<span class="n">Dimensions</span> <span class="n">without</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">Daq</span>
+</pre></div>
+</div>
+<p>The data can be indexed by the <code class="docutils literal notranslate"><span class="pre">frequency</span></code> coordinates</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">60</span><span class="p">]:</span> <span class="n">data</span><span class="o">.</span><span class="n">sel</span><span class="p">({</span><span class="s1">&#39;frequency&#39;</span><span class="p">:</span><span class="mf">1.1111</span><span class="p">},</span> <span class="n">method</span><span class="o">=</span><span class="s1">&#39;nearest&#39;</span><span class="p">)</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">60</span><span class="p">]:</span>
+<span class="o">&lt;</span><span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span> <span class="p">(</span><span class="n">Daq</span><span class="p">:</span> <span class="mi">5</span><span class="p">)</span><span class="o">&gt;</span>
+<span class="n">array</span><span class="p">([</span><span class="mf">0.95977484</span><span class="p">,</span> <span class="mf">0.38657898</span><span class="p">,</span> <span class="mf">0.74791127</span><span class="p">,</span> <span class="mf">0.18752947</span><span class="p">,</span> <span class="mf">0.3381117</span> <span class="p">])</span>
+<span class="n">Coordinates</span><span class="p">:</span>
+    <span class="n">frequency</span>  <span class="n">float64</span> <span class="mf">1.111</span>
+<span class="n">Dimensions</span> <span class="n">without</span> <span class="n">coordinates</span><span class="p">:</span> <span class="n">Daq</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">method='nearest'</span></code> is useful for indexing coordinates who’s values may
+be complicated floats. The values of a coordinates can be accessed by</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">61</span><span class="p">]:</span> <span class="n">data</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;frequency&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">61</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([</span><span class="mf">1.</span>        <span class="p">,</span> <span class="mf">1.11111111</span><span class="p">,</span> <span class="mf">1.22222222</span><span class="p">,</span> <span class="mf">1.33333333</span><span class="p">,</span> <span class="mf">1.44444444</span><span class="p">,</span>
+    <span class="mf">1.55555556</span><span class="p">,</span> <span class="mf">1.66666667</span><span class="p">,</span> <span class="mf">1.77777778</span><span class="p">,</span> <span class="mf">1.88888889</span><span class="p">,</span> <span class="mf">2.</span>        <span class="p">])</span>
+</pre></div>
+</div>
+<p>And the full data can be accessed simply by</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="p">[</span><span class="mi">62</span><span class="p">]:</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span>
+<span class="n">Out</span><span class="p">[</span><span class="mi">62</span><span class="p">]:</span>
+<span class="n">array</span><span class="p">([[</span><span class="mf">0.06845721</span><span class="p">,</span> <span class="mf">0.45418917</span><span class="p">,</span> <span class="mf">0.02972986</span><span class="p">,</span> <span class="mf">0.81162959</span><span class="p">,</span> <span class="mf">0.84204303</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.95977484</span><span class="p">,</span> <span class="mf">0.38657898</span><span class="p">,</span> <span class="mf">0.74791127</span><span class="p">,</span> <span class="mf">0.18752947</span><span class="p">,</span> <span class="mf">0.3381117</span> <span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.85138632</span><span class="p">,</span> <span class="mf">0.27183962</span><span class="p">,</span> <span class="mf">0.21410397</span><span class="p">,</span> <span class="mf">0.94043282</span><span class="p">,</span> <span class="mf">0.85798746</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.56255822</span><span class="p">,</span> <span class="mf">0.88850187</span><span class="p">,</span> <span class="mf">0.33879754</span><span class="p">,</span> <span class="mf">0.32365884</span><span class="p">,</span> <span class="mf">0.29647427</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.75152129</span><span class="p">,</span> <span class="mf">0.00900204</span><span class="p">,</span> <span class="mf">0.94235881</span><span class="p">,</span> <span class="mf">0.86847581</span><span class="p">,</span> <span class="mf">0.63654923</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.43740333</span><span class="p">,</span> <span class="mf">0.49427344</span><span class="p">,</span> <span class="mf">0.72159747</span><span class="p">,</span> <span class="mf">0.94617294</span><span class="p">,</span> <span class="mf">0.29943479</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.95340883</span><span class="p">,</span> <span class="mf">0.71562499</span><span class="p">,</span> <span class="mf">0.94736602</span><span class="p">,</span> <span class="mf">0.36457894</span><span class="p">,</span> <span class="mf">0.69176947</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.21102173</span><span class="p">,</span> <span class="mf">0.32918041</span><span class="p">,</span> <span class="mf">0.24226033</span><span class="p">,</span> <span class="mf">0.64908989</span><span class="p">,</span> <span class="mf">0.1524366</span> <span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.80007326</span><span class="p">,</span> <span class="mf">0.98316083</span><span class="p">,</span> <span class="mf">0.35993896</span><span class="p">,</span> <span class="mf">0.39380294</span><span class="p">,</span> <span class="mf">0.51551403</span><span class="p">],</span>
+    <span class="p">[</span><span class="mf">0.65309653</span><span class="p">,</span> <span class="mf">0.48531812</span><span class="p">,</span> <span class="mf">0.77776049</span><span class="p">,</span> <span class="mf">0.73338655</span><span class="p">,</span> <span class="mf">0.12133202</span><span class="p">]])</span>
+</pre></div>
+</div>
+</section>
 </section>
 
 
@@ -617,6 +676,7 @@ the config file and <cite>-o</cite> for the file saving the data.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#scan-settings">Scan Settings</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measurement-generation-file">Measurement Generation File</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-measurement">Run Measurement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data">Data</a></li>
 </ul>
   </nav></div>
 

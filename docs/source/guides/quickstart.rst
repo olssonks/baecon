@@ -184,4 +184,63 @@ the config file and `-o` for the file saving the data.
 The prompt looks like: ::
 
     >> python -m run_baecon_measurement.py -c generate_config.toml -o measurement_data.zarr
+    
+    
+Data
+++++
 
+The raw data is an ``xarray.Dataset`` saved as a ``zarr`` file. For example,
+if we used the frequency scan above (1 to 2 in 10 points) and the DAQ measuring
+5 samples per frequency (instead of 1000), the ``Dataset`` accessing the 
+data would look like ::
+    
+    In [58]: data = xarray.open_zarr('measurement_data.zarr')
+    In [59]: data
+    Out[59]:
+    <xarray.DataArray (frequency: 10, Daq: 5)>
+    array([[0.06845721, 0.45418917, 0.02972986, 0.81162959, 0.84204303],
+        [0.95977484, 0.38657898, 0.74791127, 0.18752947, 0.3381117 ],
+        [0.85138632, 0.27183962, 0.21410397, 0.94043282, 0.85798746],
+        [0.56255822, 0.88850187, 0.33879754, 0.32365884, 0.29647427],
+        [0.75152129, 0.00900204, 0.94235881, 0.86847581, 0.63654923],
+        [0.43740333, 0.49427344, 0.72159747, 0.94617294, 0.29943479],
+        [0.95340883, 0.71562499, 0.94736602, 0.36457894, 0.69176947],
+        [0.21102173, 0.32918041, 0.24226033, 0.64908989, 0.1524366 ],
+        [0.80007326, 0.98316083, 0.35993896, 0.39380294, 0.51551403],
+        [0.65309653, 0.48531812, 0.77776049, 0.73338655, 0.12133202]])
+    Coordinates:
+    * frequency  (frequency) float64 1.0 1.111 1.222 1.333 ... 1.778 1.889 2.0
+    Dimensions without coordinates: Daq
+
+The data can be indexed by the ``frequency`` coordinates ::
+
+    In [60]: data.sel({'frequency':1.1111}, method='nearest')
+    Out[60]: 
+    <xarray.DataArray (Daq: 5)>
+    array([0.95977484, 0.38657898, 0.74791127, 0.18752947, 0.3381117 ])
+    Coordinates:
+        frequency  float64 1.111
+    Dimensions without coordinates: Daq
+    
+The ``method='nearest'`` is useful for indexing coordinates who's values may 
+be complicated floats. The values of a coordinates can be accessed by ::
+
+    In [61]: data.coords['frequency'].values
+    Out[61]:
+    array([1.        , 1.11111111, 1.22222222, 1.33333333, 1.44444444,
+        1.55555556, 1.66666667, 1.77777778, 1.88888889, 2.        ])
+    
+And the full data can be accessed simply by ::
+
+    In [62]: data.values
+    Out[62]:
+    array([[0.06845721, 0.45418917, 0.02972986, 0.81162959, 0.84204303],
+        [0.95977484, 0.38657898, 0.74791127, 0.18752947, 0.3381117 ],
+        [0.85138632, 0.27183962, 0.21410397, 0.94043282, 0.85798746],
+        [0.56255822, 0.88850187, 0.33879754, 0.32365884, 0.29647427],
+        [0.75152129, 0.00900204, 0.94235881, 0.86847581, 0.63654923],
+        [0.43740333, 0.49427344, 0.72159747, 0.94617294, 0.29943479],
+        [0.95340883, 0.71562499, 0.94736602, 0.36457894, 0.69176947],
+        [0.21102173, 0.32918041, 0.24226033, 0.64908989, 0.1524366 ],
+        [0.80007326, 0.98316083, 0.35993896, 0.39380294, 0.51551403],
+        [0.65309653, 0.48531812, 0.77776049, 0.73338655, 0.12133202]])
