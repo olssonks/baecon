@@ -1,5 +1,6 @@
 from baecon import Device
-
+# import gpib_ctypes
+# gpib_ctypes.gpib.gpib._load_lib('C:\\Windows\\System32\\visa32.dll')
 import pyvisa
 
 class SG380(Device):
