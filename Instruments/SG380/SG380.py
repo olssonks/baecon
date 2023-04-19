@@ -1,5 +1,6 @@
 from baecon import Device
-
+# import gpib_ctypes
+# gpib_ctypes.gpib.gpib._load_lib('C:\\Windows\\System32\\visa32.dll')
 import pyvisa
 
 class SG380(Device):
@@ -95,7 +96,7 @@ class SG380(Device):
         """    
         try:
             self.address = configuration['latent_parameters']["GPIB"]
-            rm = pyvisa.ResourceManager('@py')
+            rm = pyvisa.ResourceManager()
             device = rm.open_resource('GPIB0::'+self.address+'::INSTR')
             device.read_termination = self.latent_parameters['read_termination']
         except KeyError:
@@ -103,12 +104,12 @@ class SG380(Device):
             print("Device connection aborted.")
             return
         
-        except Exception as e:
-            if 'timeout' in str(e):
-                print('Timeout: Device not found, connection aborted.')
-            else:
-                print(f'Error: {e}')
-                print('Connection aborted.')
+        # except Exception as e:
+        #     if 'timeout' in str(e):
+        #         print('Timeout: Device not found, connection aborted.')
+        #     else:
+        #         print(f'Error: {e}')
+        #         print('Connection aborted.')
         
         return device
     
