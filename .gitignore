@@ -2,5 +2,4 @@
 GUI/nicegui_repo/nicegui
 __pycache__
 zarr/
-tests/
 *.zarr
