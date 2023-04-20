@@ -95,20 +95,13 @@ class SG380(Device):
         """    
         try:
             self.address = configuration['latent_parameters']["GPIB"]
-            rm = pyvisa.ResourceManager('@py')
-            device = rm.open_resource('GPIB0::'+self.address+'::INSTR')
+            rm = pyvisa.ResourceManager()
+            device = rm.open_resource('GPIB0::'+str(self.address)+'::INSTR')
             device.read_termination = self.latent_parameters['read_termination']
         except KeyError:
             print("GPIB Number not specified, check device configurations.")
             print("Device connection aborted.")
             return
-        
-        except Exception as e:
-            if 'timeout' in str(e):
-                print('Timeout: Device not found, connection aborted.')
-            else:
-                print(f'Error: {e}')
-                print('Connection aborted.')
         
         return device
     

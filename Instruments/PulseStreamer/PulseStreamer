@@ -2,7 +2,10 @@ from baecon import Device
 
 
 @dataclass
-class Sequence: ## Maybe different name to not be confused with PulseStreamer sequencies
+class Pulse_Sequence: ## Maybe different name to not be confused with PulseStreamer sequencies
+    channels: list
+    pulses: list
+    name: list
 
 class PulseStreamer(Device):
     def __init__(self, configuration: dict = None) -> None:
@@ -11,7 +14,10 @@ class PulseStreamer(Device):
         Args:
             configuration (dict, optional): _description_. Defaults to None.
         """
-        self.parameters = {'sequence': ""
+        self.parameters = {'sequence': "", ##sequence dataclass???
+                           'scan_channel': 0,
+                           'pulse_names': [],
+                           'shift_type': '',
                            }
         
         self.latent_parameters = {'IPaddress': '127.0.0.1'} 
@@ -44,10 +50,93 @@ class PulseStreamer(Device):
     def close_instrument(self) -> None:
         
         return
-
-
 # end Instrument class
 
+    def add_pulse(self, ps:Pulse_Sequence, 
+                channel:int, start:float, duration:float, name:str=None):
+        """Adds new pulse to the pulse sequence.
+           The pulse is specified as a tuple of form ``(start, duration)``, and
+           added to the specified ``channel``. The channle corresponds to the 
+           physical PulseStreamer channel, and not the placement in the 
+           sequence, e.g., sequence can have a channel list of [1,3,2,7] where
+           the channels in the list do not correspond to their respective index.
+
+        Args:
+            ps (Pulse_Sequence): Pulse sequence to add channel to.
+            channel (int): Physical PulseStreamer channel to at the pulse to.
+            start (float): _description_
+            duration (float): _description_
+            name (str, optional): _description_. Defaults to None.
+
+        Returns:
+            _type_: _description_
+        """    
+        if channel in ps.channels:
+            index = ps.channels.index(channel)
+            ps = self.pulse_insert(ps, index, start, duration, name)
+            self.shift_dict[self.parameters.shift_type](ps, index, 
+                                                        start, duration)
+        else:
+            ps.channels.append(channel)
+            index = len(ps.channels) - 1
+            ps = self.pulse_insert(ps, index, start, duration, name)
+            self.shift_dict[self.parameters.shift_type](ps, index, 
+                                                        start, duration)
+        return ps
+
+    def shift_all(self, ps:Pulse_Sequence, channel_index:int, 
+                    start:float, duration:float):
+        for chan_seq in ps.pulses:
+            for chan_pulse in chan_seq:
+                if chan_pulse[0]>start:
+                    chan_pulse[0] = chan_pulse[0]+duration
+        return
+    
+    def shift_current(self, ps:Pulse_Sequence, channel_index:int, 
+                    start:float, duration:float):
+        for chan_pulse in ps.pulses[channel_index]:
+            if chan_pulse[0]>start:
+                chan_pulse[0] = chan_pulse[0]+duration
+        return
+  
+    shift_dict = {'shift_all': shift_all, 'shift_current': shift_current}
+
+    def pulse_insert(self, ps:Pulse_Sequence, channel_index:int, 
+                    start:float, duration:float, name:str):
+        pulses = ps.pulses[channel_index]
+        new_pulse = (start,duration)
+        pulses.append(new_pulse)
+        pulses.sort()
+        new_index = pulses.index(new_pulse)
+        ps.names.insert(new_index, name)
+        return ps
+        
+    def scan_sequence(sefl, ps:Pulse_Sequence, 
+                      catagory:str, amount:float):
+        if catagory=='start':
+            
+        elif catagory == 'duration':
+            
+        else:
+            print(f'Unrecognized scan catagory: {catagory}. Use "start" or "duration"')
+        return
+    
+
+
+    def update_sequence(self, ps:Pulse_Sequence, channel, pulse, name):
+        start, duration = pulse
+        self.add_pulse(ps, channel, start, duration, name)
+        for chan_seq in ps.pulses:
+            for chan_pulse in chan_seq:
+                if chan_pulse[0]>start:
+                    pass             
+        return
+            
+    def set_shift_type(self, ps:Pulse_Sequence, shift_type:str):
+        ## shift start time and shift duration
+        ## both same channel and all channels
+        self.parameters.shift_type = shift_type
+        return ps
 
 def convert_to_swab(pattern):
     new_pattern = []
