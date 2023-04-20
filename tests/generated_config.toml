@@ -49,9 +49,10 @@ frequency = 2800.0
 phase = 0
 amplitude = 0.0
 modulation_enabled = false
-modulation_type = "IQ"
+modulation_type = "AM"
 modulation_function = "External"
 
 [scan_devices.SG1.latent_parameters]
-IPaddress = "10.229.42.86"
-port = "5025"
+GPIB = 27
+#IPaddress = "10.229.42.86"
+#port = "5025"
