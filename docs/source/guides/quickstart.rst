@@ -184,7 +184,6 @@ the config file and `-o` for the file saving the data.
 The prompt looks like: ::
 
     >> python -m run_baecon_measurement.py -c generate_config.toml -o measurement_data.zarr
-<<<<<<< HEAD
     
     
 Data
@@ -245,6 +244,4 @@ And the full data can be accessed simply by ::
         [0.21102173, 0.32918041, 0.24226033, 0.64908989, 0.1524366 ],
         [0.80007326, 0.98316083, 0.35993896, 0.39380294, 0.51551403],
         [0.65309653, 0.48531812, 0.77776049, 0.73338655, 0.12133202]])
-=======
 
->>>>>>> dev
