@@ -9,6 +9,8 @@
    
 '''
 
+import sys
+sys.path.insert(0,'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon')
 import baecon as bc
 
 import queue, threading, copy
@@ -47,8 +49,9 @@ def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Qu
     """    
     if present_depth == total_depth - 1:
         scan_now = scan_list[present_depth]
-        for idx in scan_now['schedule']:
-            parameter_holder[scan_now['parameter']] = idx
+        for val in scan_now['schedule']:
+            parameter_holder[scan_now['parameter']] = val
+            scan_now['device'].write(scan_now['parameter'], val)
             data = {}
             for acq_name, acq_method in list(acquisition_methods.items()):
                 data[acq_name] = acq_method.read()
@@ -186,3 +189,15 @@ def perform_measurement(ms:bc.Measurement_Settings)->bc.Measurement_Data:
         pass
     
     return meas_data
+    
+if __name__=='__main__':
+    meas_config = bc.utils.load_config("C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\generated_config.toml")
+    
+    ms = bc.make_measurement_settings(meas_config)
+    scans = ms.scan_collection
+    acq_methods = ms.acquisition_devices
+    
+    abort_flag = abort()
+    data_cue = queue.Queue()
+    for idx in np.arange(ms.averages, dtype=np.int32):
+        consecutive_measurement(scans, acq_methods, data_cue, abort)
