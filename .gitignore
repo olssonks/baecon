@@ -1,3 +1,5 @@
 .vscode
 GUI/nicegui_repo/nicegui
 __pycache__
+GUI/__pycache__
+GUI/cards/__pycache__
