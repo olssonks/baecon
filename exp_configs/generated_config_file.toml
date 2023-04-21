@@ -12,9 +12,9 @@ device = "SG380"
 name = "SG1"
 device = "SG380"
 parameter = "frequency"
-min = 1650.0
-max = 1700.0
-points = 50
+min = 1650
+max = 1700
+points = 51
 repetitions = 2
 scale = "linear"
 randomize = "False"
@@ -47,12 +47,12 @@ read_method = "analog_input"
 [scan_devices.SG1.parameters]
 frequency = 2800.0
 phase = 0
-enabled = true
 amplitude = 16.0
+enabled = true
 modulation_enabled = true
 modulation_type = "FM"
 modulation_function = "Sine"
 
 [scan_devices.SG1.latent_parameters]
-IPaddress = '10.229.62.63'
-port = '5025'
+IPaddress = "10.229.62.63"
+port = "5025"
