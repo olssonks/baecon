@@ -1,4 +1,5 @@
 from baecon import Device
+
 import pyvisa
 
 class SG380(Device):
