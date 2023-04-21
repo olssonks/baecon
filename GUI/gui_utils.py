@@ -24,6 +24,16 @@ class Plot_Settings:
     fig = ''
     plot = ''
     
+@dataclass
+class GUI_fields:
+    """The GUI objects can be bound to these attributes, eliminating the need
+       to pass values between differet cards.
+    """
+    plot: plot object
+    exp_file: str/path
+    scan_file: str/path
+    instrument_file:dict
+    data_file: str/path
 
 @dataclass
 class GUI_Measurement_Configuration:
