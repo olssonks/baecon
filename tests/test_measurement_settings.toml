@@ -1,7 +1,7 @@
 averages = 1
 
 [acquisition_devices.Daq1]
-name = "Daq1"
+name = "Daq2"
 device = "NIDAQ_Base"
 
 [scan_devices.SG1]
@@ -12,8 +12,8 @@ device = "SG380"
 name = "SG1"
 device = "SG380"
 parameter = "frequency"
-min = 1
-max = 2
+minimum = 1
+maximum = 2
 points = 10
 repetitions = 1
 scale = "linear"
