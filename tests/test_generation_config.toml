@@ -1,10 +1,10 @@
 averages = 1
 
 [acquisition_devices]
-"Daq1" = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\test_daq_config.toml"
+"Daq1" = "./tests/test_daq_config.toml"
 
 [scan_devices]
-"SG1" = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\test_sig_gen_config.toml"
+"SG1" = "./tests/test_sig_gen_config.toml"
 
 [scan_collection]
-"SG1-frequency" = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\test_scan.toml"
+"SG1-frequency" = "./tests/test_scan.toml"
