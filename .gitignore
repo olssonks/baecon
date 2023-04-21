@@ -1,6 +1,8 @@
 .vscode
 GUI/nicegui_repo/nicegui
 __pycache__
+zarr/
+*.zarr
 GUI/__pycache__
 GUI/cards/__pycache__
 zarr/
