@@ -12,7 +12,9 @@ class SG380(Device):
                            'enabled': False,
                            'modulation_enabled': False,
                            'modulation_type': 'IQ',
-                           'modulation_function': 'External'}
+                           'modulation_function': 'External',
+                           'modulation_dev': 0
+                           }
         
         self.latent_parameters = {'IPaddress': '127.0.0.1',
                                   'port': '5025',
@@ -276,6 +278,14 @@ class SG380(Device):
         message = (modulation_types[self.parameters['modulation_type']] 
                    + read_toggle + func_number)
         return message
+    
+    def mod_dev(self, value, read_toggle):
+        deviation_types = {'AM': ' ADEP', 'FM': ' FDEV', 'PM': 'PDEV', 
+                            'Sweep': 'SDEV'}
+
+        message = (deviation_types[self.parameters['modulation_type']] 
+                   + read_toggle + str(value))
+        return message
         
     
     def mod_enable(self, value, read_toggle):
@@ -319,7 +329,8 @@ class SG380(Device):
                 'enabled': status,
                 'modulation_enabled': mod_enable,
                 'modulation_type': mod_type,
-                'modulation_function': mod_function
+                'modulation_function': mod_function,
+                'modulation_dev': mod_dev
                 }
     
     # translate_dict = {'Frequency': {'command': 'FREQ','units': 'MHz',} 
