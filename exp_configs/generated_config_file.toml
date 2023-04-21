@@ -15,7 +15,7 @@ parameter = "frequency"
 min = 1650
 max = 1700
 points = 51
-repetitions = 2
+repetitions = 1
 scale = "linear"
 randomize = "False"
 note = ""
@@ -52,6 +52,7 @@ enabled = true
 modulation_enabled = true
 modulation_type = "FM"
 modulation_function = "Sine"
+modulation_dev = 1900
 
 [scan_devices.SG1.latent_parameters]
 IPaddress = "10.229.62.63"
