@@ -11,6 +11,7 @@
 
 import sys
 sys.path.insert(0,'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon')
+import time
 import baecon as bc
 
 import queue, threading, copy
@@ -52,6 +53,7 @@ def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Qu
         for val in scan_now['schedule']:
             parameter_holder[scan_now['parameter']] = val
             scan_now['device'].write(scan_now['parameter'], val)
+            time.sleep(0.5)   # Add a delay in sec before next scan
             data = {}
             for acq_name, acq_method in list(acquisition_methods.items()):
                 data[acq_name] = acq_method.read()
