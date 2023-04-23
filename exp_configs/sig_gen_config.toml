@@ -10,6 +10,8 @@ enabled = true
 modulation_enabled = true
 modulation_type = 'FM'
 modulation_function = 'Sine'
+modulation_dev = 4.5e+6
+modulation_rate = 1800
 
 [latent_parameters]
 IPaddress = '10.229.62.63'

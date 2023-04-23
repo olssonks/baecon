@@ -1,4 +1,4 @@
-averages = 1
+averages = 2
 
 [acquisition_devices]
 "Daq1" = "./exp_configs/daq_config.toml"
