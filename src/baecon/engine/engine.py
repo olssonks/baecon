@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/baecon/engine/engine.py
 """:note:
    This is the default engine. We should be able to add/import additional
    engines, like one based on OptBayes.
@@ -14,11 +15,17 @@ import copy
 import queue
 import threading
 import time
+=======
+import baecon as bc
+
+import queue, threading, copy
+>>>>>>> 3d8271fb17a1d4a84f41cfef1c4b35a015dd7a3e:Engines/default_engine.py
 from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
 
+<<<<<<< HEAD:src/baecon/engine/engine.py
 import baecon as bc
 
 
@@ -64,6 +71,34 @@ def scan_recursion(
             parameter_holder[scan_now["parameter"]] = val
             scan_now["device"].write(scan_now["parameter"], val)
             time.sleep(0.5)  # Add a delay in sec before next scan
+=======
+@dataclass
+class abort:
+    """Used to stop all threads with keyboard input ``abort``.
+    """    
+    flag = False
+
+def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Queue, 
+                   parameter_holder:dict, total_depth:int, present_depth:int, 
+                   abort:abort)->None:
+    """Recusively step through the can collection in order that scans are listed.
+    
+    
+
+    Args:
+        scan_list (dict): _description_
+        acquisition_methods (dict): _description_
+        data_queue (queue.Queue): _description_
+        parameter_holder (dict): _description_
+        total_depth (int): _description_
+        present_depth (int): _description_
+        abort (abort): _description_
+    """    
+    if present_depth == total_depth - 1:
+        scan_now = scan_list[present_depth]
+        for idx in scan_now['schedule']:
+            parameter_holder[scan_now['parameter']] = idx
+>>>>>>> 3d8271fb17a1d4a84f41cfef1c4b35a015dd7a3e:Engines/default_engine.py
             data = {}
             for acq_name, acq_method in list(acquisition_methods.items()):
                 data[acq_name] = acq_method.read()
@@ -87,6 +122,7 @@ def scan_recursion(
                 break
     return
 
+<<<<<<< HEAD:src/baecon/engine/engine.py
 
 def consecutive_measurement(
     scan_collection: dict, acquisition_devices: dict, data_queue: queue.Queue, abort: abort
@@ -136,6 +172,29 @@ def make_scan_list(scan_collection: dict) -> list:
             scan_list.append(scan)
     except KeyError:
         print("engine could not find {e} in the scan settings {scan_collection[key]}")
+=======
+def consecutive_measurement(scans, 
+                            acquisition_methods, 
+                            data_queue,
+                            abort:abort)->None:
+    
+    total_depth = len(scans)
+    current_depth = 0
+    parameter_holder = {}
+    
+    scan_list = make_scan_list(scans)
+    
+    scan_recursion(scan_list, acquisition_methods, data_queue, 
+                        parameter_holder, total_depth, current_depth,
+                        abort)
+    return
+    
+def make_scan_list(scans):
+    scan_list = []
+    for key in list(scans.keys()):
+        scan = scans[key]['scan']
+        scan_list.append(scan)
+>>>>>>> 3d8271fb17a1d4a84f41cfef1c4b35a015dd7a3e:Engines/default_engine.py
     return scan_list
 
 
@@ -156,6 +215,7 @@ def data_thread(md: bc.Measurement_Data, data_queue, abort: abort):
     while not data_done == "measurement_done":
         data_arrays = copy.deepcopy(md.data_template)
         data_done = get_scan_data(data_arrays, data_queue, data_done, abort)
+<<<<<<< HEAD:src/baecon/engine/engine.py
         if abort.flag:
             break
         if "scan_done" in data_done:
@@ -163,6 +223,16 @@ def data_thread(md: bc.Measurement_Data, data_queue, abort: abort):
                 md.data_set[f"{acq_key}_{idx}"] = data_arrays[acq_key]
             data_done = ""
             idx += 1
+=======
+        if not data_queue.empty():
+            for acq_key in list(data_arrays.keys()):
+                md.data_set[f'{acq_key}_{idx}'] = data_arrays[acq_key]
+            idx+=1
+        if abort.flag:
+                break
+        if data_done == 'scan_done':
+            data_done = ''
+>>>>>>> 3d8271fb17a1d4a84f41cfef1c4b35a015dd7a3e:Engines/default_engine.py
     abort.flag = True
     print("Measurement Done, press enter.")
     return
@@ -203,6 +273,7 @@ def perform_measurement(
 
     meas_data = bc.Measurement_Data()
     meas_data.data_template = bc.create_data_template(ms)
+<<<<<<< HEAD:src/baecon/engine/engine.py
     meas_data.assign_measurement_settings(ms)
 
     m_t = threading.Thread(
@@ -245,3 +316,14 @@ if __name__ == {"__main__", "__mp_main__"}:
     data_cue = queue.Queue()
     for _idx in np.arange(ms.averages, dtype=np.int32):
         consecutive_measurement(scans, acq_methods, data_cue, abort)
+=======
+        
+    m_t=threading.Thread(target=measure_thread, args=(ms, data_cue, abort_flag,))
+    d_t=threading.Thread(target=data_thread, args=(meas_data, data_cue, abort_flag,))
+    a_t=threading.Thread(target=abort_monitor, args=(abort_flag,))
+    m_t.start()
+    d_t.start()
+    a_t.start()
+    
+    return meas_data
+>>>>>>> 3d8271fb17a1d4a84f41cfef1c4b35a015dd7a3e:Engines/default_engine.py
