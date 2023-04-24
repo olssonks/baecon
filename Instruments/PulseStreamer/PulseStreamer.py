@@ -1,5 +1,7 @@
 from baecon import Device
 
+from dataclasses import dataclass, field
+
 
 @dataclass
 class Pulse_Sequence: ## Maybe different name to not be confused with PulseStreamer sequencies
@@ -8,9 +10,11 @@ class Pulse_Sequence: ## Maybe different name to not be confused with PulseStrea
        if start = 4us and scan is add 1,2,3, we want 5, 6, 7 to be out come
        not (4+1), (4+1+2), (4+1+2+3)
     """
-    channels: list
-    pulses: list
-    name: list
+    pulses: list = field(default_factory=list)
+    pulses_swabian: list = field(default_factory=list)
+    channels: list = field(default_factory=list)
+    names: list = field(default_factory=list)
+    
 
 class PulseStreamer(Device):
     def __init__(self, configuration: dict = None) -> None:
@@ -60,63 +64,7 @@ class PulseStreamer(Device):
         return
 # end Instrument class
 
-    def shift_all(self, ps:Pulse_Sequence, channel_index:int, 
-                    start:float, duration:float):
-        for chan_seq in ps.pulses:
-            for chan_pulse in chan_seq:
-                if chan_pulse[0]>start:
-                    chan_pulse[0] = chan_pulse[0]+duration
-        return
-    
-    def shift_current(self, ps:Pulse_Sequence, channel_index:int, 
-                    start:float, duration:float):
-        for chan_pulse in ps.pulses[channel_index]:
-            if chan_pulse[0]>start:
-                chan_pulse[0] = chan_pulse[0]+duration
-        return
-  
-    shift_dict = {'shift_all': shift_all, 'shift_current': shift_current}
-    
-    def add_pulse(self, ps:Pulse_Sequence, 
-                  channel:int, start:float, duration:float, 
-                  shift_type:str, name:str=None):
-        """Adds new pulse to the pulse sequence.
-           The pulse is specified as a tuple of form ``(start, duration)``, and
-           added to the specified ``channel``. The channle corresponds to the 
-           physical PulseStreamer channel, and not the placement in the 
-           sequence, e.g., sequence can have a channel list of [1,3,2,7] where
-           the channels in the list do not correspond to their respective index.
 
-        Args:
-            ps (Pulse_Sequence): Pulse sequence to add channel to.
-            channel (int): Physical PulseStreamer channel to at the pulse to.
-            start (float): _description_
-            duration (float): _description_
-            name (str, optional): _description_. Defaults to None.
-
-        Returns:
-            _type_: _description_
-        """    
-        if channel in ps.channels:
-            index = ps.channels.index(channel)
-            ps = self.pulse_insert(ps, index, start, duration, name)
-            shift_dict[shift_type](ps, index, start, duration)
-        else:
-            ps.channels.append(channel)
-            index = len(ps.channels) - 1
-            ps = self.pulse_insert(ps, index, start, duration, name)
-            shift_dict[shift_type](ps, index, start, duration)
-        return ps
-    
-    def pulse_insert(self, ps:Pulse_Sequence, channel_index:int, 
-                    start:float, duration:float, name:str):
-        pulses = ps.pulses[channel_index]
-        new_pulse = (start,duration)
-        pulses.append(new_pulse)
-        pulses.sort()
-        new_index = pulses.index(new_pulse)
-        ps.names.insert(new_index, name)
-        return ps
         
         write('start', val)
         scan_name
@@ -130,7 +78,7 @@ class PulseStreamer(Device):
                         if chan_pulse[0]>start:
                             chan_pulse[0] = chan_pulse[0]+val
     
-    def update_sequence(self):
+    def update_sequence(self, ):
         shift_value = 1.5
         scan_name = 'mw'
         for channel_idx, chan in enumerate(names):
@@ -214,54 +162,34 @@ class PulseStreamer(Device):
     #                 pass             
     #     return
 
-def convert_to_swab(pattern):
-    new_pattern = []
-    duration_counter = 0
-    for pulse in pattern:
-        start, length = pulse
-        start = start-duration_counter
-        p1 = (start, 0)
-        p2 = (length, 1)
-        duration_counter = start+length
-        new_pattern.extend([p1, p2])
-    if not new_pattern[-1][1] == 0:
-        new_pattern.append((0,0))
-    return new_pattern
+def convert_to_swab(sequence):
+    new_sequence = []
+    for pattern in sequence:
+        new_pattern = []
+        duration_counter = 0
+        for pulse in pattern:
+            start, length = pulse
+            start = start-duration_counter
+            p1 = (start, 0)
+            p2 = (length, 1)
+            duration_counter = start+length
+            new_pattern.extend([p1, p2])
+        if not new_pattern[-1][1] == 0:
+            new_pattern.append((0,0))
+        new_sequence.append(new_pattern)
+    return new_sequence
+
+# def get_pulse_indices_swab(pattern_swab):
+#     return [i for i, j in enumerate(pattern_swab) 
+#             if j[1] > 0]
     
-laser = [6, 20]
-mw = [5,1]
-read = [[6.3, 1], [16.3, 1]]
-
-laser_type = ['laser']
-mw_type = ['mw']
-read_type = ['read', 'read'] ## maybe use sig and ref 
-
-## sweep microwave, keep total duration fixed
-
-##in Swabian style
-total = 26 ## max of sum of each chan
-laser = [[6,0], [20,1], [0,0]]
-mw = [[5+t, 0], [1,1], [20-t, 0]] 
-read = [[6.3, 0], [1,1], [9, 0], [1,1], [0,0]]
-
-## also have types in Swabian Style
-laser_type_swab = [None, 'laser', None]
-mw_type_swab = [None, 'mw', None]
-read_type_swab = [None, 'read', None, 'read', None]
-
-## t = sweep parm
-
-def get_pulse_indices_swab(pattern_swab):
-    return [i for i, j in enumerate(pattern_swab) 
-            if j[1] > 0]
-    
-def generate_sweep(sweep_list, pattern, types, chan):
-    indices = get_pulse_indices_swab(pattern)
-    mask = np.zeros(len(pattern))
-    mask[indices] = 1
-    sweep_num = len(sweep_list)
-    full_sweep = np.tile(mask, (sweep_num, 1)) * sweep_list
-    full_sweep_pattern = np.tile(pattern, (sweep_num,1)) + full_sweep
-    return full_sweep_pattern 
+# def generate_sweep(sweep_list, pattern, types, chan):
+#     indices = get_pulse_indices_swab(pattern)
+#     mask = np.zeros(len(pattern))
+#     mask[indices] = 1
+#     sweep_num = len(sweep_list)
+#     full_sweep = np.tile(mask, (sweep_num, 1)) * sweep_list
+#     full_sweep_pattern = np.tile(pattern, (sweep_num,1)) + full_sweep
+#     return full_sweep_pattern 
 
     

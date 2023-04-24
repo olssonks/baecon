@@ -18,50 +18,58 @@ class Pulse_Sequence: ## Maybe different name to not be confused with PulseStrea
        if start = 4us and scan is add 1,2,3, we want 5, 6, 7 to be out come
        not (4+1), (4+1+2), (4+1+2+3)
     """
-    channels: list
-    pulses: list
-    name: list
+    pulses: list = field(default_factory=list)
+    pulses_swabian: list = field(default_factory=list)
+    channels: list = field(default_factory=list)
+    names: list = field(default_factory=list)
  
 @dataclass
 class PulseStreamer_GUI_holder:
-    channel
-    ps_output
-    shift_type
-    pulse_number
-    pulse_name
-    pulse_start
-    pulse_duration
+    channel_choice = 0
+    ps_output = 'PS-0'
+    shift_type = 'no_shift'
+    pulse_number = ''
+    pulse_name = None
+    pulse_start = 0
+    pulse_duration = 0
+    chan_select_ui = ''
+    chan_select_options: list = field(default_factory=list)
 
+
+ps_gui_holder = PulseStreamer_GUI_holder()
+ps_sequence = Pulse_Sequence()
 @ui.page('/PulseStreamer')
 def PulseStreamer():
-    ps_gui_holder = PulseStreamer_GUI_holder()
-    ps_sequence = Pulse_Sequence()
     with ui.card().classes('w-full h-full'):
         with ui.column().classes('w-full h-full'):
             with ui.card().classes('w-full h-full'):
-                fig = go.FigureWidget()
+                fig = go.Figure()
                 seq_plot = ui.plotly(fig).classes('w-full h-full')
-                ui.button('Plot', on_click=plot_sequence(seq_plot, fig, pulses))
+                #ui.button('Plot', on_click=plot_sequence(seq_plot, fig, pulses))
             with ui.row().classes('w-full h-full no-wrap'):
                 with ui.card().classes('w-full h-full'):
-                    edit_channel(ps_sequence, ps_gui_holder)
+                    edit_channel_card()
                 with ui.card().classes('w-full h-full'):
-                    edit_pulse(ps_gui_holder)
+                    edit_pulse_card()
       
     return
     
-def edit_channel(ps_gui_holder):
+def edit_channel_card():
     ui.label('Edit Channel')
     with ui.column().classes('w-full h-full'):
         with ui.row().classes('w-full h-full no-wrap'):
-            ui.select(['select'], label='Chan. Number').classes('w-2/6').bind_value(ps_gui_holder, 'channel')
-            ui.select([0,1,2,3,4,5,6,7, "A0", "A1"], 
+            ps_gui_holder.chan_select_ui = ui.select([0], 
+                label='Chan. Number', on_change=update_ps_output)\
+            .classes('w-2/6').bind_value(ps_gui_holder, 'channel_choice')
+            
+            ui.select(["PS-0", "PS-1", "PS-2", "PS-3", "PS-4", 
+                       "PS-5", "PS-6", "PS-7", "PS-A0", "PS-A1"], 
                       label = 'PS Number',
-                      value=0).classes('w-2/6').bind_value(ps_gui_holder, 'ps_output')
+                      value="PS-0").classes('w-2/6').bind_value(ps_gui_holder, 'ps_output')
             ui.button("Add Channel", 
-                      on_click=add_channel(ps_gui_holder)).classes('w-1/6')
+                      on_click=add_channel_button).classes('w-1/6')
             ui.button("Remove Channel", 
-                      on_click=remove_channel(ps_gui_holder)).classes('w-1/6')
+                      on_click=remove_channel).classes('w-1/6')
         
         ui.radio({'no_shift': 'No Shift', 
                 'shift_channel': 'Shift in Channel',
@@ -69,35 +77,56 @@ def edit_channel(ps_gui_holder):
                  value='no_shift').bind_value(ps_gui_holder,'shift_type')
     return
 
+def add_channel_button():
+    add_channel()
+    ps_gui_holder.chan_select_ui.options = ps_gui_holder.chan_select_options
+    ps_gui_holder.chan_select_ui.update()
+    return
     
-def edit_pulse_card(ps:Pulse_Sequence, 
-                    holder: PulseStreamer_GUI_holder):
+def add_channel():
+    if not ps_gui_holder.ps_output in ps_sequence.channels:
+        ps_sequence.channels.append(ps_gui_holder.ps_output)
+        ps_gui_holder.chan_select_options = [i for i in range(len(ps_sequence.channels))]
+        ps_gui_holder.channel_choice = ps_gui_holder.chan_select_options[-1]
+        print(ps_gui_holder.chan_select_options)
+    return
+    
+def remove_channel():
+    return
+    
+def update_ps_output():
+    ## if statement avoids errors with the initial blank values of ps_gui_holder
+    if not ps_sequence.channels == []:
+        ps_gui_holder.ps_output = ps_sequence.channels[ps_gui_holder.channel_choice]
+        ps_gui_holder.chan_select_ui.update()
+    return
+    
+def edit_pulse_card():
     ui.label('Edit Pulse')
     with ui.column().classes('w-full h-full'):
         with ui.row().classes('w-full h-full no-wrap'):
-            ui.select(['select'], label='Pulse').classes('w-1/3').bind_value(holder, 'pulse_number')
+            ui.select(['select'], label='Pulse').classes('w-1/3').bind_value(ps_gui_holder, 'pulse_number')
             ui.input('Name').classes('w-1/3').bind_value(ps_gui_holder, 'pulse_name')
-            ui.button("Add Pulse", on_click=add_pulse_button(ps, holder)).classes('w-1/6')
+            ui.button("Add Pulse", on_click=add_pulse_button).classes('w-1/6')
             ui.button("Remove Pulse").classes('w-1/6')
         with ui.column().classes('w-full h-full'):
             with ui.row().classes('w-full h-full no-wrap items-center'):
                 ui.label('Start Time:').classes('w-1/5')
-                ui.input('time').classes('w-2/5').bind_value(holder, 'pulse_start')
+                ui.input('time (us)').classes('w-2/5').bind_value(ps_gui_holder, 'pulse_start')
                 ui.label('Actual Time').classes('w-2/5')
             with ui.row().classes('w-full h-full no-wrap items-center'):
                 ui.label('Pulse Duration:').classes('w-1/5')
-                ui.input('duration').classes('w-2/5').bind_value(holder, 'pulse_duration')
+                ui.input('duration (us)').classes('w-2/5').bind_value(ps_gui_holder, 'pulse_duration')
                 ui.label('Actual Time').classes('w-2/5')
     return
         
-def add_pulse_button(ps:Pulse_Sequence, 
-                     holder: PulseStreamer_GUI_holder):
-    add_pulse(ps, ps_gui_holder.channel, holder.pulse_start, 
-              holder.pulse_duration, holder.shift_type, holder.pulse_name)
+def add_pulse_button():
+    add_pulse(ps_sequence, ps_gui_holder.channel_choice, ps_gui_holder.pulse_start, 
+              ps_gui_holder.pulse_duration, ps_gui_holder.shift_type, ps_gui_holder.pulse_name)
+    print()
     return
     
-def remove_pulse_button(s:Pulse_Sequence, 
-                        holder: PulseStreamer_GUI_holder):
+def remove_pulse_button():
     return
 
 def add_pulse(ps:Pulse_Sequence, 
@@ -131,7 +160,7 @@ def add_pulse(ps:Pulse_Sequence,
         shift_dict[shift_type](ps, index, start, duration)
     return ps
 
-def pulse_insert(self, ps:Pulse_Sequence, channel_index:int, 
+def pulse_insert(ps:Pulse_Sequence, channel_index:int, 
                 start:float, duration:float, name:str):
     pulses = ps.pulses[channel_index]
     new_pulse = (start,duration)
@@ -161,8 +190,8 @@ def shift_current(ps:Pulse_Sequence, channel_index:int,
 shift_dict = {'shift_all': shift_all, 'shift_current': shift_current}
 
 
-with ui.card():
-        ui.button('Open').props('href="/PulseStreamer" target="_blank" ')
-                    
+#with ui.card():
+        # ui.button('Open').props('href="/PulseStreamer" target="_blank" ')
+PulseStreamer()
 ui.run(port=8666)
 
