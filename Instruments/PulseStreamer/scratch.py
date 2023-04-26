@@ -165,121 +165,163 @@
 # # mw = [[5+t, 0], [1,1], [20, 0]] 
 # # read = [[6.3+t, 0], [1,1], [9, 0], [1,1], [0,0]]
 
-# import plotly.graph_objects as go
+import plotly.graph_objects as go
 
-# import numpy as np
-# from nicegui import ui
+import numpy as np
+from nicegui import ui
 
-# def convert_to_swab(sequence):
-#     new_sequence = []
-#     for pattern in sequence:
-#         new_pattern = []
-#         duration_counter = 0
-#         for pulse in pattern:
-#             start, length = pulse
-#             start = start-duration_counter
-#             p1 = (start, 0)
-#             p2 = (length, 1)
-#             duration_counter = start+length
-#             new_pattern.extend([p1, p2])
-#         if not new_pattern[-1][1] == 0:
-#             new_pattern.append((0,0))
-#         new_sequence.append(new_pattern)
-#     return new_sequence
+def convert_to_swab(sequence):
+    new_sequence = []
+    for pattern in sequence:
+        new_pattern = []
+        duration_counter = 0
+        for pulse in pattern:
+            start, length = pulse
+            start = start-duration_counter
+            p1 = (start, 0)
+            p2 = (length, 1)
+            duration_counter = start+length
+            new_pattern.extend([p1, p2])
+        if not new_pattern[-1][1] == 0:
+            new_pattern.append((0,0))
+        new_sequence.append(new_pattern)
+    return new_sequence
     
     
-# laser = [[6, 20]]
-# mw = [[5,1]]
-# read = [[6.3, 1], [16.3, 1]]
+laser = [[6, 20]]
+mw = [[5,1]]
+read = [[6.3, 1], [16.3, 1]]
 
-# pulses = [laser, mw, read]
-# sequence = convert_to_swab(pulses)
-# print(pulses)
+pulses = [laser, mw, read]
+sequence = pulses #convert_to_swab(pulses)
+print(pulses)
 
-# def sequence_duration(sequence):
-#     durations = []
-#     t = 0
-#     for chan in sequence:
-#         t = 0
-#         for pulse in chan:
-#             t+=pulse[0]
-#         durations.append(t)
-#     return max(durations)
+def sequence_duration(sequence):
+    durations = []
+    for chan in sequence:
+        for pulse in chan:
+            t=pulse[0] + pulse[1]
+            durations.append(t)
+    return max(durations)
     
-# seq_duration = sequence_duration(sequence)
+seq_duration = sequence_duration(sequence)
 
-# plot_seq = np.zeros((len(sequence), seq_duration*1000))
-# seq_points = np.arange(0, seq_duration, 0.001)
-
-# # for c_idx, chan in enumerate(sequence):
-# #     for p_idx, pulse in enumerate(chan):
-# #         plot_seq[c_idx, 
-# #                 int(pulse[0]*1000):int((pulse[0]+pulse[1])*1000)] = 1
-# #         plot_seq[c_idx] = plot_seq[c_idx] + c_idx*1.1
-# #         fig.add_trace(go.Scatter(x=seq_points, y=plot_seq))
-
-
-
+plot_seq = np.zeros((len(sequence), seq_duration*1000))
+seq_points = np.arange(0, seq_duration, 0.001)
 
 # for c_idx, chan in enumerate(sequence):
-#     start = 0
 #     for p_idx, pulse in enumerate(chan):
-#         end = start + int(pulse[0])*1000
-#         plot_seq[c_idx, int(start):end] = pulse[1]*0.75
-#         start=end
-#     plot_seq[c_idx] += 1.15*c_idx
+#         plot_seq[c_idx, 
+#                 int(pulse[0]*1000):int((pulse[0]+pulse[1])*1000)] = 1
+#         plot_seq[c_idx] = plot_seq[c_idx] + c_idx*1.1
+#         fig.add_trace(go.Scatter(x=seq_points, y=plot_seq))
+
+
+
+
+for c_idx, chan in enumerate(sequence):
+    for p_idx, pulse in enumerate(chan):
+        start = int(pulse[0])*1000
+        dur   = int(pulse[1])*1000
+        plot_seq[c_idx, start:start+dur] = 1*0.75
+    plot_seq[c_idx] += 1.15*c_idx
         
         
-# fig_data =[]
-# for idx, seq in enumerate(plot_seq):
-#     fig_data.append({'type': 'scatter', 'name': f'Chan-{idx}', 
-#                      'x': seq_points, 'y': seq})
+fig_data =[]
+for idx, seq in enumerate(plot_seq):
+    fig_data.append({'type': 'scatter', 'name': f'Chan-{idx}', 
+                     'x': seq_points, 'y': seq})
 
-# fig = {
-#     'data': fig_data,
-#     'layout': {
-#         'margin': {'l': 30, 'r': 0, 't': 0, 'b': 30},
-#         'plot_bgcolor': '#E5ECF6',
-#         'xaxis': {'gridcolor': 'white'},
-#         'yaxis': {'visible':False, 'gridcolor': 'white'},
-#     },
-# }
-# ui.plotly(fig).classes('w-full h-full')
+annotes = {
+'x':5.0, 'y':1.15, 'xref':'x', 'yref':'x', 'text': 'rabi<br>duration', 
+'showarrow':False,'ax':0, 'ay':0, 'align':'left', 'font': {'size':14, 'color':'#000000'},
+'bgcolor': '#ffffff90', 'xanchor': 'right', 'yanchor':'bottom'
+}
 
-# # import numpy as np
-# # from matplotlib import pyplot as plt
-# # from nicegui import ui
+fig = {
+    'data': fig_data,
+    'layout': {
+        'margin': {'l': 30, 'r': 0, 't': 0, 'b': 30},
+        'plot_bgcolor': '#E5ECF6',
+        'xaxis': {'gridcolor': 'white'},
+        'yaxis': {'visible':False, 'gridcolor': 'white'},
+        'annotations': [annotes],
+    },
+}
+plot = ui.plotly(fig).classes('w-full h-full')
 
-# # with ui.pyplot(figsize=(6, 6)):
-# #     x = seq_points
-# #     plt.plot(x, plot_seq[0], '-')
-# #     plt.plot(x, plot_seq[1], '-')
-# #     plt.plot(x, plot_seq[2], '-')
+def update_plot():
+    read = [[np.random.randint(0,20),3]]
+    pulses = [laser, mw, read]
+    sequence = pulses
+    seq_duration = sequence_duration(sequence)
 
-from nicegui import ui
-from dataclasses import dataclass, field
-
-@dataclass
-class dropdown:
-    vals: list = field(default_factory=list)
-
-@dataclass
-class new_val:
-    num: int = 0
-
-a = dropdown()
-b = new_val()
-
-def add():
-    a.vals.append(b.num)
-    b.num+=1
-    sel._update_options()
-    print([i for i in range(len(a.vals))])
+    plot_seq = np.zeros((len(sequence), seq_duration*1000))
+    seq_points = np.arange(0, seq_duration, 0.001)
+    
+    for c_idx, chan in enumerate(sequence):
+        for p_idx, pulse in enumerate(chan):
+            start = int(pulse[0])*1000
+            dur   = int(pulse[1])*1000
+            plot_seq[c_idx, start:start+dur] = 1*0.75
+    plot_seq[c_idx] += 1.15*c_idx
+            
+    fig_data =[]
+    for idx, seq in enumerate(plot_seq):
+        fig_data.append({'type': 'scatter', 'name': f'Chan-{idx}', 
+                        'x': seq_points, 'y': seq})
+    
+    fig = {
+    'data': fig_data,
+    'layout': {
+        'margin': {'l': 30, 'r': 0, 't': 0, 'b': 30},
+        'plot_bgcolor': '#E5ECF6',
+        'xaxis': {'gridcolor': 'white'},
+        'yaxis': {'visible':False, 'gridcolor': 'white'},
+    },
+    }
+    plot.figure['data'] = []
+    plot.figure['annotaionts'] = [{}]
+    ui.update(plot)
+    print(seq)
     return
 
+ui.button('add data', on_click = update_plot)
 
-sel = ui.select('')
-ui.button('add', on_click=add)
+# import numpy as np
+# from matplotlib import pyplot as plt
+# from nicegui import ui
+
+# with ui.pyplot(figsize=(6, 6)):
+#     x = seq_points
+#     plt.plot(x, plot_seq[0], '-')
+#     plt.plot(x, plot_seq[1], '-')
+#     plt.plot(x, plot_seq[2], '-')
+
+# from nicegui import ui
+# from dataclasses import dataclass, field
+
+# @dataclass
+# class dropdown:
+#     vals: list = field(default_factory=list)
+
+# @dataclass
+# class new_val:
+#     num: int = 0
+
+# a = dropdown()
+# b = new_val()
+
+# def add():
+#     a.vals.append(b.num)
+#     b.num+=1
+#     sel._update_options()
+#     print([i for i in range(len(a.vals))])
+#     return
+
+
+# sel = ui.select('')
+# ui.button('add', on_click=add)
 
 
 
