@@ -1,7 +1,9 @@
 from baecon import Device
 
 from dataclasses import dataclass, field
+import numpy as np
 
+from pulsestreamer import PulseStreamer
 
 @dataclass
 class Pulse_Sequence: ## Maybe different name to not be confused with PulseStreamer sequencies
@@ -10,10 +12,11 @@ class Pulse_Sequence: ## Maybe different name to not be confused with PulseStrea
        if start = 4us and scan is add 1,2,3, we want 5, 6, 7 to be out come
        not (4+1), (4+1+2), (4+1+2+3)
     """
+    ps_output: list = field(default_factory=list)
     pulses: list = field(default_factory=list)
     pulses_swabian: list = field(default_factory=list)
-    channels: list = field(default_factory=list)
-    names: list = field(default_factory=list)
+    types: list = field(default_factory=list)
+    types_swabian: list = field(default_factory=list)
     
 
 class PulseStreamer(Device):
@@ -23,21 +26,24 @@ class PulseStreamer(Device):
         Args:
             configuration (dict, optional): _description_. Defaults to None.
         """
-        self.parameters = {'sequence': "", ##sequence dataclass???
-                           'scan_channel': 0,
-                           'pulse_names': [],
-                           'name_to_scan': ''
-                           'scan_catagory': '',
-                           'scan_shift': ''
+        self.parameters = {'sequence': {}, ##sequence dataclass???
+                           'name_to_scan': 'pi/2',
+                           'scan_catagory': 'start',
+                           'scan_shift': 'no_shift',
                            'add_time': True
                            }
         
         self.latent_parameters = {'IPaddress': '127.0.0.1'} 
         
+        self.device = self.connect_to_device()
+        
         super.__init__(configuration)
         
         return
 
+    def connect_to_device(self):
+        ps = PulseStreamer(self.latent_parameters['IPaddress'])
+        return ps
 
     # Writing and Reading will be device specfic as connect types and command are all different
     def write(self, parameter, value):
@@ -78,32 +84,53 @@ class PulseStreamer(Device):
                         if chan_pulse[0]>start:
                             chan_pulse[0] = chan_pulse[0]+val
     
-    def update_sequence(self, ):
-        shift_value = 1.5
-        scan_name = 'mw'
-        for channel_idx, chan in enumerate(names):
-            for name_idx, name in enumerate(chan):
-                if name == scan_name:
-                    shift_pulses(scan_type, names, pulses, 
-                    channel_idx, name_idx, shift_value)
+    From Gui we get 
+    Pulse_Sequence
+    pulses
+    types
+    ps_outputs
+    pulses_swabian
+    types_swabian
+    
+    write start
+        find pulses by name
+        add to and update sequence
+        
+    
+    def update_pulses(self, scan_category, shift_value):
+        for channel_idx, chan in enumerate(self.parameters['sequence']\
+                                           ['ps_output']):
+            for name_idx, name in enumerate(self.parameters['sequence']\
+                                            ['types_swabian'][channel_idx]):
+                if name == self.parameters['name_to_scan']:
+                    self.shift_pulses(
+                        scan_category, 
+                        self.parameters['sequence']['types_swabian'], 
+                        self.parameters['sequence']['pulses_swabian'], 
+                        channel_idx, name_idx, shift_value
+                        )
+                    
         return
         
-    def shift_pulses():
-        if no_shift:
-            scan_no_shift(scan_type, names, pulses, 
+    def shift_pulses(self, scan_category, types, pulses, 
+                     channel_idx, name_idx, shift_value):
+        if self.parameters['scan_shift'] == 'no_shift':
+           new_pulses = self.scan_no_shift(scan_category, types, pulses, 
                         channel_idx, name_idx, shift_value)
-        elif shift_channel:
-            scan_shift_channel(scan_type, names, pulses, 
+        elif self.parameters['scan_shift'] == 'shift_channel':
+            new_pulses = self.scan_shift_channel(scan_category, types, pulses, 
                         channel_idx, name_idx, shift_value)
-        else shift_all:
-            scan_shift_all(scan_type, names, pulses, 
+        elif self.parameters['scan_shift'] == 'shift_all':
+           new_pulses =  self.scan_shift_all(scan_category, names, pulses, 
                         channel_idx, name_idx, shift_value)
-        return
+        else:
+            print(f"Unrecognized shift type: {self.parameters['scan_shift']}")
+        return new_pulses
         
-    def scan_shift_all(self, scan_type, names, pulses, 
-                   channel_idx, name_idx, shift_value):
-        if scan_type=='duration':
-            if add_time:
+    def scan_shift_all(self, scan_category:str, types, pulses:list, 
+                   channel_idx:int, name_idx:int, shift_value:int):
+        if scan_category=='duration':
+            if self.parameters['add_time']:
                 pulses[channel_idx][name_idx][0] += shift_value
             else:
                 original_dur = pulses[channel_idx][name_idx-1][0]
@@ -112,8 +139,8 @@ class PulseStreamer(Device):
             ## shift the index 1 to use it to check other pulse start
             if pulses[channel_idx][name_idx-1:name_idx] == []:
                 name_idx += 1
-        elif scan_type == 'start':
-            if add_time:
+        elif scan_category == 'start':
+            if self.parameters['add_time']:
                 pulses[channel_idx][name_idx][0] += shift_value
                 shift_for_other_pulses = shift_value
             else:
@@ -121,35 +148,61 @@ class PulseStreamer(Device):
                 pulses[channel_idx][name_idx][0] = shift_value
                 shift_for_other_pulses = original_start - shift_value
         else:
-            print(f'{scan_type} not recognized, us "start" or "duration"')
+            print(f'{scan_category} not recognized, us "start" or "duration"')
         ## looking at the other channels to shift the pulse that occurs 
         ## before the scanned pulse, then break since only one shift per 
         ## channel is need
-        for other_chan in names: 
+        for other_chan in types: 
             if not other_chan==channel_idx:
                 for other_pulse in other_chan:
                     if other_pulse[0] > pulses[channel_idx][name_idx]:
                         other_pulse[0] += shift_for_other_pulses
                         break
-        return
+        return pulses
     
-    def scan_shift_channel(self, scan_type, names, pulses, 
+    def scan_shift_channel(self, scan_category, names, pulses, 
                         channel_idx, name_idx, shift_value):
-        if add_time:
+        if self.parameters['add_time']:
             pulses[channel_idx][name_idx][0] += shift_value
         else:
             pulses[channel_idx][name_idx][0] = shift_value
         return
-    
-    def scan_sequence(sefl, ps:Pulse_Sequence, 
-                      catagory:str, amount:float):
-        if catagory=='start':
-            
-        elif catagory == 'duration':
-            
+        
+    def scan_no_shift(scan_category, names, pulses, 
+                    channel_idx, name_idx, shift_value):
+        if scan_category == 'duration':
+            if self.parameters['add_time']:
+                pulses[channel_idx][name_idx][0] += shift_value
+            else:
+                original_dur = pulses[channel_idx][name_idx][0]
+                pulses[channel_idx][name_idx][0] = shift_value
+            if not pulses[channel_idx][name_idx:name_idx+1] in [[], [0,0]]:
+                pulses[channel_idx][name_idx+1] += original_dur - shift_value
+        
+        elif scan_category == 'start':
+            if self.parameters['add_time']:
+                if pulses[channel_idx][name_idx-1:name_idx] in [[],[0,0]]:
+                    print(f'Pulse {pulses[channel_idx][name_idx]} in channel {channel_idx} cannot shift start time without a pulse before it.')
+                    ## if not prior pulse, do nothing
+                else:
+                    original_start = pulses[channel_idx][name_idx-1][0]
+                    pulses[channel_idx][name_idx-1][0] = shift_value
+            if not pulses[channel_idx][name_idx:name_idx+1] in [[], [0,0]]:
+                pulses[channel_idx][name_idx+1] =+ original_start - shift_value
         else:
-            print(f'Unrecognized scan catagory: {catagory}. Use "start" or "duration"')
+            print(f'{scan_category} not recognized, us "start" or "duration"')
+            
         return
+    
+    # def scan_sequence(sefl, ps:Pulse_Sequence, 
+    #                   catagory:str, amount:float):
+    #     if catagory=='start':
+            
+    #     elif catagory == 'duration':
+            
+    #     else:
+    #         print(f'Unrecognized scan catagory: {catagory}. Use "start" or "duration"')
+    #     return
     
 
     # Not needed ??

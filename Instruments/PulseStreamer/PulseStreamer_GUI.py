@@ -8,7 +8,7 @@ from dataclasses import dataclass, field
 import sys
 sys.path.insert(0,'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon')
 
-ui.colors(primary='#485696', secondary='#E7E7E7', accent='#FC7A1E', positive='#53B689')
+gui_colors = ui.colors(primary='#485696', secondary='#E7E7E7', accent='#FC7A1E', positive='#53B689')
 
 import GUI.gui_utils as gui_utils
 import baecon as bc
@@ -20,10 +20,11 @@ class Pulse_Sequence: ## Maybe different name to not be confused with PulseStrea
        if start = 4us and scan is add 1,2,3, we want 5, 6, 7 to be out come
        not (4+1), (4+1+2), (4+1+2+3)
     """
+    ps_output: list = field(default_factory=list)
     pulses: list = field(default_factory=list)
     pulses_swabian: list = field(default_factory=list)
-    ps_output: list = field(default_factory=list)
     types: list = field(default_factory=list)
+    types_swabian: list = field(default_factory=list)
  
 @dataclass
 class PulseStreamer_GUI_holder:
@@ -43,10 +44,10 @@ class PulseStreamer_GUI_holder:
     seq_plot = ''
 
 
-ps_gui_holder = PulseStreamer_GUI_holder()
-ps_sequence = Pulse_Sequence()
+
 @ui.page('/PulseStreamer')
 def PulseStreamer():
+    ui.colors(primary='#485696', secondary='#E7E7E7', accent='#FC7A1E', positive='#53B689')
     with ui.card().classes('w-full h-full'):
         with ui.column().classes('w-full h-full'):
             with ui.card().classes('w-full h-full'):
@@ -107,6 +108,7 @@ def add_channel():
         ps_sequence.types.append([])
         ps_gui_holder.chan_select_options = [i for i in range(len(ps_sequence.ps_output))]
         ps_gui_holder.channel_choice = ps_gui_holder.chan_select_options[-1]
+        plot_sequence()
     return
     
 def remove_channel_button():
@@ -312,12 +314,12 @@ def plot_data(ps_sequence:Pulse_Sequence):
         'layout': {
             'margin': {'l': 30, 'r': 0, 't': 0, 'b': 30},
             'plot_bgcolor': '#E5ECF6',
-            'xaxis': {'gridcolor': 'white'},
+            'showlegend': True,
+            'xaxis': {'gridcolor': 'white', 'title': {'text': 'Time (us)'}},
             'yaxis': {'visible':False, 'gridcolor': 'white'},
             'annotations': annotations,
         },
     }
-    #ui.plotly(fig).classes('w-full h-full') 
     return fig
 
 def make_plot_traces(sequence_to_plot, sequence_time_steps):   
@@ -345,6 +347,9 @@ def make_plot_data(sequence:list):
 def sequence_duration(sequence):
     durations = []
     for chan in sequence:
+        ## default length is 10 us
+        if chan == []:
+            durations.append(10)
         for pulse in chan:
             t=pulse[0] + pulse[1]
             durations.append(t)
@@ -383,7 +388,10 @@ def plot_pulse_times(ps_sequence:Pulse_Sequence,
                 })
     return time_annotations
 
-#with ui.card():
-        # ui.button('Open').props('href="/PulseStreamer" target="_blank" ')
-PulseStreamer()
+with ui.card():
+    ps_gui_holder = PulseStreamer_GUI_holder()
+    ps_sequence = Pulse_Sequence()
+    ui.button('Open').props('href="/PulseStreamer" target="_blank" ')
+
+#PulseStreamer()
 ui.run(port=8666)
