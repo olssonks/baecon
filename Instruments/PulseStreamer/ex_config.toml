@@ -1,0 +1,14 @@
+[parameters]
+name_to_scan  = 'scan'
+scan_catagory = 'start'
+scan_shift    = 'no_shift'
+add_time      = true
+
+[parameters.sequence]
+ps_output      = []
+pulses         = []
+pulses_swabian = []
+types          = []
+
+[latent_parameters]
+IPaddress = '127.0.0.1'
