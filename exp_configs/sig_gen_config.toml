@@ -1,0 +1,21 @@
+name = "SG1"
+
+device = "SG380"
+
+[parameters]
+frequency = 2.8e3
+phase = 0
+amplitude = 16.0
+enabled = true
+modulation_enabled = true
+modulation_type = 'FM'
+modulation_function = 'Sine'
+modulation_dev = 4.5e+6
+modulation_rate = 1800
+
+[latent_parameters]
+IPaddress = '10.229.62.63'
+port = '5025'
+
+## Alternatively use GPIB
+# GPIB = '27'

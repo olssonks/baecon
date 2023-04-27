@@ -1,0 +1,10 @@
+averages = 2
+
+[acquisition_devices]
+"Daq1" = "./exp_configs/daq_config.toml"
+
+[scan_devices]
+"SG1" = "./exp_configs/sig_gen_config.toml"
+
+[scan_collection]
+"SG1-frequency" = "./exp_configs/scan.toml"

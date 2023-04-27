@@ -11,11 +11,14 @@
 
 import sys
 sys.path.insert(0,'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon')
+import time
 import baecon as bc
 
 import queue, threading, copy
 from dataclasses import dataclass
 import numpy as np
+
+import time
 
 @dataclass
 class abort:
@@ -52,6 +55,7 @@ def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Qu
         for val in scan_now['schedule']:
             parameter_holder[scan_now['parameter']] = val
             scan_now['device'].write(scan_now['parameter'], val)
+            time.sleep(0.5)   # Add a delay in sec before next scan
             data = {}
             for acq_name, acq_method in list(acquisition_methods.items()):
                 data[acq_name] = acq_method.read()
@@ -131,14 +135,13 @@ def data_thread(md:bc.Measurement_Data, data_queue, abort:abort):
     while not data_done == 'measurement_done':
         data_arrays = copy.deepcopy(md.data_template)
         data_done = get_scan_data(data_arrays, data_queue, data_done, abort)
-        if not data_queue.empty():
-            for acq_key in list(data_arrays.keys()):
-                md.data_set[f'{acq_key}_{idx}'] = data_arrays[acq_key]
-            idx+=1
         if abort.flag:
                 break
-        if data_done == 'scan_done':
+        if 'scan_done' in data_done:
+            for acq_key in list(data_arrays.keys()):
+                md.data_set[f'{acq_key}_{idx}'] = data_arrays[acq_key]
             data_done = ''
+            idx+=1
     abort.flag = True
     print('Measurement Done, press enter.')
     return
