@@ -13,8 +13,11 @@ import sys
 sys.path.insert(0,'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon')
 import time
 import baecon as bc
+from nicegui import ui, app
+import plotly.graph_objects as go
 
 import queue, threading, copy
+import asyncio
 from dataclasses import dataclass
 import numpy as np
 
@@ -55,7 +58,7 @@ def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Qu
         for val in scan_now['schedule']:
             parameter_holder[scan_now['parameter']] = val
             scan_now['device'].write(scan_now['parameter'], val)
-            time.sleep(0.5)   # Add a delay in sec before next scan
+            time.sleep(0.001)   # Add a delay in sec before next scan
             data = {}
             for acq_name, acq_method in list(acquisition_methods.items()):
                 data[acq_name] = acq_method.read()
@@ -146,7 +149,7 @@ def data_thread(md:bc.Measurement_Data, data_queue, abort:abort):
     print('Measurement Done, press enter.')
     return
 
-def get_scan_data(data_arrays, data_queue, data_done, abort): 
+def get_scan_data(data_arrays, data_queue, data_done, abort):
     while not (data_done == 'scan_done' or data_done == 'measurement_done'):
         if abort.flag:
             break
@@ -172,35 +175,87 @@ def abort_monitor(abort:abort):
     return
 
 
-def perform_measurement(ms:bc.Measurement_Settings)->bc.Measurement_Data:
+def perform_measurement(ms:bc.Measurement_Settings, 
+                        md:bc.Measurement_Data)->bc.Measurement_Data:
     
     abort_flag = abort()
     data_cue = queue.Queue()
-
-    meas_data = bc.Measurement_Data()
-    meas_data.data_template = bc.create_data_template(ms)
-    meas_data.assign_measurement_settings(ms)
         
     m_t=threading.Thread(target=measure_thread, args=(ms, data_cue, abort_flag,))
-    d_t=threading.Thread(target=data_thread, args=(meas_data, data_cue, abort_flag,))
+    d_t=threading.Thread(target=data_thread, args=(md, data_cue, abort_flag,))
     a_t=threading.Thread(target=abort_monitor, args=(abort_flag,))
+    
     m_t.start()
     d_t.start()
     a_t.start()
-    
     while (m_t.is_alive() or d_t.is_alive() or a_t.is_alive()):
         pass
     
-    return meas_data
+    return
     
-if __name__=='__main__':
+def simple_plot(dataset):
+    with ui.card():
+        scatter = go.Scatter()
+        fig = go.Figure()
+        plot = ui.plotly(fig)
+
+    def update_plot():
+        x, y= get_data(dataset.data_set)
+        fig.data = []
+        fig.add_trace(go.Scatter(x=x, y=y))
+        plot.update()
+    ui.timer(0.1, update_plot)
+    ui.run(port=8666)
+    return
+    
+def get_data(data_array):
+    trimmed = data_array.dropna('frequency')
+    x = trimmed.coords['frequency'].values
+    y = trimmed.to_array().values.mean(axis=1)
+    return x, y
+
+
+def main():
+    # meas_config = bc.utils.load_config("C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\generated_config.toml")
+    
+    # ms = bc.make_measurement_settings(meas_config)
+    # scans = ms.scan_collection
+    # acq_methods = ms.acquisition_devices
+    
+    # meas_data = bc.Measurement_Data()
+    # meas_data.data_template = bc.create_data_template(ms)
+    # meas_data.assign_measurement_settings(ms)
+    
+    abort_flag = abort()
+    data_cue = queue.Queue()
+    # for idx in np.arange(ms.averages, dtype=np.int32):
+    #     consecutive_measurement(scans, acq_methods, data_cue, abort)
+    data = perform_measurement(ms,md)
+    #bc.utils.save_baecon_data(data, 'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\test_data.zarr', format='.zarr')  
+
+if __name__ in {"__main__", "__mp_main__"}:
     meas_config = bc.utils.load_config("C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\generated_config.toml")
     
     ms = bc.make_measurement_settings(meas_config)
     scans = ms.scan_collection
     acq_methods = ms.acquisition_devices
     
-    abort_flag = abort()
-    data_cue = queue.Queue()
-    for idx in np.arange(ms.averages, dtype=np.int32):
-        consecutive_measurement(scans, acq_methods, data_cue, abort)
+    md = bc.Measurement_Data()
+    md.data_template = bc.create_data_template(ms)
+    md.assign_measurement_settings(ms)
+    
+    with ui.card():
+        scatter = go.Scatter()
+        fig = go.Figure()
+        plot = ui.plotly(fig)
+
+    def update_plot():
+        x, y= get_data(md.data_set)
+        fig.data = []
+        fig.add_trace(go.Scatter(x=x, y=y))
+        plot.update()
+
+    
+    app.on_startup(main)
+    ui.timer(0.1, update_plot)
+    ui.run(port=8666)

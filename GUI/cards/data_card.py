@@ -9,16 +9,18 @@ import baecon as bc
 head_style = 'color: #37474f; font-size: 200%; font-weight: 300'
 
 def main(gui_config:gui_utils.GUI_Measurement_Configuration):
-    ui.label('Data').style(head_style)
-    with ui.row().classes('w-full no-wrap items-center'):
-        ui.input('analysis method').classes('w-full')
-        ui.button('Load')
+    with ui.row():
+        ui.label('Data').style(head_style)
+        ui.checkbox('Auto Save')
     with ui.row().classes('w-full no-wrap items-center'):
         ui.button('Save as:').classes('text-left')
         ui.input(placeholder='Data File Name').classes('w-full')
     with ui.row().classes('w-full no-wrap items-center'):
         ui.label('Data Format:')
         ui.radio(['.zarr', '.nc', '.csv'], value='.zarr').props('inline')
+    with ui.row().classes('w-full no-wrap items-center'):
+        ui.input('analysis method').classes('w-full')
+        ui.button('Load')
     return
     
 if __name__ in {"__main__", "__mp_main__"}:
@@ -26,3 +28,7 @@ if __name__ in {"__main__", "__mp_main__"}:
 
     main(gui_config)
     ui.run(port=8082)
+
+## automatic file name generator
+## "101_exp-name_date-time.zarr"
+## "date-time_exp-name.zarr"

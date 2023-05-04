@@ -1,24 +1,15 @@
-''':note:
-   This is the default engine. We should be able to add/import additional 
-   engines, like one based on OptBayes.
-
-   This engine performs the scans recursively in the order they are listed
-   in the scan_collection.
-
-   ``for i in scan1: for j in scan2: for k in scan3: ...``
-   
-'''
-
 import sys
 sys.path.insert(0,'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon')
 import time
 import baecon as bc
 
-import queue, threading, copy
-from dataclasses import dataclass
+import queue, threading, copy, asyncio
+from dataclasses import dataclass, field
 import numpy as np
+import xarray as xr
 
-import time
+from nicegui import ui, app
+import plotly.graph_objects as go
 
 @dataclass
 class abort:
@@ -26,10 +17,42 @@ class abort:
     
     """   
     flag = False
-
+    
+@dataclass
+class Measurement_Data:
+    """Data structure for handling data in ``baecon``.
+    
+    Attributes:
+        data_template (:py:mod:`xarrray.DataArray`): A template of how the data
+            will be stored for the measurement. For each full scan collection
+            a copy of the template is supplied for storing the data for that 
+            scan collection. One full scan will fill the entire array.
+        data_set (:py:mod:`xarrray.Dataset`): The full data for the measurement.
+            After a scan collection, the :py:mod:`xarrray.DataArray` is added to
+            the `data_set`. When taking multiple runs of the scan collection, i.e,
+            :py:attr:`Measurement_Settings.averages`, each average will be an 
+            :py:mod:`xarrray.DataArray` within ``data_set``. Additionally, all
+            the measurement settings are are saved as metadtata held in the 
+            attributes of `data`.
+        processed_data (:py:mod:`xarrray.Dataset`): Processed data returned from
+            :py:func:`data_from_module`.
+    Methods:
+        assign_measurement_settings (:py:class:`baecon.base.Measurement_Settings`): 
+            creates and stores ``data_template``, and stores the measurement
+            settings in ``data_set``.
+    """    
+    data_template: xr.DataArray = field(default_factory=xr.DataArray)
+    data_measurement_holder: xr.DataArray = field(default_factory=xr.DataArray)
+    data_set: xr.Dataset = field(default_factory=xr.Dataset)
+    processed_data: xr.Dataset = field(default_factory=xr.Dataset)
+    def assign_measurement_settings(self, ms:bc.Measurement_Settings)->None:
+        self.data_template = bc.create_data_template(ms)
+        settings = bc.generate_measurement_config(ms)
+        self.data_set.assign_attrs(settings)
+        
 def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Queue,
                     parameter_holder:dict, total_depth:int, present_depth:int,
-                    abort:abort)->None:
+                    abort:abort, data_arrays)->None:
     """Peforms measurement scan with supplied. 
        At each parameter all acquisiton
        deivces will be called in the order they appear in `acquisition_methods`.
@@ -55,13 +78,18 @@ def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Qu
         for val in scan_now['schedule']:
             parameter_holder[scan_now['parameter']] = val
             scan_now['device'].write(scan_now['parameter'], val)
-            time.sleep(0.5)   # Add a delay in sec before next scan
+            #time.sleep(0.5)   # Add a delay in sec before next scan
             data = {}
+            print(parameter_holder)
             for acq_name, acq_method in list(acquisition_methods.items()):
                 data[acq_name] = acq_method.read()
-            data_queue.put({'parameters': parameter_holder.copy(), 
-                            'data': data}
-            )
+            # data_queue.put({'parameters': parameter_holder.copy(), 
+            #                 'data': data}
+            # )
+            new_data = {'parameters': parameter_holder.copy(), 'data': data}
+            data = new_data['data']
+            for acq_key in list(data.keys()):
+                data_arrays[acq_key].loc[new_data['parameters']] = data[acq_key]
             if abort.flag == 'abort':
                 break
     else:
@@ -69,7 +97,7 @@ def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Qu
         for idx in scan_now['schedule']:
             parameter_holder[scan_now['parameter']] = idx
             scan_recursion(scan_list, acquisition_methods, data_queue,
-                    parameter_holder, total_depth, present_depth+1, abort)
+                    parameter_holder, total_depth, present_depth+1, abort, data_arrays)
             if abort.flag == 'abort':
                 break
     return
@@ -77,7 +105,7 @@ def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Qu
 def consecutive_measurement(scan_collection:dict, 
                             acquisition_devices:dict, 
                             data_queue:queue.Queue,
-                            abort:abort)->None:
+                            abort:abort, data_arrays)->None:
     """Performs measurement in order of scans listed in scan_collection. 
        The scan underneath will finish before the scan above moves on to the 
        next point.
@@ -96,7 +124,7 @@ def consecutive_measurement(scan_collection:dict,
     
     scan_recursion(scan_list, acquisition_devices, data_queue, 
                         parameter_holder, total_depth, current_depth,
-                        abort)
+                        abort, data_arrays)
     return
     
 def make_scan_list(scan_collection:dict)->list:
@@ -119,46 +147,15 @@ def make_scan_list(scan_collection:dict)->list:
     return scan_list
 
 
-def measure_thread(ms:bc.Measurement_Settings, data_queue, abort:abort):
+def measure_thread(ms:bc.Measurement_Settings, data_queue, abort:abort, data_arrays):
     scans = ms.scan_collection
     acq_methods = ms.acquisition_devices
     for idx in np.arange(ms.averages, dtype=np.int32):
-        consecutive_measurement(scans, acq_methods, data_queue, abort)
+        consecutive_measurement(scans, acq_methods, data_queue, abort, data_arrays)
         data_queue.put(['scan_done'])
     data_queue.put(['measurement_done'])
     return
     
-def data_thread(md:bc.Measurement_Data, data_queue, abort:abort):
-    print('start data thread')
-    data_done = ''
-    idx = 0
-    while not data_done == 'measurement_done':
-        data_arrays = copy.deepcopy(md.data_template)
-        data_done = get_scan_data(data_arrays, data_queue, data_done, abort)
-        if abort.flag:
-                break
-        if 'scan_done' in data_done:
-            for acq_key in list(data_arrays.keys()):
-                md.data_set[f'{acq_key}_{idx}'] = data_arrays[acq_key]
-            data_done = ''
-            idx+=1
-    abort.flag = True
-    print('Measurement Done, press enter.')
-    return
-
-def get_scan_data(data_arrays, data_queue, data_done, abort): 
-    while not (data_done == 'scan_done' or data_done == 'measurement_done'):
-        if abort.flag:
-            break
-        new_data = data_queue.get(timeout = 5)
-        if len(new_data) == 1:
-            data_done = new_data[0]
-        else:
-            data = new_data['data']
-            for acq_key in list(data.keys()):
-                data_arrays[acq_key].loc[new_data['parameters']] = data[acq_key]
-    return data_done
-
 def abort_monitor(abort:abort):
     while abort.flag == False:
         keystrk=input('Input "abort" to end measurement \n')
@@ -170,37 +167,3 @@ def abort_monitor(abort:abort):
         else: 
             print('Input not understood')
     return
-
-
-def perform_measurement(ms:bc.Measurement_Settings)->bc.Measurement_Data:
-    
-    abort_flag = abort()
-    data_cue = queue.Queue()
-
-    meas_data = bc.Measurement_Data()
-    meas_data.data_template = bc.create_data_template(ms)
-    meas_data.assign_measurement_settings(ms)
-        
-    m_t=threading.Thread(target=measure_thread, args=(ms, data_cue, abort_flag,))
-    d_t=threading.Thread(target=data_thread, args=(meas_data, data_cue, abort_flag,))
-    a_t=threading.Thread(target=abort_monitor, args=(abort_flag,))
-    m_t.start()
-    d_t.start()
-    a_t.start()
-    
-    while (m_t.is_alive() or d_t.is_alive() or a_t.is_alive()):
-        pass
-    
-    return meas_data
-    
-if __name__=='__main__':
-    meas_config = bc.utils.load_config("C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\generated_config.toml")
-    
-    ms = bc.make_measurement_settings(meas_config)
-    scans = ms.scan_collection
-    acq_methods = ms.acquisition_devices
-    
-    abort_flag = abort()
-    data_cue = queue.Queue()
-    for idx in np.arange(ms.averages, dtype=np.int32):
-        consecutive_measurement(scans, acq_methods, data_cue, abort)

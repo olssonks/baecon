@@ -80,7 +80,6 @@ def primary_buttons(gui_config:gui_utils.GUI_Measurement_Configuration):
         ui.number('Averages')
         ui.button('Add', on_click=lambda: add_scan_dialog(gui_config)).classes('w-full')
         ui.button('Remove', on_click=remove_device).classes('w-full')
-        ui.button('Start').classes('w-full h-16 bg-accent')
     return
 
 def update_table():

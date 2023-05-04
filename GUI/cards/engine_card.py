@@ -9,11 +9,11 @@ import baecon as bc
 def main():
     with ui.column().classes('w-full h-full items-end'):
         with ui.row().classes('w-full h-full items-end'):
-            ui.button('Load')
-            ui.input(label='engine')
-        with ui.row().classes('w-full h-full items-end'):
-            ui.button('Run')
-            ui.button('Stop')
+            ui.button('Load').classes('h-full')
+            ui.input(label='engine').classes('h-full')
+        with ui.row().classes('w-full h-full items-end no-wrap'):
+            ui.button('Run').classes('w-3/4 h-full')
+            ui.button('Stop').classes('w-1/4 h-full')
 
     return
     
