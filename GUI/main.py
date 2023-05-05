@@ -16,7 +16,7 @@ with ui.card().style('background-color: #E7E7E7'):
         with ui.card().classes('w-2/3 h-full'):
             experiment_card.main(gui_config)
         with ui.card().classes('w-1/3 h-full'):
-            engine_card.main()
+            run_card.main()
     with ui.row().classes('flex items-stretch'):
         with ui.column().classes('grid justify-items-stretch'):
             ## Scan devices card
@@ -41,13 +41,3 @@ with ui.card().style('background-color: #E7E7E7'):
 # ui.run(port=8082, reload=False)
 
 ui.run(port=8082)
-
-## pass gui_configs to make Measurement_Settings
-## create Measurement_Data and initialize
-## start measurement, data, and abort threads
-
-## changes that need to be made to default_engine
-## data need to get plotted
-## either put plotting in data_thread
-## or plot funtion in perform_measurement
-## gui needs to use asyncio

@@ -11,9 +11,7 @@ exp_file_name = gui_utils.holder()
 head_style = 'color: #37474f; font-size: 200%; font-weight: 300'
 
 def main(gui_config:gui_utils.GUI_Measurement_Configuration):
-    with ui.row().classes('no-wrap items-center'):
-        ui.label('Experiment:').style(head_style)
-        ui.input('Experiment Name')
+    ui.label('Experiment').style(head_style)
     with ui.row().classes('w-full no-wrap items-center'):
         ui.input('Experiment File').bind_value(exp_file_name, 'value').classes('w-full')
         ui.button('Save', on_click=save_exp_file)

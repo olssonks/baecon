@@ -8,7 +8,6 @@ import baecon as bc
 
 
 from nicegui import ui
-import nicegui
 import plotly.graph_objects as go
 
 @dataclass
@@ -30,14 +29,11 @@ class GUI_fields:
     """The GUI objects can be bound to these attributes, eliminating the need
        to pass values between differet cards.
     """
-    plot              : nicegui.elements.plotly.Plotly
-    exp_file          : str
-    engine_file       : str
-    scan_file         : str
-    instrument_file   : dict
-    data_file         : str
-    plot_active       : bool
-    abort_measurement : bool
+    plot: plot object
+    exp_file: str/path
+    scan_file: str/path
+    instrument_file:dict
+    data_file: str/path
 
 @dataclass
 class GUI_Measurement_Configuration:
@@ -48,10 +44,10 @@ class GUI_Measurement_Configuration:
         be tricky to update directly from value changes in the GUI.
         
     """    
-    acquisition_devices : dict = field(default_factory=dict)
-    scan_devices        : dict = field(default_factory=dict)
-    scan_collection     : dict = field(default_factory=dict)
-    averages            : int = 1
+    acquisition_devices: dict = field(default_factory=dict)
+    scan_devices: dict = field(default_factory=dict)
+    scan_collection: dict = field(default_factory=dict)
+    averages: int = 1
 
 
 class load_file(ui.dialog):
