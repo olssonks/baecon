@@ -2,6 +2,7 @@ from nicegui import ui
 
 import sys, os
 sys.path.insert(0,'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon')
+from typing import Any
 
 import gui_utils
 import baecon as bc
@@ -21,6 +22,7 @@ devices_card_holder = gui_utils.holder({})
 """
 
 def main(gui_config:gui_utils.GUI_Measurement_Configuration,
+         meas_settings:bc.Measurement_Settings,
          devices_catagory:str):
     """Main function for the Devices GUI card. Both scan_devices and
         acquisition_devices use this card.
@@ -58,7 +60,7 @@ def main(gui_config:gui_utils.GUI_Measurement_Configuration,
         ui.label(devices_catagory_holder.value)
         devices_card_holder.value.update({devices_catagory: ui.card().classes('w-full')})
         with devices_card_holder.value[devices_catagory]:
-            show_devices()
+            show_devices(meas_settings)
         with ui.column().classes('w-full'):
             ui.button(add_label, 
                       on_click=add_device_button).classes('w-full')
@@ -92,13 +94,13 @@ def add_remove_button_labels(devices_catagory_holder:gui_utils.holder)->tuple:
     return (add_label, remove_label)
 
 
-def update_devices_card():
+def update_devices_card(meas_settings:bc.Measurement_Settings):
     """Updates the card listing devices when a device is added or removed.
     """
     card = devices_card_holder.value[devices_catagory_holder.value]
     card.clear()
     with card:
-        show_devices()
+        show_devices(meas_settings)
     return
 
 async def add_device_button(click_event):
@@ -166,8 +168,9 @@ async def add_device_dialog():
     dialog.open()
     return
 
-def add_device_configs(device_name_holder,
-                                   device_type_holder):
+def add_device_configs(device_name_holder:gui_utils.holder, 
+                       device_type_holder:gui_utils.holder, 
+                       meas_settings:bc.Measurement_Settings):
     device_path = os.path.join(bc.Devices_directory, device_type_holder.value)
     found_default = False
     for item in os.listdir(device_path):
@@ -182,9 +185,11 @@ def add_device_configs(device_name_holder,
     if devices_catagory_holder.value == "Scan Devices":
         gui_configs_holder.value\
         .scan_devices.update({device_name_holder.value: default_config})
+        bc.add_device(default_config, meas_settings.scan_devices)
     else: 
         gui_configs_holder.value\
         .acquisition_devices.update({device_name_holder.value: default_config})
+        bc.add_device(default_config, meas_settings.scan_devices)
     
     ui.notify(f'{device_name_holder.value} has been added to the devices.',
             position = 'top',
@@ -218,7 +223,7 @@ def remove_device_button(click_event):
     dialog.open()
     return
 
-def show_devices():
+def show_devices(meas_settings:bc.Measurement_Settings):
     if devices_catagory_holder.value == 'Scan Devices':
         device_list = gui_configs_holder.value.scan_devices
     else: 
@@ -226,31 +231,78 @@ def show_devices():
     with ui.column().classes('w-full'):
         for name, parameters in device_list.items():
             with ui.expansion(f'{name} ({parameters["device"]})').classes('w-full text-center'):
-                device_tabs(parameters)
+                device_tabs(name, parameters, meas_settings)
     return
 
-def device_tabs(device_parameters:dict):
+def device_tabs(device_name:str,
+                device_parameters:dict,
+                meas_settings:bc.Measurement_Settings):
+    ## device_parameters are: parameters, latent_parameters, etc.
     with ui.tabs() as tabs:
-        for (name, entry) in list(device_parameters.items()):
+        for (param_name, entry) in list(device_parameters.items()):
             if isinstance(entry, dict):
-                ui.tab(name)
+                ui.tab(param_name)
 
     with ui.tab_panels(tabs, value='parameters'):
-        for (name, entry) in list(device_parameters.items()):
+        for (param_name, entry) in list(device_parameters.items()):
             if isinstance(entry, dict):
-                with ui.tab_panel(name):
-                    list_parameters(device_parameters[name])
+                with ui.tab_panel(param_name):
+                    list_parameters(device_name, 
+                                    device_parameters[param_name], 
+                                    meas_settings)
     return
 
-def list_parameters(parameters: dict):
+def list_parameters(device_name:str,
+                    parameters: dict,
+                    meas_settings:bc.Measurement_Settings):
     with ui.column().classes('w-full'):
+        with ui.row().classes('w-full no-wrap'):
+            ui.button('Save Device').classes('w-full')
+            ui.button('Reconnect').classes('w-full')
+       
         with ui.row().classes('w-full no-wrap items-center bg-secondary'):
             ui.label('Output:')
-            ui.radio(['On', 'Off'], value='Off').props('inline')
-        for (name, value) in list(parameters.items()):
+            ui.radio({1:'On', 0:'Off'}, 
+                     value=1, 
+                     on_change = lambda e: device_output(
+                            e.value, device_name, meas_settings
+                            )).props('inline')
+        
+        for (param_name, value) in list(parameters.items()):
             with ui.row().classes('w-full no-wrap items-center bg-secondary'):
-                ui.label(name).classes('w-full justify-right')
-                ui.input(value = value, on_change=lambda e: parameters.update({name: e.value}))
+                p_label = ui.label(param_name).classes('w-full justify-right')
+                ui.input(label = param_name,
+                         value = value, 
+                         on_change=lambda e: \
+                            update_parameter(e.value, e.sender._props['label'], 
+                                             device_name, meas_settings)
+                         )
+    return
+
+def device_output(value:int, device_name:str,
+                  meas_settings:bc.Measurement_Settings):
+
+    if device_name in meas_settings.scan_devices:
+        device = meas_settings.scan_devices[device_name]
+    elif device_name in meas_settings.acquisition_devices:
+        device = meas_settings.scan_devices[device_name]
+    else:
+        pass ## put logging here
+    device.output(value)
+    return
+
+def update_parameter(value:Any,
+                     parameter:str,
+                     device_name:str,
+                     meas_settings:bc.Measurement_Settings):
+    if device_name in meas_settings.scan_devices:
+        device = meas_settings.scan_devices[device_name]
+    elif device_name in meas_settings.acquisition_devices:
+        device = meas_settings.scan_devices[device_name]
+    else:
+        pass ## put logging here
+        
+    device.write(parameter, value)
     return
 
 def available_devices()->list:

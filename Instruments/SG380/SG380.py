@@ -118,6 +118,9 @@ class SG380(Device):
     #         print(self.parameters)
     #     return
     
+    def output(self, value):
+        self.write('enabled', value)
+        return
     
     def write(self, parameter, value):
         """Sends a message to the device to set `parameter` to `value`.

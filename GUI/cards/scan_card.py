@@ -3,7 +3,7 @@ from nicegui import ui
 import sys
 sys.path.insert(0,'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon')
 
-import gui_utils
+from GUI import gui_utils
 import baecon as bc
 
 #test_measurement = bc.make_measurement_settings(bc.utils.load_config("C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\test_measurement_settings.toml"))

@@ -30,14 +30,19 @@ class GUI_fields:
     """The GUI objects can be bound to these attributes, eliminating the need
        to pass values between differet cards.
     """
-    plot              : nicegui.elements.plotly.Plotly
-    exp_file          : str
-    engine_file       : str
-    scan_file         : str
-    instrument_file   : dict
-    data_file         : str
-    plot_active       : bool
-    abort_measurement : bool
+    plot              : nicegui.elements.plotly.Plotly = ""
+    exp_name          : str = ""
+    exp_file          : str = ""
+    engine_file       : str = ""
+    scan_file         : str = ""
+    instrument_file   : dict = field(default_factory=dict)
+    data_auto_save    : bool = ""
+    data_folder       : str = ""
+    data_file         : str = ""
+    data_file_format  : str = ""
+    data_analysis     : str = ""### Probably a seperate Window
+    plot_active       : bool = False
+    abort_measurement : bool = False
 
 @dataclass
 class GUI_Measurement_Configuration:
@@ -117,7 +122,7 @@ class load_file(ui.dialog):
 
     async def _handle_ok(self):
         rows = await ui.run_javascript(f'getElement({self.grid.id}).gridOptions.api.getSelectedRows()')
-        full_path = str(Path(self.path.resolve(), rows[0]['name']))
+        full_path = str(Path(self.path.resolve(), rows[0]['path']))
         self.submit(full_path)
         
 

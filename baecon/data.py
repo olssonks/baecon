@@ -31,6 +31,9 @@ class Measurement_Data:
             will be stored for the measurement. For each full scan collection
             a copy of the template is supplied for storing the data for that 
             scan collection. One full scan will fill the entire array.
+        data_current_scan (:py:mod:`xarrray.DataArray`): Holds the data
+            for the currently running scan. After scan is finished, this data
+            is add to `data_set.
         data_set (:py:mod:`xarrray.Dataset`): The full data for the measurement.
             After a scan collection, the :py:mod:`xarrray.DataArray` is added to
             the `data_set`. When taking multiple runs of the scan collection, i.e,
@@ -46,12 +49,15 @@ class Measurement_Data:
             settings in ``data_set``.
     """    
     data_template: xr.DataArray = field(default_factory=xr.DataArray)
+    data_current_scan: xr.DataArray = field(default_factory=xr.DataArray)
     data_set: xr.Dataset = field(default_factory=xr.Dataset)
     processed_data: xr.Dataset = field(default_factory=xr.Dataset)
     def assign_measurement_settings(self, ms:bc.Measurement_Settings)->None:
-        self.data_template = create_data_template(ms)
-        settings = bc.generate_measurement_config(ms)
-        self.data_set.assign_attrs(settings)
+        self.data_template = bc.create_data_template(ms)
+        measurement_config = bc.generate_measurement_config(ms)
+        self.data_set.attrs['measurement_config'] = measurement_config
+        self.data_set.attrs['scan_parameters'] = [scan_name for scan_name in 
+                                                  list(measurement_config['scan_collection'].keys())]
 
 
 def create_data_template(Measurement_Setings:bc.Measurement_Settings)->xr.DataArray:
