@@ -200,10 +200,12 @@ def make_scan(scan_settings: dict, device: Device) -> dict:
                 'schedule': make_scan_schedule(scan_settings),
                 'repetitions': scan_settings['repetitions'],
                 'randomize': scan_settings['randomize']}
+        return {scan_key: {'settings': scan_settings, 'scan': scan}}
+    
     except KeyError as e:
         print('make_scan could not find {e} in the supplied scan_settings.')
 
-    return {scan_key: {'settings': scan_settings, 'scan': scan}}
+    return
 
 
 def make_scan_schedule(scan_settings: dict) -> np.ndarray:
@@ -238,20 +240,21 @@ def make_scan_schedule(scan_settings: dict) -> np.ndarray:
 
     def linear():
         array = np.linspace(
-            scan_settings['min'], scan_settings['max'], scan_settings['points'])
-        return np.tile(array, scan_settings['repetitions'])
+            scan_settings['min'], scan_settings['max'], int(scan_settings['points']))
+        return np.tile(array, int(scan_settings['repetitions']))
 
     def log():
         array = np.logspace(
-            scan_settings['min'], scan_settings['max'], scan_settings['points'])
-        return np.tile(array, scan_settings['repetitions'])
+            scan_settings['min'], scan_settings['max'], int(scan_settings['points']))
+        return np.tile(array, int(scan_settings['repetitions']))
 
     def custom():
         array = np.array(custom_schedule(scan_settings['note']))
-        return np.tile(array, scan_settings['repitions'])
+        return np.tile(array, int(scan_settings['repetitions']))
 
     def constant():
-        return np.tile(scan_settings['min'], scan_settings['repetitions'])
+        return np.tile(scan_settings['min'], int(scan_settings['repetitions']))
+    
     schedule = {'linear': linear, 'log': log,
                 'custom': custom, 'constant': constant}
     return schedule[scan_settings['scale']]()
@@ -304,7 +307,7 @@ def define_scan_settings():
 
     scan_settings = {
         'name':'', 'device': '', 'parameter': '',
-        'minimum': 0, 'maximum': 0, 'points': 1,
+        'min': 0, 'max': 0, 'points': 1,
         'repetitions': 1, 'scale': 'linear', 'randomize': False,
         'note': ''
         }
