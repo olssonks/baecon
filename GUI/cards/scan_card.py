@@ -82,6 +82,8 @@ async def pick_file():
     """
     result = await gui_utils.load_file('.') ## should be a different file location
     return result
+    
+    
 async def save_collection(gui_fields:gui_utils.GUI_fields,
                           meas_settings:bc.Measurement_Settings):
     """Saves scan collection to config file.
@@ -99,9 +101,16 @@ async def save_collection(gui_fields:gui_utils.GUI_fields,
         for key in meas_settings.scan_collection.keys():
             scan_dict.update({key:meas_settings.scan_collection[key]['settings']})
         bc.utils.dump_config(scan_dict, gui_fields.scan_file)
-    return 
+    return
+    
 async def load_collection(gui_fields:gui_utils.GUI_fields,
                           meas_settings:bc.Measurement_Settings):
+    """Opens dialog to pick scan configuration file and adds to current scan.
+
+    Args:
+        gui_fields (gui_utils.GUI_fields): _description_
+        meas_settings (bc.Measurement_Settings): _description_
+    """    
     file = await pick_file()
     if file:
         gui_fields.scan_file = file
@@ -116,6 +125,12 @@ def name_from_file(file:str):
 
 def primary_buttons(gui_fields:gui_utils.GUI_fields,
                     meas_settings:bc.Measurement_Settings):
+    """Buttons for calling the `add_scan_dialog` and `remove-device` methods.
+
+    Args:
+        gui_fields (gui_utils.GUI_fields): _description_
+        meas_settings (bc.Measurement_Settings): _description_
+    """    
     with ui.column():
         ui.number('Averages')
         ## without lambda the add_scan_dialog opens on start up (don't know why ???)
@@ -126,13 +141,28 @@ def primary_buttons(gui_fields:gui_utils.GUI_fields,
     return
 
 def update_table():
+    """Updates the can scan table.
+       The scan table, a `ui.aggrid` object, is held in the global variable 
+       `scan_table_holder`. Columns and rows are accessed through the `options`
+       attribute of `ui.aggrid`.
+    """    
     scan_table_holder.value.options['columnDefs'] = table_args_holder.value['columnDefs']
     scan_table_holder.value.options['rowData'] = table_args_holder.value['rowData']
     scan_table_holder.value.update()
     return
     
 def scan_table_args(gui_fields:gui_utils.GUI_fields,
-                    meas_settings:bc.Measurement_Settings):
+                    meas_settings:bc.Measurement_Settings)->dict:
+    """Create a dictionary from `bc.Measurement_Settings.scan_collection` to
+       populate the scan table. 
+
+    Args:
+        gui_fields (gui_utils.GUI_fields): _description_
+        meas_settings (bc.Measurement_Settings): _description_
+
+    Returns:
+        dict: Dictionary with column and row information for he scan table.
+    """
     scans = meas_settings.scan_collection
     columnDefs = []; rowData = []
     
@@ -153,8 +183,18 @@ def scan_table_args(gui_fields:gui_utils.GUI_fields,
 
 def add_scan_dialog(gui_config:gui_utils.GUI_Measurement_Configuration,
                     meas_settings:bc.Measurement_Settings):
+    """Pop-up dialog to input scan settings for a new scan.
+
+    Args:
+        gui_config (gui_utils.GUI_Measurement_Configuration): _description_
+        meas_settings (bc.Measurement_Settings): _description_
+    """    
     scan_settings_holder = gui_utils.holder()
     def update_scan_collection():
+        """Adds the fields from the scan settings dialog to the `bc.Measurement_Settings`
+           and the scan table.
+        
+        """        
         new_settings = scan_settings_holder.value
         new_scan = {f'{new_settings["name"]}-{new_settings["parameter"]}': new_settings}
         # scan_key = f'{new_settings["name"]}-{new_settings["parameter"]}'
@@ -179,6 +219,15 @@ def add_scan_dialog(gui_config:gui_utils.GUI_Measurement_Configuration,
     
 def scan_from_settings(scan_config:dict, gui_fields:gui_utils.GUI_fields, 
                        meas_settings:bc.Measurement_Settings):
+    """Creates a `scan_collection` from a configuration dictionary and adds it
+       `meas_settings.scan_collection`.
+
+    Args:
+        scan_config (dict): Configuration of the scan, comes the from 
+            `add_scan_dialog` or a loaded file.
+        gui_fields (gui_utils.GUI_fields): _description_
+        meas_settings (bc.Measurement_Settings): _description_
+    """    
     for scan_idx, scan_key in enumerate(scan_config.keys()):
         device_name = scan_config[scan_key]['name']
         if not device_name in meas_settings.scan_devices:
@@ -192,9 +241,15 @@ def scan_from_settings(scan_config:dict, gui_fields:gui_utils.GUI_fields,
     return
 
 
-def choose_device_and_paramters(meas_settings:bc.Measurement_Settings):
+def choose_device_and_paramters(meas_settings:bc.Measurement_Settings)->dict:
     selected_settings = scan_settings.copy()
-    
+    """Inputs for choosing the device and parameter for the scan.
+       When the device is selected, the parameter input will read the `parameters`
+       attribute of the device, and populate the parameter input with the `parameters`.
+
+    Returns:
+        dict: Diction of scan settings.
+    """    
     device_select = ui.select(
         list(meas_settings.scan_devices.keys()), 
         label='Device Name',
@@ -217,7 +272,17 @@ def choose_device_and_paramters(meas_settings:bc.Measurement_Settings):
     return selected_settings
         
         
-def choose_settings(selected_settings):
+def choose_settings(selected_settings:dict)->dict:
+    """Choose the values for the scan.
+       The input fields are bound to the values in the `selected_settings dict`.
+       The GUI input fields are given labels based on the keys in `selected_settings`;
+       this is necessary to properly bind the values.
+    Args:
+        selected_settings (dict): Dictionary of scan settings to add.
+
+    Returns:
+        dict: Scan settings to add.
+    """
     remaining_keys = [key for key in list(scan_settings.keys()) 
                       if not (key=='name' or key=='parameter' or key=='device')]
     settings_holder = {key:gui_utils.holder('') for key in remaining_keys}
@@ -227,7 +292,7 @@ def choose_settings(selected_settings):
                 and not scan_key == 'scale'
                 and not scan_key == 'randomize'):
                 ui.input(scan_key, value=scan_settings[scan_key],
-                        on_change = lambda e: selected_settings.update({scan_key:e.value})).classes('w-full')
+                        on_change = lambda e: selected_settings.update({e.sender._props['label']:e.value})).classes('w-full')
             elif scan_key == 'points':
                 get_points(selected_settings, scan_key)
             elif scan_key=='scale':
@@ -246,14 +311,26 @@ def choose_settings(selected_settings):
     return selected_settings
 
 
-def get_points(scan_settings, scan_key):
-    def steps_to_points(scan_settings, input, stepsize_or_points):
+def get_points(selected_settings:dict, scan_key:str):
+    """Choose whether input field for scan points is the step size or number of 
+       points.
+       If input is `points`, an array of from `min` to `max` is made using the 
+       given number of points.
+       If input is `step_size`, an array from `min` to `max` is made with the given
+       step size.
+
+    Args:
+        selected_settings (dict): Scan settings to add.
+        scan_key (str): The key for accessing the value in the scan settings 
+            dictionary. In this function, `scan_key` should always be `points`.
+    """    
+    def steps_to_points(selected_settings, input, stepsize_or_points):
         if stepsize_or_points.value == 'step size':
-            span = scan_settings['max'] - scan_settings['min']
+            span = selected_settings['max'] - selected_settings['min']
             points = round(span/input, 2)
-            scan_settings.update({'points': points})
+            selected_settings.update({'points': points})
         else:
-            scan_settings.update({'points': input})
+            selected_settings.update({'points': input})
         return
     
     ui.number(scan_key, value=scan_settings[scan_key],
@@ -267,6 +344,13 @@ def get_points(scan_settings, scan_key):
 
 async def remove_device(gui_fields:gui_utils.GUI_fields,
                         meas_settings:bc.Measurement_Settings):
+    """Removes the scan selected in the scan table from both the scan table and
+       the `meas_settings`.
+
+    Args:
+        gui_fields (gui_utils.GUI_fields): _description_
+        meas_settings (bc.Measurement_Settings): _description_
+    """    
     row = await scan_table_holder.value.get_selected_row()
     name = f'{row["name"]}-{row["parameter"]}'
     del meas_settings.scan_collection[name]
