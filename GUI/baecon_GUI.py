@@ -18,7 +18,7 @@ ui.colors(primary='#485696', secondary='#E7E7E7', accent='#FC7A1E', positive='#5
 ## meas_settings: actual measurement configuration with has instrument objects in it for communication
 ## meas_data: measurement data
 
-gui_config = gui_utils.load_gui_config("C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\test_measurement_settings.toml")
+#gui_config = gui_utils.load_gui_config("C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\test_measurement_settings.toml")
 
 meas_config = bc.utils.load_config('C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\generated_config.toml')
 
@@ -31,7 +31,7 @@ meas_data = bc.Measurement_Data()
 with ui.card().style('background-color: #E7E7E7'):
     with ui.row().classes('w-full h-full no-wrap items-end'):
         with ui.card().classes('w-2/3 h-full'):
-            experiment_card.main(gui_config)
+            experiment_card.main(gui_fields, meas_settings)
         with ui.card().classes('w-1/3 h-full'):
             engine_card.main()
     with ui.row().classes('flex items-stretch'):

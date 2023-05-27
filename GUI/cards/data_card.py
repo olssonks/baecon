@@ -32,14 +32,13 @@ class GUI_fields:
     #abort_measurement : bool
 
 
-def main(gui_config: gui_utils.GUI_Measurement_Configuration, 
-         gui_fields: gui_utils.GUI_fields,
-         meas_data):
+def main(gui_fields:GUI_fields):
     date_prefix = gui_utils.holder(datetime.today().strftime("%Y%m%d"))
     meas_number = gui_utils.holder('0')
-    full_save_name = gui_utils.holder(('_'.join([date_prefix.value, meas_number.value, 
-                                                gui_fields.exp_name])
-                                      +gui_fields.data_file_format))
+    full_save_name = gui_utils.holder(
+        ('_'.join([date_prefix.value, meas_number.value, gui_fields.exp_name])
+        +gui_fields.data_file_format)
+        )
     with ui.column():
         with ui.row():
             ui.label('Data').style(head_style)
@@ -81,8 +80,6 @@ def main(gui_config: gui_utils.GUI_Measurement_Configuration,
             ui.input('analysis method').classes('w-full')
             ui.button('Load')
 
-        
-#### end main ####    
     return
 
 async def pick_file():
@@ -102,9 +99,8 @@ async def save_as_button(gui_fields,
             gui_fields.data_file = date_prefix.value + file
             gui_fields.data_file_format = '.' + file.split('.')[-1]
 
-    # bc.utils.save_baecon_data(meas_data,
-    #                             gui_fields.data_file, 
-    #                             format=gui_fields.data_file_format) 
+    bc.utils.save_baecon_data(meas_data, gui_fields.data_file, 
+                              format=gui_fields.data_file_format) 
     return
 
 def update_file_name(new_name, full_save_name, date_prefix, meas_number, gui_fields):
@@ -127,9 +123,8 @@ def update_file_format(new_format, gui_fields):
 
 
 if __name__ in {"__main__", "__mp_main__"}:
-    gui_config = gui_utils.load_gui_config("C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\test_measurement_settings.toml")
-    gui_fields = GUI_fields()
-    main(gui_config, gui_fields, {})
+    gui_fields = gui_utils.GUI_fields()
+    main(gui_fields)
     ui.run(port=8082)
 
 ## automatic file name generator

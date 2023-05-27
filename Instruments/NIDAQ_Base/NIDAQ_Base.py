@@ -128,7 +128,8 @@ class NIDAQ_Base(Device):
     def prepare_read_digital_trigger(self):
         trigger_edge = PyDAQmx_lookup[self.latent_parameters["read_active_edge"]]
         chan_name = (
-            self.parameters["device_name"]
+            "/"
+            + self.parameters["device_name"]
             + "/"
             + self.latent_parameters["read_trigger_channel"]
         )

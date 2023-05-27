@@ -36,7 +36,7 @@ class Device:
             configuration (dict): Full configuration of the device: name, 
                 parameters, and latent_parameters. Passing this dictionary 
                 when creating the device object fully defines the 
-                device.
+                device. Used to save/load device into the measurement.
             acq_data_size (int or tupel): Size of the data taken during a 
                 reading by an acquisition device. For example, a single 
                 reading of voltage would be size 1, size for an image would be

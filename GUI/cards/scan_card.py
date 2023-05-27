@@ -36,9 +36,7 @@ table_args_holder = gui_utils.holder()
 head_style = 'color: #37474f; font-size: 200%; font-weight: 300'
 
 def main(gui_fields:gui_utils.GUI_fields,
-         gui_config:gui_utils.GUI_Measurement_Configuration,
          meas_settings:bc.Measurement_Settings):
-    #gui_config_holder.update(gui_config)
     with ui.column().classes('w-full'):
         ui.label('Measurment Scans').style(head_style)
         save_load(gui_fields, meas_settings)
@@ -181,8 +179,7 @@ def scan_table_args(gui_fields:gui_utils.GUI_fields,
     return {'columnDefs': columnDefs, 'rowData': rowData}
 
 
-def add_scan_dialog(gui_config:gui_utils.GUI_Measurement_Configuration,
-                    meas_settings:bc.Measurement_Settings):
+def add_scan_dialog(meas_settings:bc.Measurement_Settings):
     """Pop-up dialog to input scan settings for a new scan.
 
     Args:
@@ -285,7 +282,6 @@ def choose_settings(selected_settings:dict)->dict:
     """
     remaining_keys = [key for key in list(scan_settings.keys()) 
                       if not (key=='name' or key=='parameter' or key=='device')]
-    settings_holder = {key:gui_utils.holder('') for key in remaining_keys}
     for scan_key in remaining_keys:
         with ui.row().classes('w-full'):
             if (isinstance(scan_settings[scan_key], str) 
@@ -306,7 +302,6 @@ def choose_settings(selected_settings:dict)->dict:
             else:
                 ui.number(scan_key, on_change = \
                           lambda e: selected_settings.update({e.sender._props['label']:e.value}))
-                #.bind_value(settings_holder[scan_key], f'{scan_key}').classes('w-full')
                 
     return selected_settings
 
@@ -318,7 +313,8 @@ def get_points(selected_settings:dict, scan_key:str):
        given number of points.
        If input is `step_size`, an array from `min` to `max` is made with the given
        step size.
-
+       Number of points generatred for step size is rounded to nearest integer,
+       leading the actual step size to be slight different from the input value.
     Args:
         selected_settings (dict): Scan settings to add.
         scan_key (str): The key for accessing the value in the scan settings 
@@ -327,14 +323,14 @@ def get_points(selected_settings:dict, scan_key:str):
     def steps_to_points(selected_settings, input, stepsize_or_points):
         if stepsize_or_points.value == 'step size':
             span = selected_settings['max'] - selected_settings['min']
-            points = round(span/input, 2)
+            points = round(span/input)
             selected_settings.update({'points': points})
         else:
             selected_settings.update({'points': input})
         return
     
-    ui.number(scan_key, value=scan_settings[scan_key],
-            on_change = lambda e: steps_to_points(scan_settings, 
+    ui.number(scan_key, value=selected_settings[scan_key],
+            on_change = lambda e: steps_to_points(selected_settings, 
                                                     e.value,
                                                     stepsize_or_points))
     stepsize_or_points = ui.radio(['points', 'step size'], 
@@ -369,6 +365,6 @@ if __name__ in {"__main__", "__mp_main__"}:
     gui_fields = gui_utils.GUI_fields()
     
     with ui.card():
-        main(gui_fields, gui_config, meas_settings)
+        main(gui_fields, meas_settings)
     
     ui.run(port=8082)
