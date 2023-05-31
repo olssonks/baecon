@@ -15,7 +15,7 @@ parameter = "frequency"
 min = 1
 max = 2
 points = 10
-repetitions = 1
+repetitions = 10
 scale = "linear"
 randomize = "False"
 note = ""
@@ -24,9 +24,9 @@ note = ""
 device_name = "Dev1"
 read_sample_rate = 50000.0
 read_sample_rate_out = 1000.0
-read_samples_per_chan = 10000.0
+read_samples_per_chan = 1000.0
 reads_per_sample = 1
-read_samples_total = 10000.0
+read_samples_total = 1000.0
 read_channels = [ "ai1",]
 
 [acquisition_devices.Daq1.latent_parameters]
@@ -53,6 +53,6 @@ modulation_type = "AM"
 modulation_function = "External"
 
 [scan_devices.SG1.latent_parameters]
-GPIB = 27
-#IPaddress = "10.229.42.86"
-#port = "5025"
+#GPIB = 27
+IPaddress = "10.229.42.86"
+port = "5025"

@@ -22,8 +22,7 @@ devices_card_holder = gui_utils.holder({})
     pattern, or for cameras show an image for aligning etc.
 """
 
-def main(gui_config:gui_utils.GUI_Measurement_Configuration,
-         meas_settings:bc.Measurement_Settings,
+def main(meas_settings:bc.Measurement_Settings,
          devices_catagory:str):
     """Main function for the Devices GUI card. Both scan_devices and
        acquisition_devices use this card.
@@ -54,8 +53,7 @@ def main(gui_config:gui_utils.GUI_Measurement_Configuration,
         devices_catagory (str): "Scan Devices" or "Acquisition Devices" to 
             make the respective cards.
     """
-        
-    gui_configs_holder.update(gui_config)
+
     devices_catagory_holder.update(devices_catagory)
     
     add_label, remove_label = add_remove_button_labels(devices_catagory_holder)
@@ -89,8 +87,8 @@ def add_remove_button_labels(devices_catagory_holder:gui_utils.holder)->tuple:
         add_label = 'Add Scan Device'
         remove_label = 'Remove Scan Device'
     elif devices_catagory_holder.value == "Acquisition Devices":
-        add_label = 'Add Acqui Device'
-        remove_label = 'Remove Acqui Device'
+        add_label = 'Add Acqui. Device'
+        remove_label = 'Remove Acqui. Device'
     else:
         print('Devices must be "Scan Devices" or "Acquisition Devices".')
         add_label = 'Try again'

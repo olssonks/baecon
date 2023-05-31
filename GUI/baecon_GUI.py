@@ -38,10 +38,10 @@ with ui.card().style('background-color: #E7E7E7'):
         with ui.column().classes('grid justify-items-stretch'):
             ## Scan devices card
             with ui.card().classes('w-96  h-full'): ## possible card props: .props('flat bordered')
-                devices_card.main(gui_config, meas_settings, 'Scan Devices')
+                devices_card.main(meas_settings, 'Scan Devices')
             ## Acquisition devices card
             with ui.card().classes('w-96  h-full'):
-                devices_card.main(gui_config, meas_settings, 'Acquisition Devices')
+                devices_card.main(meas_settings, 'Acquisition Devices')
             ## Data Card
             with ui.card().classes('w-full h-full place-content-evenly'):
                 data_card.main(gui_config, gui_fields, meas_data)
@@ -51,7 +51,7 @@ with ui.card().style('background-color: #E7E7E7'):
             with ui.card().classes('w-full'):
                 plot_card.main()
             with ui.card():
-                scan_card.main(gui_config)
+                scan_card.main(gui_fields, meas_settings)
             
 
 # app.on_disconnect(app.shutdown)

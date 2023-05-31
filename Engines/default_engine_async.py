@@ -60,8 +60,10 @@ class Measurement_Data:
         self.data_template = bc.create_data_template(ms)
         measurement_config = bc.generate_measurement_config(ms)
         self.data_set.attrs['measurement_config'] = measurement_config
-        self.data_set.attrs['scan_parameters'] = [scan_name for scan_name in 
-                                                  list(measurement_config['scan_collection'].keys())]
+        self.data_set.attrs['scan_parameters'] = [scan_setting['parameter'] for scan_setting in 
+                                                  measurement_config['scan_collection'].values()]
+        self.data_set.attrs['acquire_methods'] = [acq_meth for acq_meth in 
+                                                     measurement_config['acquisition_devices'].keys()]
 
 def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Queue,
                     parameter_holder:dict, total_depth:int, present_depth:int,
@@ -98,7 +100,7 @@ def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Qu
             data_queue.put({'parameters': parameter_holder.copy(), 
                             'data': data}
             )
-            time.sleep(0.01)
+            #time.sleep(0.01)
             if abort.flag:
                 break
     else:
@@ -178,9 +180,10 @@ def data_thread(md:bc.Measurement_Data, data_queue, abort:abort):
                 break
         if 'scan_done' in data_done:
             for acq_key in list(md.data_measurement_holder.keys()):
-                md.data_set[f'{acq_key}_{idx}'] = md.data_measurement_holder[acq_key]
+                md.data_set[f'run-{idx}_{acq_key}'] = md.data_measurement_holder[acq_key]
             data_done = ''
             idx+=1
+            print(f"scan {idx} done")
     abort.flag = True
     md.data_measurement_holder = copy.deepcopy(md.data_template)
     return
@@ -189,7 +192,7 @@ def get_scan_data(data_arrays, data_queue, data_done, abort):
     while not (data_done == 'scan_done' or data_done == 'measurement_done'):
         if abort.flag:
             break
-        new_data = data_queue.get(timeout = 5)
+        new_data = data_queue.get(timeout = 10000)
         if len(new_data) == 1:
             data_done = new_data[0]
         else:
@@ -284,20 +287,13 @@ async def main():
     
 #     return meas_data
 
-
-
-def run_measurement(GUI_fields):
-    plot = GUI_fields.plot
-    fig = go.Figure()
-    plot_active = True
-    
-    return
     
 ## engine provides plot data function for ui.timer to use
 ## ui.timer needs to be in the plot card or engine card
 def plot_data(the_plot, md:bc.Measurement_Data)->None:
     scan_parameters = md.data_set.attrs.get('scan_parameters')
-    current_data    = get_current_data(md.data_current_scan, scan_parameters) ## returns dict {name: (x,y)}
+    acquire_methods = md.data_set.attrs.get('acquire_methods')
+    current_data    = get_current_data(md.data_current_scan[acquire_methods[0]], scan_parameters) ## returns dict {name: (x,y)}
     completed_data  = get_completed_data(md.data_set, scan_parameters) ## returns dict {name: (x,y)} for completed data
     average_data    = get_avg_data(md.data_set, scan_parameters)
     fig = {
@@ -309,42 +305,55 @@ def plot_data(the_plot, md:bc.Measurement_Data)->None:
             'yaxis': {'gridcolor': 'white'},
         },
     }
-    fig = main_trace_style({**current_data, **average_data})
-    fig = secondary_trace_style(completed_data)
+    if not (current_data == None and average_data == None):
+        fig = main_trace_style({**current_data, **average_data})
+    if not completed_data == None:
+        fig = secondary_trace_style(completed_data)
     the_plot.update_figure(fig)
     return
     
 def get_current_data(data_array, scan_parameters:list):
     ## data_array should be measurement_data_holder in Measurement_Data object
     ## need to update for handling 2D scans
-    parameter = scan_parameters[0]
-    trimmed = data_array.dropna(parameter)
-    x = trimmed.coords.get(parameter).values
-    y = np.mean(trimmed.values, axis=0)
+    
+    ## checks if all values are nan
+    if np.isnan(data_array.values.min()):
+        return
+    else:
+        parameter = scan_parameters[0]
+        trimmed = data_array.dropna(parameter)
+        x = trimmed.coords.get(parameter).values
+        y = np.mean(trimmed.values, axis=0)
     return {'current': (x ,y)}
     
 def get_completed_data(data_set, scan_parameters:list):
     ## need to update for handling 2D scans
     complete_data = {}
     parameter = scan_parameters[0]
-    for scan_key in list(md.data_set.keys()):
-        vals= md.data_set.get(scan_key).values
-        x = md.data_set.get(scan_key).coords.get(parameter).values
-        y = np.mean(vals, axis=vals.ndim -1)
-        complete_data.update(scan_key, (x, y))
-    x,y = calc_avg_data(md.data_set)
-    fig.add_trace(go.Scatter(x=x, y=y))
+    if data_set.nbytes == 0:
+        return
+    else:
+        for scan_key in list(data_set.keys()):
+            vals= data_set.get(scan_key).values
+            x = data_set.get(scan_key).coords.get(parameter).values
+            y = np.mean(vals, axis=vals.ndim -1)
+            complete_data.update({scan_key, (x, y)})
+        x,y = calc_avg_data(data_set)
+        fig.add_trace(go.Scatter(x=x, y=y))
     return
     
 def get_avg_data(data_set, scan_parameters:list):
     ## need to update for handling 2D scans
-    parameter = scan_parameters[0]
-    data_array = data_set.to_array()
-    x = data_array.coords.get(parameter).values
-    vals = data_array.values
-    mean_samps = np.mean(vals, axis = vals.ndim -1)
-    mean_scans = np.mean(mean_samps, axis=0)
-    y = mean_scans
+    if data_set.nbytes ==0:
+        return
+    else:
+        parameter = scan_parameters[0]
+        data_array = data_set.to_array()
+        x = data_array.coords.get(parameter).values
+        vals = data_array.values
+        mean_samps = np.mean(vals, axis = vals.ndim -1)
+        mean_scans = np.mean(mean_samps, axis=0)
+        y = mean_scans
     return {'Average': (x, y)}
     
 def main_trace_style(fig, trace_data:dict):
@@ -387,7 +396,7 @@ if __name__ in {"__main__", "__mp_main__"}:
     md = Measurement_Data()
     md.data_template = bc.create_data_template(ms)
     md.assign_measurement_settings(ms)
-    md.data_current_measurement = copy.deepcopy(md.data_template)
+    md.data_current_scan = copy.deepcopy(md.data_template)
     
     fig = go.Figure()
 
@@ -400,7 +409,11 @@ if __name__ in {"__main__", "__mp_main__"}:
     def trigger_abort():
         abort_flag.flag = True
     
+    def ppp():
+        plot_data(plot1, md)
+    
     ui.button('clci', on_click=main)
     ui.button('abort', on_click=trigger_abort)
-    ui.timer(0.1, plot_task)
+    line_updates = ui.timer(0.1, ppp, active=False)
+    line_checkbox = ui.checkbox('active').bind_value(line_updates, 'active')
     ui.run(port=8081)
