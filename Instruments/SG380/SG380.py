@@ -173,6 +173,7 @@ class SG380(Device):
             str: Message to send to device.
         """        
         units = ' MHz'
+        value = round(value, 6) ## round to Hz
         message = 'FREQ' + read_toggle + ' ' + str(value) + units
         return message
     
@@ -187,6 +188,7 @@ class SG380(Device):
             str: Message to send to device.
         """    
         units = '' ## degrees
+        value = int(value) ## round to 1 degree
         message = 'PHAS' + read_toggle + ' ' + str(value) + units
         return message
     
@@ -208,6 +210,7 @@ class SG380(Device):
         else:
             prefix = 'AMPR'
         units = '' ## dBm
+        value = round(value, 2) ## round to 0.01 dBm
         message = prefix + read_toggle + ' ' + str(value) + units
         return message
     

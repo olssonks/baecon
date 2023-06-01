@@ -1,5 +1,5 @@
 import sys
-sys.path.insert(0,'C:\\baecon')
+sys.path.insert(0,'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon')
 
 import baecon as bc
 import os

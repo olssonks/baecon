@@ -256,6 +256,6 @@ if __name__ in {"__main__", "__mp_main__"}:
         plot.update()
 
     
-    app.on_startup(main)
+    ui.button('clci', on_click=main)
     ui.timer(0.1, update_plot)
     ui.run(port=8666)
