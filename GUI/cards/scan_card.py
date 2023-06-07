@@ -36,7 +36,8 @@ table_args_holder = gui_utils.holder()
 head_style = 'color: #37474f; font-size: 200%; font-weight: 300'
 
 def main(gui_fields:gui_utils.GUI_fields,
-         meas_settings:bc.Measurement_Settings):
+         meas_settings:bc.Measurement_Settings,
+         meas_data:bc.Measurement_Data):
     with ui.column().classes('w-full'):
         ui.label('Measurment Scans').style(head_style)
         save_load(gui_fields, meas_settings)

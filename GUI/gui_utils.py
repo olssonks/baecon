@@ -8,11 +8,14 @@ import baecon as bc
 
 
 from nicegui import ui
-import nicegui
 import plotly.graph_objects as go
 
 @dataclass
 class holder:
+    """Used for passing values between functions and GUI inputs.
+       `NiceGUI` uses `lambda` and `async` functions, which this holder object
+       works well for not passing arguments to these function types.
+    """
     value: any = ""
     def update(self, new_value):
         self.value = new_value
@@ -27,15 +30,15 @@ class Plot_Settings:
     
 @dataclass
 class GUI_fields:
-    """The GUI objects can be bound to these attributes, eliminating the need
-       to pass values between differet cards.
+    """The GUI objects can be bound to these attributes, allowing passing 
+       between cards.
     """
-    plot              : nicegui.elements.plotly.Plotly = ""
+    plot_data         : dict = field(default_factory=dict) ## {'name': (x_data, y_data)}
     exp_name          : str = ""
     exp_file          : str = ""
     engine_file       : str = ""
     scan_file         : str = ""
-    instrument_file   : dict = field(default_factory=dict)
+    instrument_file   : dict = field(default_factory=dict) 
     data_auto_save    : bool = ""
     data_folder       : str = ""
     data_file         : str = ""
@@ -122,7 +125,7 @@ class load_file(ui.dialog):
 
     async def _handle_ok(self):
         rows = await ui.run_javascript(f'getElement({self.grid.id}).gridOptions.api.getSelectedRows()')
-        full_path = str(Path(self.path.resolve(), rows[0]['path']))
+        full_path = str(Path(self.path.resolve(), rows[0]['name']))
         self.submit(full_path)
         
 
@@ -130,8 +133,15 @@ def available_devices():
     device_path = bc.Devices_directory
     contents = list(Path(device_path).glob('*'))
     devices = [content for content in contents if content.is_dir()]
+    return devices
     
-    return
+def name_from_path(file_path):
+    try:
+        file_name = file_path.split('\\')[-1]
+        return file_name
+    except AttributeError as e:
+        ## logging here
+        return
     
 def load_gui_config(file_name)->GUI_Measurement_Configuration:
     loaded_config = bc.utils.load_config(file_name)

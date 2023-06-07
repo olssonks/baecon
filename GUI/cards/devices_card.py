@@ -296,7 +296,7 @@ def show_devices(meas_settings:bc.Measurement_Settings):
         # print(device_list['SG1'])
         # print(alt_list['SG1'].configuration)
     else: 
-        device_list = gui_configs_holder.value.acquisition_devices
+        device_list = meas_settings.acquisition_devices
     with ui.column().classes('w-full'):
         for name, device in device_list.items():
             with ui.expansion(f'{name} ({device.__module__})').classes('w-full text-center'):

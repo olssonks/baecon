@@ -56,8 +56,10 @@ class Measurement_Data:
         self.data_template = bc.create_data_template(ms)
         measurement_config = bc.generate_measurement_config(ms)
         self.data_set.attrs['measurement_config'] = measurement_config
-        self.data_set.attrs['scan_parameters'] = [scan_name for scan_name in 
-                                                  list(measurement_config['scan_collection'].keys())]
+        self.data_set.attrs['scan_parameters'] = [scan_setting['parameter'] for scan_setting in 
+                                                  measurement_config['scan_collection'].values()]
+        self.data_set.attrs['acquire_methods'] = [acq_meth for acq_meth in 
+                                                     measurement_config['acquisition_devices'].keys()]
 
 
 def create_data_template(Measurement_Setings:bc.Measurement_Settings)->xr.DataArray:

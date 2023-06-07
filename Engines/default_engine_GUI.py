@@ -13,22 +13,60 @@ import sys
 sys.path.insert(0,'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon')
 import time
 import baecon as bc
+
+import queue, threading, copy, asyncio
+from dataclasses import dataclass, field
+from functools import partial
+
+import numpy as np
+import xarray as xr
+
 from nicegui import ui, app
 import plotly.graph_objects as go
-
-import queue, threading, copy
-import asyncio
-from dataclasses import dataclass
-import numpy as np
-
-import time
 
 @dataclass
 class abort:
     """Used to stop all threads with keyboard input ``'abort'``.
     
     """   
-    flag = False
+    abort_measurement = False
+
+@dataclass
+class Measurement_Data:
+    """Data structure for handling data in ``baecon``.
+    
+    Attributes:
+        data_template (:py:mod:`xarrray.DataArray`): A template of how the data
+            will be stored for the measurement. For each full scan collection
+            a copy of the template is supplied for storing the data for that 
+            scan collection. One full scan will fill the entire array.
+        data_set (:py:mod:`xarrray.Dataset`): The full data for the measurement.
+            After a scan collection, the :py:mod:`xarrray.DataArray` is added to
+            the `data_set`. When taking multiple runs of the scan collection, i.e,
+            :py:attr:`Measurement_Settings.averages`, each average will be an 
+            :py:mod:`xarrray.DataArray` within ``data_set``. Additionally, all
+            the measurement settings are are saved as metadtata held in the 
+            attributes of `data`.
+        processed_data (:py:mod:`xarrray.Dataset`): Processed data returned from
+            :py:func:`data_from_module`.
+    Methods:
+        assign_measurement_settings (:py:class:`baecon.base.Measurement_Settings`): 
+            creates and stores ``data_template``, and stores the measurement
+            settings in ``data_set``.
+    """    
+    data_template: xr.DataArray = field(default_factory=xr.DataArray)
+    data_current_scan: xr.DataArray = field(default_factory=xr.DataArray)
+    data_set: xr.Dataset = field(default_factory=xr.Dataset)
+    processed_data: xr.Dataset = field(default_factory=xr.Dataset)
+    def assign_measurement_settings(self, ms:bc.Measurement_Settings)->None:
+        self.data_template = bc.create_data_template(ms)
+        measurement_config = bc.generate_measurement_config(ms)
+        self.data_set.attrs['measurement_config'] = measurement_config
+        self.data_set.attrs['scan_parameters'] = [scan_setting['parameter'] for scan_setting in 
+                                                  measurement_config['scan_collection'].values()]
+        self.data_set.attrs['acquire_methods'] = [acq_meth for acq_meth in 
+                                                     measurement_config['acquisition_devices'].keys()]
+
 
 def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Queue,
                     parameter_holder:dict, total_depth:int, present_depth:int,
@@ -51,21 +89,22 @@ def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Qu
             are used in the scan.
         present_depth (int): Depth of current position in nested loops. Used to 
             keep track of recursion.
-        abort (abort): :py:class:abort used to break loop recursion.
+        abort (bool): :Used to break loop recursion.
     """    
     if present_depth == total_depth - 1:
         scan_now = scan_list[present_depth]
         for val in scan_now['schedule']:
             parameter_holder[scan_now['parameter']] = val
             scan_now['device'].write(scan_now['parameter'], val)
-            time.sleep(0.001)   # Add a delay in sec before next scan
+            #time.sleep(0.5)   # Add a delay in sec before next scan
             data = {}
             for acq_name, acq_method in list(acquisition_methods.items()):
                 data[acq_name] = acq_method.read()
             data_queue.put({'parameters': parameter_holder.copy(), 
                             'data': data}
             )
-            if abort.flag == 'abort':
+            #time.sleep(0.01)
+            if abort.abort_measurement:
                 break
     else:
         scan_now = scan_list[present_depth]
@@ -73,7 +112,7 @@ def scan_recursion(scan_list:dict, acquisition_methods:dict, data_queue:queue.Qu
             parameter_holder[scan_now['parameter']] = idx
             scan_recursion(scan_list, acquisition_methods, data_queue,
                     parameter_holder, total_depth, present_depth+1, abort)
-            if abort.flag == 'abort':
+            if abort.abort_measurement:
                 break
     return
 
@@ -89,7 +128,7 @@ def consecutive_measurement(scan_collection:dict,
         scan_collection (dict): Collection of scans for the measurement to perform
         acquisition_devices (dict): Devices for acquiring data
         data_queue (queue.Queue): Queue use to pass measurement to the data thread
-        abort (abort): Exits measurement if ``abort.flag == True``
+        abort (bool): Exits measurement if ``True``
     """
     total_depth = len(scan_collection)
     current_depth = 0
@@ -128,32 +167,37 @@ def measure_thread(ms:bc.Measurement_Settings, data_queue, abort:abort):
     for idx in np.arange(ms.averages, dtype=np.int32):
         consecutive_measurement(scans, acq_methods, data_queue, abort)
         data_queue.put(['scan_done'])
+        print(f"measurement {idx} done")
+        if abort.abort_measurement:
+            break
     data_queue.put(['measurement_done'])
     return
     
-def data_thread(md:bc.Measurement_Data, data_queue, abort:abort):
+def data_thread(md:bc.Measurement_Data, data_queue:queue.Queue, abort:abort)->None:
     print('start data thread')
     data_done = ''
     idx = 0
+    #md.data_measurement_holder = copy.deepcopy(md.data_template)
     while not data_done == 'measurement_done':
-        data_arrays = copy.deepcopy(md.data_template)
-        data_done = get_scan_data(data_arrays, data_queue, data_done, abort)
-        if abort.flag:
+        md.data_current_scan = copy.deepcopy(md.data_template)
+        data_done = get_scan_data(md.data_current_scan, data_queue, data_done, abort)
+        if abort.abort_measurement:
                 break
         if 'scan_done' in data_done:
-            for acq_key in list(data_arrays.keys()):
-                md.data_set[f'{acq_key}_{idx}'] = data_arrays[acq_key]
+            for acq_key in list(md.data_current_scan.keys()):
+                md.data_set[f'{acq_key}-{idx}'] = md.data_current_scan[acq_key]
             data_done = ''
             idx+=1
-    abort.flag = True
-    print('Measurement Done, press enter.')
+    abort.abort_measurement = True
+    md.data_current_scan = copy.deepcopy(md.data_template)
     return
 
-def get_scan_data(data_arrays, data_queue, data_done, abort):
+def get_scan_data(data_arrays:xr.DataArray, data_queue:queue.Queue, 
+                  data_done:str, abort:abort)->str: 
     while not (data_done == 'scan_done' or data_done == 'measurement_done'):
-        if abort.flag:
+        if abort.abort_measurement:
             break
-        new_data = data_queue.get(timeout = 5)
+        new_data = data_queue.get(timeout = 10000)
         if len(new_data) == 1:
             data_done = new_data[0]
         else:
@@ -163,99 +207,179 @@ def get_scan_data(data_arrays, data_queue, data_done, abort):
     return data_done
 
 def abort_monitor(abort:abort):
-    while abort.flag == False:
-        keystrk=input('Input "abort" to end measurement \n')
-        if keystrk == "abort":
-            abort.flag = keystrk
-            break
-        elif abort.flag==True:
-            break
-        else: 
-            print('Input not understood')
+    # while abort.flag == False:
+    #     keystrk=input('Input "abort" to end measurement \n')
+    #     if keystrk == "abort":
+    #         abort.flag = keystrk
+    #         break
+    #     elif abort.flag==True:
+    #         break
+    #     else: 
+    #         print('Input not understood')
     return
 
 
-def perform_measurement(ms:bc.Measurement_Settings, 
-                        md:bc.Measurement_Data)->bc.Measurement_Data:
-    
-    abort_flag = abort()
-    data_cue = queue.Queue()
-        
-    m_t=threading.Thread(target=measure_thread, args=(ms, data_cue, abort_flag,))
-    d_t=threading.Thread(target=data_thread, args=(md, data_cue, abort_flag,))
-    a_t=threading.Thread(target=abort_monitor, args=(abort_flag,))
-    
-    m_t.start()
-    d_t.start()
-    a_t.start()
-    while (m_t.is_alive() or d_t.is_alive() or a_t.is_alive()):
-        pass
-    
-    return
-    
-def simple_plot(dataset):
-    with ui.card():
-        scatter = go.Scatter()
-        fig = go.Figure()
-        plot = ui.plotly(fig)
-
-    def update_plot():
-        x, y= get_data(dataset.data_set)
-        fig.data = []
-        fig.add_trace(go.Scatter(x=x, y=y))
-        plot.update()
-    ui.timer(0.1, update_plot)
-    ui.run(port=8666)
-    return
-    
 def get_data(data_array):
     trimmed = data_array.dropna('frequency')
     x = trimmed.coords['frequency'].values
-    y = trimmed.to_array().values.mean(axis=1)
+    y = np.mean(trimmed.values, axis=0)
+    return x, y
+    
+def calc_avg_data(data_set):
+    data_array = data_set.to_array()
+    x = data_array.coords['frequency'].values
+    vals = data_array.values
+    mean_samps = np.mean(vals, axis = vals.ndim -1)
+    mean_scans = np.mean(mean_samps, axis=0)
+    y = mean_scans
     return x, y
 
-
-def main():
-    # meas_config = bc.utils.load_config("C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\generated_config.toml")
-    
-    # ms = bc.make_measurement_settings(meas_config)
-    # scans = ms.scan_collection
-    # acq_methods = ms.acquisition_devices
-    
-    # meas_data = bc.Measurement_Data()
-    # meas_data.data_template = bc.create_data_template(ms)
-    # meas_data.assign_measurement_settings(ms)
-    
-    abort_flag = abort()
+async def perform_measurement(ms:bc.Measurement_Settings, md, abort)->bc.Measurement_Data:
     data_cue = queue.Queue()
-    # for idx in np.arange(ms.averages, dtype=np.int32):
-    #     consecutive_measurement(scans, acq_methods, data_cue, abort)
-    data = perform_measurement(ms,md)
-    #bc.utils.save_baecon_data(data, 'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\test_data.zarr', format='.zarr')  
+        
+    m_t=threading.Thread(target=measure_thread, args=(ms, data_cue, abort,))
+    d_t=threading.Thread(target=data_thread, args=(md, data_cue, abort))
+    m_t.start()
+    d_t.start()
+    return
+    
+async def main(ms,md, abort):
+    task = asyncio.create_task(perform_measurement(ms,md,abort))
+    await task
+    return task
+    
+## engine provides plot data function for ui.timer to use
+## ui.timer needs to be in the plot card or engine card
+def plot_data(the_plot, md:bc.Measurement_Data)->None:
+    scan_parameters = md.data_set.attrs.get('scan_parameters')
+    acquire_methods = md.data_set.attrs.get('acquire_methods')
+    current_data    = get_current_data(md.data_current_scan[acquire_methods[0]], scan_parameters) ## returns dict {name: (x,y)}
+    completed_data  = get_completed_data(md.data_set, scan_parameters) ## returns dict {name: (x,y)} for completed data
+    average_data    = get_avg_data(md.data_set, scan_parameters)
+    fig = {
+        'data': [],
+        'layout': {
+            'margin': {'l': 15, 'r': 0, 't': 0, 'b': 15},
+            'plot_bgcolor': '#E5ECF6',
+            'xaxis': {'title':scan_parameters[0],'gridcolor': 'white'},
+            'yaxis': {'gridcolor': 'white'},
+        },
+    }
+    if not (current_data == None ):
+        fig = main_trace_style(fig, {**current_data, **average_data})
+    if not completed_data == None:
+        fig = secondary_trace_style(fig, completed_data)
+    the_plot.update_figure(fig)
+    return
+    
+def get_current_data(data_array, scan_parameters:list):
+    ## data_array should be measurement_data_holder in Measurement_Data object
+    ## need to update for handling 2D scans
+    
+    parameter = scan_parameters[0]
+    trimmed = data_array.dropna(parameter)
+    
+    ## checks if all values are nan
+    if trimmed.nbytes == 0:
+        return
+    else:
+        x = trimmed.coords.get(parameter).values
+        y = np.mean(trimmed.values, axis=0)
+    return {'current': (x ,y)}
+    
+def get_completed_data(data_set, scan_parameters:list):
+    ## need to update for handling 2D scans
+    complete_data = {}
+    parameter = scan_parameters[0]
+    if data_set.nbytes == 0:
+        return
+    else:
+        for scan_key in list(data_set.keys()):
+            vals= data_set.get(scan_key).values
+            x = data_set.get(scan_key).coords.get(parameter).values
+            y = np.mean(vals, axis=vals.ndim -1)
+            complete_data.update({scan_key: (x, y)})
+    return complete_data
+    
+def get_avg_data(data_set, scan_parameters:list):
+    ## need to update for handling 2D scans
+    if data_set.nbytes ==0:
+        return
+    else:
+        parameter = scan_parameters[0]
+        data_array = data_set.to_array()
+        x = data_array.coords.get(parameter).values
+        vals = data_array.values
+        mean_samps = np.mean(vals, axis = vals.ndim -1)
+        mean_scans = np.mean(mean_samps, axis=0)
+        y = mean_scans
+    return {'Average': (x, y)}
+    
+def main_trace_style(fig, trace_data:dict):
+    ## use for current data and average data
+    for trace_name in list(trace_data.keys()):
+        #trace_name = list(trace_data.keys())[0]
+        (x,y) = trace_data.get(trace_name)
+        new_trace ={
+            'type': 'scatter',
+            'name': trace_name,
+            'x'   : x,
+            'y'   : y,
+            'line': {'width': 4}
+        }
+        fig.get('data').insert(0, new_trace) 
+        ## use insert to add to front of list to order traces in plot properly
+    return fig
+    
+def secondary_trace_style(fig, trace_data:dict):
+    ## use for completed data
+    for idx, trace_name in enumerate(list(trace_data.keys())):
+        #trace_name = list(trace_data.keys())[0]
+        (x,y) = trace_data.get(trace_name)
+        new_trace ={
+            'type'   : 'scatter',
+            'name'   : trace_name,
+            'x'      : x,
+            'y'      : y,
+            'line'   : {'width': 2},
+            'opacity': max(0.25, 1 - 0.1*idx)
+        }
+        fig.get('data').insert(0,new_trace)
+    return fig
+
 
 if __name__ in {"__main__", "__mp_main__"}:
     meas_config = bc.utils.load_config("C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\generated_config.toml")
     
     ms = bc.make_measurement_settings(meas_config)
-    scans = ms.scan_collection
-    acq_methods = ms.acquisition_devices
     
-    md = bc.Measurement_Data()
+    md = Measurement_Data()
     md.data_template = bc.create_data_template(ms)
     md.assign_measurement_settings(ms)
+    md.data_current_scan = copy.deepcopy(md.data_template)
     
+    fig = go.Figure()
+
     with ui.card():
-        scatter = go.Scatter()
-        fig = go.Figure()
-        plot = ui.plotly(fig)
-
-    def update_plot():
-        x, y= get_data(md.data_set)
-        fig.data = []
-        fig.add_trace(go.Scatter(x=x, y=y))
-        plot.update()
-
+        plot1 = ui.plotly(fig).classes('w-full h-25')
+        plot1.update()
     
-    ui.button('clci', on_click=main)
-    ui.timer(0.1, update_plot)
-    ui.run(port=8666)
+    #app.on_shutdown(main)
+    abort_flag = abort()
+    def trigger_abort():
+        abort_flag.abort_measurement = True
+    
+    def ppp():
+        plot_data(plot1, md)
+        
+    check = abort()
+    def make_check():
+        check.abort_measurement = not check.abort_measurement
+
+    ui.button('clci', on_click=partial(main, *(ms,md, abort_flag)))
+    ui.button('abort', on_click=trigger_abort)
+    line_updates = ui.timer(0.5, partial(plot_data, *(plot1, md)), active=False)
+    line_checkbox = ui.checkbox('active').bind_value(line_updates, 'active')
+    ui.button('Check', on_click=make_check)
+    line_checkbox.bind_value(check, 'abort_measurement')
+    ui.run(port=8081)

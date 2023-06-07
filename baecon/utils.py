@@ -335,15 +335,19 @@ def load_module_from_path(file_path:str):
     Returns:
         (python module): Module that was loaded
     """
-    file_name = file_path.split('\\')[-1]
-    
-    to_import = os.path.splitext(file_name)[0]
-    
-    inst_path = os.path.abspath(file_path)
-    spec = importlib.util.spec_from_file_location(to_import, inst_path)
-    device_module = importlib.util.module_from_spec(spec)
-    sys.modules[to_import] = device_module
-    spec.loader.exec_module(device_module)
-    return device_module
+    try: 
+        file_name = file_path.split('\\')[-1]
+        
+        to_import = os.path.splitext(file_name)[0]
+        
+        inst_path = os.path.abspath(file_path)
+        spec = importlib.util.spec_from_file_location(to_import, inst_path)
+        device_module = importlib.util.module_from_spec(spec)
+        sys.modules[to_import] = device_module
+        spec.loader.exec_module(device_module)
+        return device_module
+    except AttributeError:
+        print(f'Tried to load a module from a path with: {file_path} but failed')
+        return
     
     

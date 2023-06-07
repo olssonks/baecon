@@ -9,7 +9,8 @@ from nicegui import ui
 from dataclasses import dataclass, asdict
 import asyncio
 import time
-#import utils
+
+# import utils
 
 import numpy as np
 
@@ -18,7 +19,7 @@ import numpy as np
 #     value: any = ""
 #     def update(self, new_value):
 #         self.value = new_value
-        
+
 # rand = holder(str(np.random.random(1)))
 
 # card_holder = holder()
@@ -47,33 +48,30 @@ import numpy as np
 #     ui.label('Hello')
 # exp.on('hide', test)
 
-test = '''<style>
+test = """<style>
 .text-brand {
   color: #a2aa33 !important;
 }
 .bg-brand {
   background: #a2aa33 !important;
-} </style>'''
+} </style>"""
 
 ui.add_head_html(test)
 
-with ui.card().classes('bg-brand'):
-    with ui.row().classes('flex items-stretch'):
-        with ui.column().classes('grid justify-items-stretch'):
-            with ui.card().classes('place-content-center h-full'):
-                ui.button('y')
-                ui.button('y')
-                ui.button('y')
-            with ui.card().classes('place-content-center h-full'):
-                ui.button('y')
+with ui.card().classes("bg-brand"):
+    with ui.row().classes("flex items-stretch"):
+        with ui.column().classes("grid justify-items-stretch"):
+            with ui.card().classes("place-content-center h-full"):
+                ui.button("y")
+                ui.button("y")
+                ui.button("y")
+            with ui.card().classes("place-content-center h-full"):
+                ui.button("y")
         with ui.column():
             with ui.card():
-                ui.button('y').classes('h-96')
+                ui.button("y").classes("h-96")
             with ui.card():
-                ui.button('y')
+                ui.button("y")
 
 
 ui.run(port=8082)
-
-
-

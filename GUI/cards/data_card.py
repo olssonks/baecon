@@ -10,42 +10,21 @@ import baecon as bc
 
 head_style = 'color: #37474f; font-size: 200%; font-weight: 300'
 
-## GUI fields just for the data_card
-## useful for debugging data_card.main()
-@dataclass
-class GUI_fields:
-    """The GUI objects can be bound to these attributes, eliminating the need
-       to pass values between differet cards.
-    """
-    #plot              : nicegui.elements.plotly.Plotly
-    exp_name          : str
-    #exp_file          : str
-    #engine_file       : str
-    #scan_file         : str
-    #instrument_file   : dict
-    data_auto_save    : bool
-    data_folder       : str
-    data_file         : str
-    data_file_format  : str
-    data_analysis     : str ### Probably a seperate Window
-    #plot_active       : bool
-    #abort_measurement : bool
+date_prefix = gui_utils.holder(datetime.today().strftime("%Y%m%d"))
+meas_number = gui_utils.holder('0') ## should read data files in folder and update
+alt_data_file_name = gui_utils.holder('')
 
-
-def main(gui_fields:GUI_fields):
-    date_prefix = gui_utils.holder(datetime.today().strftime("%Y%m%d"))
-    meas_number = gui_utils.holder('0')
-    full_save_name = gui_utils.holder(
-        ('_'.join([date_prefix.value, meas_number.value, gui_fields.exp_name])
-        +gui_fields.data_file_format)
-        )
+def main(gui_fields:gui_utils.GUI_fields, meas_data:bc.Measurement_Data):
+    
+    gui_fields.data_file = ('_'.join([date_prefix.value, meas_number.value, 
+                            gui_fields.exp_name]) + gui_fields.data_file_format)
     with ui.column():
         with ui.row():
             ui.label('Data').style(head_style)
             ui.checkbox('Auto Save').bind_value(gui_fields, 'data_auto_save')
         with ui.row():
             ui.label('File: ')
-            ui.label().bind_text(full_save_name, 'value')
+            ui.label().bind_text(gui_fields, 'data_file')
             
     with ui.expansion('Save Info').classes('w-full'):
         with ui.row().classes('w-full no-wrap items-center'):
@@ -60,9 +39,8 @@ def main(gui_fields:GUI_fields):
                 ui.label().bind_text(meas_number, 'value')
             
             with ui.row().classes('w-full no-wrap items-center'):
-                ui.input(placeholder='Data File Name', 
-                        on_change= lambda e: update_file_name(e.value, full_save_name, date_prefix, meas_number, gui_fields))\
-                        .classes('w-full').bind_value(gui_fields, "data_file")
+                ui.input(placeholder='Alt. Data File Name')\
+                        .classes('w-full').bind_value(alt_data_file_name, "value")
         
         with ui.row().classes('w-full no-wrap items-center'):
             ui.label('Data Format:')
@@ -73,8 +51,9 @@ def main(gui_fields:GUI_fields):
         with ui.row():
             ui.button('Save')
             ui.button('Save as:', 
-                    on_click=save_as_button(gui_fields, date_prefix, meas_number))\
-                    .classes('text-left')
+                    on_click=save_as_button(alt_data_file_name, meas_data, 
+                                            date_prefix, meas_number)
+                    ).classes('text-left')
         
         with ui.row().classes('w-full no-wrap items-center'):
             ui.input('analysis method').classes('w-full')
@@ -82,35 +61,38 @@ def main(gui_fields:GUI_fields):
 
     return
 
+
 async def pick_file():
     result = await gui_utils.load_file('.')
     return result
+
     
-async def pick_data_folder(gui_fields):
+async def pick_data_folder(gui_fields:gui_utils.GUI_fields):
     result = await gui_utils.load_file('.')
     gui_fields.data_folder = result
     return
 
-async def save_as_button(gui_fields, 
-                         data_prefix, meas_number):
-    if gui_fields.data_file in ['Data File Name', '']:
+
+async def save_as_button(alt_data_file_name:gui_utils.holder, 
+                         meas_data:bc.Measurement_Data,
+                         date_prefix:str, meas_number: str):
+    if alt_data_file_name.value in ['Alt. Data File Name', '']:
         file = await pick_file()
         if file:
-            gui_fields.data_file = date_prefix.value + file
+            alt_data_file_name.value = date_prefix.value + file
             gui_fields.data_file_format = '.' + file.split('.')[-1]
 
-    bc.utils.save_baecon_data(meas_data, gui_fields.data_file, 
+    bc.utils.save_baecon_data(meas_data, alt_data_file_name.value, 
                               format=gui_fields.data_file_format) 
     return
 
-def update_file_name(new_name, full_save_name, date_prefix, meas_number, gui_fields):
-    full_save_name.update(
-        '_'.join([date_prefix.value, 
-                  meas_number.value, 
-                  new_name])
-        + gui_fields.data_file_format
-        )
+
+def update_file_name(gui_fields):
+    gui_fields.data_file =  ('_'.join([date_prefix.value, meas_number.value, 
+                            gui_fields.exp_name]) + gui_fields.data_file_format
+                             )
     return
+
 
 def update_file_format(new_format, gui_fields):
     gui_fields.data_file_format = new_format
