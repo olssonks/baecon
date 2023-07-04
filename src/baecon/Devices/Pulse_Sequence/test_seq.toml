@@ -1,0 +1,14 @@
+[PS-0.pulse_0]
+type = "none"
+duration = 1
+start_time = 1
+
+[PS-3.pulse_0]
+type = "pi/2"
+duration = 1
+start_time = 1.5
+
+[PS-3.pulse_1]
+type = "pi/2"
+duration = 1
+start_time = 10.5
