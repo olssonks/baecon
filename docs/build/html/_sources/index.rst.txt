@@ -59,6 +59,8 @@ the `NiceGUI <https://nicegui.io/>`_ package.
 +----------------------+--------------------------------------------------+
 | :red:`baecon.utils`  | File I/O and other utility functions             |
 +----------------------+--------------------------------------------------+
+| :red:`baecon.GUI`    | GUI for operating ``baecon``                     |
++----------------------+--------------------------------------------------+
 
 .. toctree::
    :maxdepth: 1
@@ -66,6 +68,7 @@ the `NiceGUI <https://nicegui.io/>`_ package.
 
    guides/quickstart
    base
+   GUI
    device
    engine
    data
@@ -80,7 +83,7 @@ Indices and tables
 * :py:mod:`engine`
 * :py:mod:`data`
 * :py:mod:`utils`
-
+* :py:mod:`GUI`
 
 * :ref:`genindex`
 * :ref:`modindex`

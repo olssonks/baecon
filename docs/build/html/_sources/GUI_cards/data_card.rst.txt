@@ -1,0 +1,4 @@
+Data Card
+=========
+
+.. autofunction:: baecon.GUI.cards.data_card.main

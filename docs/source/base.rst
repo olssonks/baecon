@@ -1,5 +1,5 @@
 Base
-===========
+====
 
 .. automodule:: baecon.base
     :imported-members:

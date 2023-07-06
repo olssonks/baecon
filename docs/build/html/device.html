@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 
@@ -7,9 +6,9 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Device &#8212; Baecon 0.1 documentation</title>
+    <title>Device &#8212; Baecon 0.0.1 documentation</title>
   
   
   
@@ -30,6 +29,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
@@ -42,7 +42,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Engine" href="engine.html" />
-    <link rel="prev" title="Base" href="base.html" />
+    <link rel="prev" title="Data Card" href="GUI_components/data_card.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -104,7 +104,7 @@
   
   
   
-    <p class="title logo__title">Baecon 0.1 documentation</p>
+    <p class="title logo__title">Baecon 0.0.1 documentation</p>
   
 </a></div>
     
@@ -131,6 +131,13 @@
                     </li>
                 
 
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="GUI.html">
+                        GUI
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
                         Device
@@ -151,19 +158,19 @@
                       </a>
                     </li>
                 
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="utils.html">
-                        Utils
-                      </a>
-                    </li>
-                
             <div class="nav-item dropdown">
                 <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     More
                 </button>
                 <div class="dropdown-menu">
                     
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="utils.html">
+                        Utils
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="todo.html">
                         To Dos
@@ -257,6 +264,13 @@ document.write(`
                     </li>
                 
 
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="GUI.html">
+                        GUI
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item current active">
                       <a class="nav-link nav-internal" href="#">
                         Device
@@ -277,19 +291,19 @@ document.write(`
                       </a>
                     </li>
                 
-
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="utils.html">
-                        Utils
-                      </a>
-                    </li>
-                
             <div class="nav-item dropdown">
                 <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     More
                 </button>
                 <div class="dropdown-menu">
                     
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="utils.html">
+                        Utils
+                      </a>
+                    </li>
+                
+
                     <li class="nav-item">
                       <a class="nav-link nav-internal" href="todo.html">
                         To Dos
@@ -376,9 +390,9 @@ document.write(`
 <h1>Device<a class="headerlink" href="#device" title="Permalink to this heading">#</a></h1>
 <dl class="py class">
 <dt class="sig sig-object py" id="baecon.device.Device">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.device.</span></span><span class="sig-name descname"><span class="pre">Device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device" title="Permalink to this definition">#</a></dt>
-<dd><p>Class for handling control and communication with experimental devices.
-Experimental devices are designated into two catagories: <strong>scanning devices</strong>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.device.</span></span><span class="sig-name descname"><span class="pre">Device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device" title="Permalink to this definition">#</a></dt>
+<dd><p>Class for handling control and communication with experimental devices.</p>
+<p>Experimental devices are designated into two catagories: <strong>scanning devices</strong>
 and <strong>acquisition devices</strong>, with this class serving as
 the base class for both. Scanning devices are the devices whose
 properties are changed from reading to reading. Acquisition devices
@@ -406,7 +420,7 @@ power, …</p>
 </dd>
 <dt>configuration (dict): Full configuration of the device: name,</dt><dd><p>parameters, and latent_parameters. Passing this dictionary
 when creating the device object fully defines the
-device.</p>
+device. Used to save/load device into the measurement.</p>
 </dd>
 <dt>acq_data_size (int or tupel): Size of the data taken during a</dt><dd><p>reading by an acquisition device. For example, a single
 reading of voltage would be size 1, size for an image would be
@@ -419,7 +433,7 @@ for acquisition should override this based on a parameter.</p>
 </div></blockquote>
 <dl class="py method">
 <dt class="sig sig-object py" id="baecon.device.Device.__init__">
-<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.device.Device.__init__" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.device.Device.__init__" title="Permalink to this definition">#</a></dt>
 <dd><dl>
 <dt>Initializes device object with supplied configuration dictionary.</dt><dd><p>The supplied dictionary is then stored in the configuration attribue.
 The configuration dictionary has the form:</p>
@@ -440,6 +454,20 @@ when creating the device object fully defines the device.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="baecon.device.Device.enable_output">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">enable_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device.enable_output" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Enables or disables the device output based on value.</dt><dd><p>Mostly used in the GUI to turn on/off output of constant devices.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>value</strong> (<em>bool</em>) – 0 or 1 for off or on</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="baecon.device.Device.intitalize_parameters">
 <span class="sig-name descname"><span class="pre">intitalize_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device.intitalize_parameters" title="Permalink to this definition">#</a></dt>
 <dd><p>Populate the parameters and latent_parameters attributes from configuration dictionary.</p>
@@ -455,7 +483,7 @@ device.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="baecon.device.Device.read">
-<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device.read" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device.read" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
 <dt>Function used to read parameter from device during a measurement.</dt><dd><p>The user decides how this write command is performed in the
 device child class. <code class="docutils literal notranslate"><span class="pre">read</span></code> only takes two inputs the parameter
@@ -480,7 +508,7 @@ device type, set it to <code class="docutils literal notranslate"><span class="p
 
 <dl class="py method">
 <dt class="sig sig-object py" id="baecon.device.Device.write">
-<span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device.write" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">write</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parameter</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device.write" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
 <dt>Function used to write parameter to device during a measurement.</dt><dd><p>The user decides how this write command is performed in the
 device child class. <code class="docutils literal notranslate"><span class="pre">write</span></code> only takes two inputs the parameter
@@ -513,12 +541,12 @@ to write to, and the value to write. Values need not be numeric.</p>
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="base.html"
+       href="GUI_components/data_card.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Base</p>
+        <p class="prev-next-title">Data Card</p>
       </div>
     </a>
     <a class="right-next"
@@ -550,6 +578,7 @@ to write to, and the value to write. Values need not be numeric.</p>
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.device.Device"><code class="docutils literal notranslate"><span class="pre">Device</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.device.Device.__init__"><code class="docutils literal notranslate"><span class="pre">Device.__init__()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.device.Device.enable_output"><code class="docutils literal notranslate"><span class="pre">Device.enable_output()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.device.Device.intitalize_parameters"><code class="docutils literal notranslate"><span class="pre">Device.intitalize_parameters()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.device.Device.read"><code class="docutils literal notranslate"><span class="pre">Device.read()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.device.Device.write"><code class="docutils literal notranslate"><span class="pre">Device.write()</span></code></a></li>
@@ -598,7 +627,7 @@ to write to, and the value to write. Values need not be numeric.</p>
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 6.1.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
     <br/>
   </p>
 </div>

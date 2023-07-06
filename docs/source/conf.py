@@ -11,8 +11,10 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../..'))
-sys.path.append('C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\baecon')
+
+sys.path.insert(0, os.path.abspath('../../src'))
+# sys.path.append('../../src')
+# sys.path.append('C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\docs')
 
 import baecon
 import pydata_sphinx_theme
@@ -23,18 +25,19 @@ import pydata_sphinx_theme
 project = 'Baecon'
 copyright = '2023, Kevin S. Olsson'
 author = 'Kevin S. Olsson'
-release = '0.1'
+release = '0.0.1'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-extensions = ['sphinx.ext.autodoc',
-              'sphinx.ext.doctest',
-              'sphinx.ext.intersphinx',
-              'sphinx.ext.todo',
-              'sphinx.ext.napoleon',
-              #'groundwork-sphinx-theme',
-            ]
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.doctest',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.todo',
+    'sphinx.ext.napoleon',
+    #'groundwork-sphinx-theme',
+]
 
 templates_path = ['_templates']
 exclude_patterns = []
@@ -47,10 +50,13 @@ todo_include_todos = True
 
 html_theme = 'pydata_sphinx_theme'
 html_static_path = ['_static']
+html_css_files = [
+    'css/custom.css',
+]
 
 html_theme_options = {
-  "show_toc_level": 2,
-  "secondary_sidebar_items": ["page-toc", "edit-this-page", "sourcelink"],
+    "show_toc_level": 2,
+    "secondary_sidebar_items": ["page-toc", "edit-this-page", "sourcelink"],
 }
 
 
