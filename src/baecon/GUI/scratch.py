@@ -56,22 +56,26 @@ test = """<style>
   background: #a2aa33 !important;
 } </style>"""
 
-ui.add_head_html(test)
 
-with ui.card().classes("bg-brand"):
-    with ui.row().classes("no-wrap items-stretch"):
-        with ui.column().classes("grid justify-items-stretch"):
-            with ui.card().classes("h-full justify-between"):
-                ui.button("y")
-                ui.button("y")
-                ui.button("y")
-            with ui.card().classes("place-content-center h-full"):
-                ui.button("y")
-        with ui.column():
-            with ui.card():
-                ui.button("y").classes("h-96")
-            with ui.card():
-                ui.button("y")
+def main():
+    ui.add_head_html(test)
+
+    with ui.card().classes("bg-brand"):
+        with ui.row().classes("no-wrap items-stretch"):
+            with ui.column().classes("grid justify-items-stretch"):
+                with ui.card().classes("h-full justify-between"):
+                    ui.button("y")
+                    ui.button("y")
+                    ui.button("y")
+                with ui.card().classes("place-content-center h-full"):
+                    ui.button("y")
+            with ui.column():
+                with ui.card():
+                    ui.button("y").classes("h-96")
+                with ui.card():
+                    ui.button("y")
 
 
-ui.run(port=8082)
+if __name__ == {"__main__", "__mp_main__"}:
+    main()
+    ui.run(port=8082)

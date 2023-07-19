@@ -12,18 +12,15 @@
 import asyncio
 import copy
 import queue
-import sys
 import threading
-from dataclasses import dataclass, field
-from functools import partial
+from dataclasses import dataclass
 
 import baecon as bc
 import numpy as np
-import plotly.graph_objects as go
 import xarray as xr
-from nicegui import ui
 
 ## should be working with this, but if baecon cannot be found uncomment this
+# import sys
 # sys.path.insert(0,'C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon')
 
 
@@ -124,7 +121,9 @@ def consecutive_measurement(
     return
 
 
-def make_scan_list(scan_collection: dict) -> list[dict[bc.Device, str, np.ndarray]]:
+def make_scan_list(
+    scan_collection: dict,
+) -> list[dict[bc.Device, str, np.ndarray]]:
     """Builds a list of scans from the scan settings of each entry in the
        scan collection.
 
@@ -146,7 +145,7 @@ def make_scan_list(scan_collection: dict) -> list[dict[bc.Device, str, np.ndarra
     return scan_list
 
 
-def measure_thread(ms: bc.Measurement_Settings, data_queue:queue.Queue, abort: abort):
+def measure_thread(ms: bc.Measurement_Settings, data_queue: queue.Queue, abort: abort):
     """Thread that performs measurements.
 
        Value from the measurements are put in a Queue object (`data_queue`), which
@@ -263,7 +262,11 @@ def abort_monitor(abort: abort):
 #     return x, y
 
 
-async def perform_measurement(ms: bc.Measurement_Settings, md: bc.Measurement_Data, abort:abort) -> bc.Measurement_Data:
+async def perform_measurement(
+    ms: bc.Measurement_Settings,
+    md: bc.Measurement_Data,
+    abort: abort,
+) -> bc.Measurement_Data:
     """The core method of the engine, which starts the measurement and data threads.
        All :py:class:`engine` have this method.
 
@@ -295,115 +298,6 @@ async def main(ms, md, abort):
     task = asyncio.create_task(perform_measurement(ms, md, abort))
     await task
     return task
-
-
-# ## engine provides plot data function for ui.timer to use
-# ## ui.timer needs to be in the plot card or engine card
-# def plot_data(the_plot, md: bc.Measurement_Data) -> None:
-#     scan_parameters = md.data_set.attrs.get("scan_parameters")
-#     acquire_methods = md.data_set.attrs.get("acquire_methods")
-#     current_data = get_current_data(
-#         md.data_current_scan[acquire_methods[0]], scan_parameters
-#     )  ## returns dict {name: (x,y)}
-#     completed_data = get_completed_data(
-#         md.data_set, scan_parameters
-#     )  ## returns dict {name: (x,y)} for completed data
-#     average_data = get_avg_data(md.data_set, scan_parameters)
-#     fig = {
-#         "data": [],
-#         "layout": {
-#             "margin": {"l": 15, "r": 0, "t": 0, "b": 15},
-#             "plot_bgcolor": "#E5ECF6",
-#             "xaxis": {"title": scan_parameters[0], "gridcolor": "white"},
-#             "yaxis": {"gridcolor": "white"},
-#         },
-#     }
-#     if current_data is not None:
-#         fig = main_trace_style(fig, {**current_data, **average_data})
-#     if completed_data is not None:
-#         fig = secondary_trace_style(fig, completed_data)
-#     the_plot.update_figure(fig)
-#     return
-
-
-# def get_current_data(data_array, scan_parameters: list):
-#     ## data_array should be measurement_data_holder in Measurement_Data object
-#     ## need to update for handling 2D scans
-
-#     parameter = scan_parameters[0]
-#     trimmed = data_array.dropna(parameter)
-
-#     ## checks if all values are nan
-#     if trimmed.nbytes == 0:
-#         return
-#     else:
-#         x = trimmed.coords.get(parameter).values
-#         y = np.mean(trimmed.values, axis=0)
-#     return {"current": (x, y)}
-
-
-# def get_completed_data(data_set, scan_parameters: list):
-#     ## need to update for handling 2D scans
-#     complete_data = {}
-#     parameter = scan_parameters[0]
-#     if data_set.nbytes == 0:
-#         return
-#     else:
-#         for scan_key in list(data_set.keys()):
-#             vals = data_set.get(scan_key).values
-#             x = data_set.get(scan_key).coords.get(parameter).values
-#             y = np.mean(vals, axis=vals.ndim - 1)
-#             complete_data.update({scan_key: (x, y)})
-#     return complete_data
-
-
-# def get_avg_data(data_set, scan_parameters: list):
-#     ## need to update for handling 2D scans
-#     if data_set.nbytes == 0:
-#         return
-#     else:
-#         parameter = scan_parameters[0]
-#         data_array = data_set.to_array()
-#         x = data_array.coords.get(parameter).values
-#         vals = data_array.values
-#         mean_samps = np.mean(vals, axis=vals.ndim - 1)
-#         mean_scans = np.mean(mean_samps, axis=0)
-#         y = mean_scans
-#     return {"Average": (x, y)}
-
-
-# def main_trace_style(fig, trace_data: dict):
-#     ## use for current data and average data
-#     for trace_name in list(trace_data.keys()):
-#         # trace_name = list(trace_data.keys())[0]
-#         (x, y) = trace_data.get(trace_name)
-#         new_trace = {
-#             "type": "scatter",
-#             "name": trace_name,
-#             "x": x,
-#             "y": y,
-#             "line": {"width": 4},
-#         }
-#         fig.get("data").insert(0, new_trace)
-#         ## use insert to add to front of list to order traces in plot properly
-#     return fig
-
-
-# def secondary_trace_style(fig, trace_data: dict):
-#     ## use for completed data
-#     for idx, trace_name in enumerate(list(trace_data.keys())):
-#         # trace_name = list(trace_data.keys())[0]
-#         (x, y) = trace_data.get(trace_name)
-#         new_trace = {
-#             "type": "scatter",
-#             "name": trace_name,
-#             "x": x,
-#             "y": y,
-#             "line": {"width": 2},
-#             "opacity": max(0.25, 1 - 0.1 * idx),
-#         }
-#         fig.get("data").insert(0, new_trace)
-#     return fig
 
 
 if __name__ in {"__main__", "__mp_main__"}:

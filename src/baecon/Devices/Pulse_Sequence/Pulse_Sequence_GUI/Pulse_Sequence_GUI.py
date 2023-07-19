@@ -1,6 +1,6 @@
 import pathlib
 from dataclasses import dataclass, field
-
+import itertools
 import numpy as np
 import plotly.graph_objects as go
 from nicegui import APIRouter, app, ui
@@ -18,7 +18,7 @@ device_gui_router = APIRouter()
 device_gui_name = pathlib.Path(__file__).name.split(".")[0]
 
 ## Sequence directory
-sequence_dir = pathlib.Path(__file__).parent.resolve()
+SEQUENCE_DIRECTORY = pathlib.Path(__file__).parent.parent.resolve() / 'sequences'
 
 
 @dataclass
@@ -28,12 +28,12 @@ class PulseSequence_GUI_holder:
     channel_choice = 0
     output_number = "PS-0"
     shift_type = "no_shift"
-    pulse_number = ""
+    pulse_number = 0
     pulse_type = None
     pulse_start = 0
     pulse_duration = 0
     chan_select_ui = ""
-    pulse_num_ui = ""
+    pulse_num_ui = ""  ## gui object bound to pulse_number
     show_types = False
     show_times = False
     seq_plot = ""
@@ -55,29 +55,29 @@ def main():
                         ui.button("Load", on_click=load_sequence).classes("w-full")
                         ui.button("Save", on_click=save_sequence).classes("w-full")
                         ui.button("Save As", on_click=save_as_sequence).classes("w-full")
-                    ui.button("Update Pulse Device", on_click=update_pulse_device).classes("w-full")
+                    ui.button("Update Pulse Device", on_click=update_pulse_device).classes(
+                        "w-full"
+                    )
                 ui.input("Sequence File").bind_value(ps_gui_holder, "file_name").classes(
                     "w-full"
                 )
             with ui.card().classes("w-full h-full"):
                 fig = go.Figure()
                 ps_gui_holder.seq_plot = ui.plotly(fig).classes("w-full h-full")
-            with ui.row().classes("w-full h-full no-wrap items-stretch"):
+            with ui.row().classes("w-full no-wrap items-stretch"):
                 with ui.card():
                     edit_channel_card()
-                with ui.card():
+                with ui.card().classes('flex'):
                     edit_pulse_card()
-    ui.run(port=8666)
-    return
 
 
 def edit_channel_card():
     ui.label("Edit Channel")
     with ui.column().classes("item-stretch"):
-        with ui.row().classes("no-wrap"):
+        with ui.row().classes("no-wrap w-full"):
             ps_gui_holder.chan_select_ui = (
-                ui.select([0], label="Chan. Number")
-                .classes("w-2/6")
+                ui.select([0], label="Sequence Chan. Number")
+                .classes("w-full")
                 .bind_value(ps_gui_holder, "channel_choice")
             )
             ## "on_change" wasn't working but this way does
@@ -96,12 +96,9 @@ def edit_channel_card():
                     "PS-A0",
                     "PS-A1",
                 ],
-                label="PS Number",
+                label="Output",
                 value="PS-0",
-            ).classes("w-2/6").bind_value(ps_gui_holder, "output_number")
-
-            ui.button("Add Channel", on_click=add_channel_button).classes("w-1/6")
-            ui.button("Remove Channel", on_click=remove_channel_button).classes("w-1/6")
+            ).classes("w-full").bind_value(ps_gui_holder, "output_number")
 
         with ui.row().classes("no-wrap"):
             ui.radio(
@@ -120,52 +117,62 @@ def edit_channel_card():
                 ui.checkbox("Show Pulse Times", on_change=plot_sequence).bind_value(
                     ps_gui_holder, "show_times"
                 )
+            with ui.column().classes("item-stretch"):
+                ui.button("Add Channel", on_click=add_channel_button).classes("")
+                ui.button("Remove Channel", on_click=remove_channel_button).classes("")
+                ui.button("Update Channel", on_click=update_channel_button).classes("")
+
     return
 
 
 def edit_pulse_card():
-    ui.label("Edit Pulse")
     with ui.column().classes(""):
-        with ui.row().classes("no-wrap"):
+        with ui.row().classes('w-full no-wrap grid-rows-2 justify-between'):
+            ui.label("Edit Pulse").classes('')
+            ui.label("Times rounded to nearest nanosecond").classes('font-bold opacity-25')
+
+        with ui.row().classes("w-full no-wrap"):
             ps_gui_holder.pulse_num_ui = (
-                ui.select(["select"], label="Pulse")
-                .classes("w-1/3")
+                ui.select(options=[0], label="Pulse", value=0)
+                .classes("w-full")
                 .bind_value(ps_gui_holder, "pulse_number")
             )
             ## "on_change" wasn't working but this does
             ps_gui_holder.pulse_num_ui.on("update:model-value", update_pulse_information)
 
-            ui.input("Type", value="None").classes("w-1/3").bind_value(
+            ui.input("Type", value="None").classes("w-full").bind_value(
                 ps_gui_holder, "pulse_type"
             ).classes("text-uppercase")
-            ui.button("Add Pulse", on_click=add_pulse_button).classes("w-1/6")
-            ui.button("Remove Pulse", on_click=remove_pulse_button).classes("w-1/6")
 
-        with ui.column().classes(""):
-            with ui.row().classes("no-wrap items-center"):
-                ui.label("Start Time:").classes("w-1/5")
-                ui.input("time (us)").classes("w-2/5").bind_value(
-                    ps_gui_holder, "pulse_start"
-                )
-                ui.label("Actual Time").classes("w-2/5")
+        with ui.row().classes("no-wrap"):
+            with ui.column().classes('w-2/3'):
+                with ui.row().classes('w-full no-wrap'):
+                    ui.label("Start Time:").classes("w-2/5 grid justify-end self-end")
+                    ui.number("time (us)", value=0, step=0.001, format="%.3f").classes(
+                        "w-3/5"
+                    ).bind_value(ps_gui_holder, "pulse_start")
+                with ui.row().classes('w-full no-wrap'):
+                    ui.label("Pulse Duration:").classes("w-2/5 grid justify-end self-end")
+                    ui.number("duration (us)", value=0, step=0.001, format="%.3f").classes(
+                        "w-3/5"
+                    ).bind_value(ps_gui_holder, "pulse_duration")
 
-            with ui.row().classes("no-wrap items-center"):
-                ui.label("Pulse Duration:").classes("w-1/5")
-                ui.input("duration (us)").classes("w-2/5").bind_value(
-                    ps_gui_holder, "pulse_duration"
-                )
-                ui.label("Actual Time").classes("w-2/5")
+            with ui.column().classes("w-1/3"):
+                ui.button("Add Pulse", on_click=add_pulse_button).classes("w-full")
+                ui.button("Remove Pulse", on_click=remove_pulse_button).classes("w-full")
+                ui.button("Update Pulse", on_click=update_pulse_button).classes("w-full")
+
     return
 
 
 async def pick_file():
     """Opens pop-up window for selecting a file.
-       Returns path to this file.
+    Returns path to this file.
 
     Returns:
         path (str): Path to file
     """
-    path = await gui_utils.load_file(sequence_dir)
+    path = await gui_utils.load_file(SEQUENCE_DIRECTORY)
     return path
 
 
@@ -180,7 +187,7 @@ async def load_sequence():
     The GUI fields are updated to reflect the loaded sequence, and then
     the sequence plot is updated.
     """
-    file = await pick_file()
+    file = await gui_utils.pick_file(SEQUENCE_DIRECTORY)
     if file:
         seq_dict = bc.utils.load_config(file)
         loaded_seq = Pulse_Sequence().from_dict(seq_dict)
@@ -225,9 +232,9 @@ async def save_as_sequence():
     A pop-up window allows one to choose which file to save as. After saving
     the GUI fields for the file name and path are updated.
     """
-    file = await pick_file()
+    file = await gui_utils.pick_file(SEQUENCE_DIRECTORY)
     if file:
-        seq_dict = ps_sequence.d
+        seq_dict = ps_sequence.to_dict()
         bc.utils.dump_config(seq_dict, file)
         ps_gui_holder.file_path = file
         ps_gui_holder.file_name = gui_utils.name_from_path(file)
@@ -251,6 +258,7 @@ def add_channel_button():
     add_channel()
     ps_gui_holder.chan_select_ui.options = ps_gui_holder.chan_select_options
     ps_gui_holder.chan_select_ui.update()
+    update_pulse_information()
     return
 
 
@@ -260,14 +268,21 @@ def add_channel():
     First, the `output_number` in the GUI is confirmed to not already be in
     the sequence. The channel is added to the pulse sequence using its
     `output_number`. (Channels are defined by their output name in
-     :class:`Pulse_Sequence`).
+    :class:`Pulse_Sequence`).
     An empty pulse pattern (i.e. `list`) is added to the sequence as well.
     GUI fields are updated to reflect the new channel, and the empty channel
     is plotted.
     """
     ## Adding the first channel doesn't update the plot???
     ## functions get run by gui at start up, if statements avoid errors
-    if ps_gui_holder.output_number not in ps_sequence.channels:
+    if ps_gui_holder.output_number in ps_sequence.channels:
+        ui.notify(
+            f"{ps_gui_holder.output_number} is already being used.",
+            position="top",
+            type="negative",
+            timeout=3100,  ## weird units, not exactly milliseconds
+        )
+    else:
         ps_sequence.channels.append(ps_gui_holder.output_number)
         ps_sequence.pulse_patterns.append([])
         update_channel_options()
@@ -323,6 +338,13 @@ def remove_channel():
     return
 
 
+def update_channel_button():
+    ps_sequence.channels[ps_gui_holder.channel_choice] = ps_gui_holder.output_number
+    ps_sequence.update()
+    plot_sequence()
+    return
+
+
 def update_from_chan_change():
     """Updates GUI fields based on selecting different channel numbers.
 
@@ -331,10 +353,10 @@ def update_from_chan_change():
     if not ps_sequence.channels == []:
         ps_gui_holder.output_number = ps_sequence.channels[ps_gui_holder.channel_choice]
         ps_gui_holder.chan_select_ui.update()
-        if not ps_sequence.pulse_patterns[ps_gui_holder.channel_choice] == []:
-            ps_gui_holder.pulse_number = 0  ## reset pulse to index 0 on switching channels
-            update_pulse_options()
-            update_pulse_information()
+        # if not ps_sequence.pulse_patterns[ps_gui_holder.channel_choice] == []:
+        ps_gui_holder.pulse_number = 0  ## reset pulse to index 0 on switching channels
+        update_pulse_options()
+        update_pulse_information()
     ui.update()
     return
 
@@ -378,14 +400,27 @@ def remove_pulse_button():
     return
 
 
+def update_pulse_button():
+    channel_pulses = ps_sequence.pulse_patterns[ps_gui_holder.channel_choice]
+    channel_pulses[ps_gui_holder.pulse_number] = Pulse(
+        ps_gui_holder.pulse_type,
+        float(ps_gui_holder.pulse_start),
+        ps_gui_holder.pulse_duration,
+    )
+    ps_sequence.update()
+    plot_sequence()
+    return
+
+
 def update_pulse_options():
     """Updates the pulse number field in the GUI to reflect the number of pulses
     on the selected channel.
     """
-    if not ps_sequence.pulse_patterns == []:
+    if not ps_sequence.pulse_patterns[ps_gui_holder.channel_choice] == []:
         num_of_pulses = len(ps_sequence.pulse_patterns[ps_gui_holder.channel_choice])
         ps_gui_holder.pulse_num_options = list(range(num_of_pulses))
         ps_gui_holder.pulse_num_ui.options = ps_gui_holder.pulse_num_options
+        # ps_gui_holder.pulse_num_ui.bind_value(ps_gui_holder, 'pulse_number')
         ps_gui_holder.pulse_num_ui.update()
     return
 
@@ -394,7 +429,7 @@ def update_pulse_information():
     """Updates the GUI fields for a selected pulse in the pulse pattern of the
     selected channel.
     """
-    if not ps_sequence.pulse_patterns == []:
+    if not ps_sequence.pulse_patterns[ps_gui_holder.channel_choice] == []:
         pulse_index = ps_gui_holder.pulse_number
         start = ps_sequence.pulse_patterns[ps_gui_holder.channel_choice][
             pulse_index
@@ -407,6 +442,8 @@ def update_pulse_information():
         ps_gui_holder.pulse_type = ps_sequence.pulse_patterns[ps_gui_holder.channel_choice][
             pulse_index
         ].type
+        ps_gui_holder.pulse_num_ui.update()
+        plot_sequence()
     return
 
 
@@ -419,15 +456,15 @@ def add_pulse(
     p_type: str,
 ) -> None:
     """Adds new pulse to the pulse sequence.
-       The pulse is specified as a tuple of form ``(start, duration)``, and
-       added to the specified ``channel``. The channle corresponds to the
-       physical PulseStreamer channel, and not the placement in the
-       sequence, e.g., sequence can have a channel list of [1,3,2,7] where
-       the channels in the list do not correspond to their respective index.
+    The pulse is specified as a tuple of form ``(start, duration)``, and
+    added to the specified ``channel``. The channle corresponds to the
+    physical PulseStreamer channel, and not the placement in the
+    sequence, e.g., sequence can have a channel list of [1,3,2,7] where
+    the channels in the list do not correspond to their respective index.
 
-       Depending on which is selected in the GUI, `no_shift`, `shift_in_channel`,
-       and `shift_all_pulses`, the pulses in the sequence will be updated with
-       shifts due to the added pulse.
+    Depending on which is selected in the GUI, `no_shift`, `shift_in_channel`,
+    and `shift_all_pulses`, the pulses in the sequence will be updated with
+    shifts due to the added pulse.
 
     Args:
         ps (Pulse_Sequence): Pulse sequence to add channel to.
@@ -485,11 +522,11 @@ def shift_all(
     ps: Pulse_Sequence, channel_index: int, start: str, duration: str, p_type: str
 ):
     """Shifts all pulses in the pulse sequence based on the start and duration
-       of the added pulse. Only pulses after the new pulse are shifted.
+    of the added pulse. Only pulses after the new pulse are shifted.
 
-       :func:`shift_all`, :shift:`shift_channel`, and :func:`no_shift` all use
-       the same arguments because they are called by a dictionary of functions
-       in :func:`add_pulse`. Not all arguments are used in each function.
+    :func:`shift_all`, :shift:`shift_channel`, and :func:`no_shift` all use
+    the same arguments because they are called by a dictionary of functions
+    in :func:`add_pulse`. Not all arguments are used in each function.
 
     Args:
         ps (Pulse_Sequence): Pulse sequence to add channel to.
@@ -529,9 +566,9 @@ def shift_channel(
 
 def no_shift(ps: Pulse_Sequence, channel_index: int, start: str, duration: str, p_type: str):
     """Nothing needed to add a pulse with no shift in the natural pulse
-       notation.
+    notation.
 
-       Sequence duration is updated with the addition of the new pulse.
+    Sequence duration is updated with the addition of the new pulse.
 
     Args:
         ps (Pulse_Sequence): Pulse sequence to add channel to.
@@ -544,13 +581,18 @@ def no_shift(ps: Pulse_Sequence, channel_index: int, start: str, duration: str, 
     return
 
 
-shift_dict = {"no_shift": no_shift, "shift_all": shift_all, "shift_channel": shift_channel}
+shift_dict = {
+    "no_shift": no_shift,
+    "shift_all": shift_all,
+    "shift_channel": shift_channel,
+}
 
 
 def update_pulse_device():
     """Updates device to sequence shown in the GUI.
 
-       The device object is stored in `app.storage` indexed by its GUI name.
+    The device object is stored in `app.storage` as an attribute
+    indexed by its GUI name.
     """
     device = app.storage.__getattribute__(device_gui_name)
     device.update_sequence_from_gui(ps_sequence)
@@ -559,25 +601,23 @@ def update_pulse_device():
 
 def plot_sequence():
     """Plots pulse sequence."""
-    if not ps_sequence.pulse_patterns == [[]]:
+    if ps_sequence.pulse_patterns is not None:
         fig_data = prepare_plot_data(ps_sequence)
         ps_gui_holder.seq_plot.figure = fig_data
         ui.update(ps_gui_holder.seq_plot)
-    else:
-        ## how to remove annotations?? below doesn't work
-        ps_gui_holder.seq_plot.figure["data"] = []
-        # ps_gui_holder.seq_plot.figure['annotations'] = []
-        ui.update(ps_gui_holder.seq_plot)
+    # else:
+    #     ps_gui_holder.seq_plot.figure["data"] = []
+    #     ui.update(ps_gui_holder.seq_plot)
     return
 
 
 def prepare_plot_data(ps_sequence: Pulse_Sequence) -> dict:
     """Prepares data from the pulse sequence for plotting.
 
-       First the patterns are turned into numpy arrarys with time steps
-       of 1 nanosecond. These arrays are sued to make the `fit_data` and
-       annotations of the pulse times and types are added based on GUI
-       selection fields.
+    First the patterns are turned into numpy arrarys with time steps
+    of 1 nanosecond. These arrays are sued to make the `fit_data` and
+    annotations of the pulse times and types are added based on GUI
+    selection fields.
 
     .. todo::
         Propbably good to add a way to specify units of time.
@@ -616,8 +656,8 @@ def make_plot_traces(
 ) -> list[dict]:
     """Generates traces to plot.
 
-       Loops through the pulse patterns defined in `sequence_to_plot`, generating a
-       dictionary in format used by plotly.
+    Loops through the pulse patterns defined in `sequence_to_plot`, generating a
+    dictionary in format used by plotly.
 
     Args:
         sequence_to_plot (nd.aarray): Numpy array with dimensions (channels, time steps)
@@ -626,14 +666,18 @@ def make_plot_traces(
     Returns:
         list[dict]: Dictionarys of data for each pulse pattern.
     """
+    trace_color = itertools.cycle(
+        ["#e0003c", '#66A37A', '#357ded', '#f8d53a', '#f06f05', "#54457F"]
+    )
     traces = []
     for idx, seq in enumerate(sequence_to_plot):
         traces.append(
             {
-                "type": "scatter",
-                "name": f"Chan{idx}:{ps_sequence.channels[idx]}",
                 "x": sequence_time_steps,
                 "y": seq,
+                "type": "scatter",
+                "name": f"Chan{idx}:{ps_sequence.channels[idx]}",
+                "line": {"color": trace_color.__next__()},
             }
         )
     return traces
@@ -653,6 +697,9 @@ def make_plot_data(
             with dimenions (time steps).
     """
     seq_duration = ps_sequence.total_duration
+    if seq_duration == 0:
+        ## still plots channels if no channels have any pulses
+        seq_duration = 10
     all_pulses = ps_sequence.pulse_patterns
     ## times defined in us, 1000 and 0.001 factors give nanosecond resolution
     sequence_to_plot = np.zeros((len(all_pulses), int(seq_duration * 1000)))
@@ -675,8 +722,8 @@ def plot_pulse_types(
 ) -> list[dict]:
     """Creates list of annotation dictionaries specifying the type of pulses.
 
-       Uses the data `sequence_to_plot` and `sequence_time_steps`  to determine
-       the location to set the annotation on the plot.
+    Uses the data `sequence_to_plot` and `sequence_time_steps`  to determine
+    the location to set the annotation on the plot.
     Args:
         ps_sequence (Pulse_Sequence): Pulse sequence to plot types of.
         sequence_to_plot (np.ndarray[float]): Numpy array of sequence data.
@@ -719,8 +766,8 @@ def plot_pulse_times(
 ) -> list[dict]:
     """Creates a list of annotation dictionarys to display the start time and duration of each pulse.
 
-       Uses the data `sequence_to_plot` and `sequence_time_steps`  to determine
-       the location to set the annotation on the plot.
+    Uses the data `sequence_to_plot` and `sequence_time_steps`  to determine
+    the location to set the annotation on the plot.
 
     Args:
         ps_sequence (Pulse_Sequence): Pulse sequence to plot types of.

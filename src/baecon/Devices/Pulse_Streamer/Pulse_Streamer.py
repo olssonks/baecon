@@ -5,7 +5,8 @@ import pulsestreamer
 from nicegui import APIRouter
 
 from baecon import Device
-from baecon.Devices.Pulse_Sequence import Pulse, Pulse_Sequence, Pulse_Sequence_GUI
+from baecon.Devices.Pulse_Sequence import Pulse, Pulse_Sequence
+from baecon.Devices.Pulse_Sequence.Pulse_Sequence_GUI import Pulse_Sequence_GUI
 
 
 @dataclass
@@ -96,7 +97,9 @@ class Pulse_Streamer(Device):
 
         return
 
-    def connect_to_device(self, configuration: dict) -> Tuple[pulsestreamer.PulseStreamer, pulsestreamer.Sequence]:
+    def connect_to_device(
+        self, configuration: dict
+    ) -> Tuple[pulsestreamer.PulseStreamer, pulsestreamer.Sequence]:
         """Connect to Pulse Streamer device and create Pulse Streamer `sequence`
            object. This `sequence` object is ultimately what gets sent to the
            Pulse Streamer Device.
@@ -117,7 +120,9 @@ class Pulse_Streamer(Device):
             ps_device = pulsestreamer.PulseStreamer(self.latent_parameters["IPaddress"])
             sequence = ps_device.createSequence()
         else:
-            print(f'No IPaddress specificed in "latent_parameters" using Class default value:{self.latent_parameters["IPaddress"]}.')
+            print(
+                f'No IPaddress specificed in "latent_parameters" using Class default value:{self.latent_parameters["IPaddress"]}.'
+            )
             ps_device = pulsestreamer.PulseStreamer(self.latent_parameters["IPaddress"])
             sequence = ps_device.createSequence()
 
@@ -165,10 +170,13 @@ class Pulse_Streamer(Device):
             value (bool): Boolean to enable or disable output.
         """
         if value:
+            self.update_device()
             if self.device_sequence.isEmpty():
                 print("Device sequence is empty.")
             else:
-                self.device.stream(self.device_sequence, n_runs=self.parameters.get("loop_numer"))
+                self.device.stream(
+                    self.device_sequence, n_runs=self.parameters.get("loop_number")
+                )
         else:
             self.device.constant(pulsestreamer.OutputState.ZERO())
 
@@ -176,7 +184,6 @@ class Pulse_Streamer(Device):
 
     def close_instrument(self) -> None:
         return
-
 
     def update_device(self) -> None:
         """Sends pulse sequence to the Pulse Streamer device.
@@ -218,7 +225,12 @@ class Pulse_Streamer(Device):
         return
 
     def scan_by_type(
-        self, scan_category: str, shift_value: int, channel_idx: int, type_idx: int, pulse_name: str
+        self,
+        scan_category: str,
+        shift_value: int,
+        channel_idx: int,
+        type_idx: int,
+        pulse_name: str,
     ) -> None:
         """Shifts pulses in a pattern based on the pulses' type.
 
@@ -231,7 +243,12 @@ class Pulse_Streamer(Device):
         """
         if pulse_name == self.parameters["type_to_scan"]:
             self.shift_pulses(
-                scan_category, self.swabian_types, self.swabian_patterns, channel_idx, type_idx, shift_value
+                scan_category,
+                self.swabian_types,
+                self.swabian_patterns,
+                channel_idx,
+                type_idx,
+                shift_value,
             )
         return
 
@@ -262,11 +279,17 @@ class Pulse_Streamer(Device):
             ## do nothing: shift value cannot be negative with `add_time`=False
             return
         if self.parameters["scan_shift"] == "no_shift":
-            self.scan_no_shift(scan_category, types, pulse_patterns, channel_idx, type_idx, shift_value)
+            self.scan_no_shift(
+                scan_category, types, pulse_patterns, channel_idx, type_idx, shift_value
+            )
         elif self.parameters["scan_shift"] == "shift_channel":
-            self.scan_shift_channel(scan_category, types, pulse_patterns, channel_idx, type_idx, shift_value)
+            self.scan_shift_channel(
+                scan_category, types, pulse_patterns, channel_idx, type_idx, shift_value
+            )
         elif self.parameters["scan_shift"] == "shift_all":
-            self.scan_shift_all(scan_category, types, pulse_patterns, channel_idx, type_idx, shift_value)
+            self.scan_shift_all(
+                scan_category, types, pulse_patterns, channel_idx, type_idx, shift_value
+            )
         else:
             print(f"Unrecognized shift type: {self.parameters['scan_shift']}")
 
@@ -312,11 +335,15 @@ class Pulse_Streamer(Device):
             pulse_idx (int): Index of pulse in the pattern.
             shift_value (int): Amount to alter the pulse by.
         """
-        absolute_start = sum([pulse[0] for pulse in pulse_patterns[channel_idx][: pulse_idx + 1]])
+        absolute_start = sum(
+            [pulse[0] for pulse in pulse_patterns[channel_idx][: pulse_idx + 1]]
+        )
         if scan_category == "duration":
             self.shift_all_duration(pulse_patterns, channel_idx, pulse_idx, shift_value)
         elif scan_category == "start":
-            shift_for_other_pulses = self.shift_all_start_time(pulse_patterns, channel_idx, pulse_idx, shift_value)
+            shift_for_other_pulses = self.shift_all_start_time(
+                pulse_patterns, channel_idx, pulse_idx, shift_value
+            )
         else:
             print(f'{scan_category} not recognized, us "start" or "duration"')
 
@@ -337,7 +364,11 @@ class Pulse_Streamer(Device):
         return
 
     def shift_all_duration(
-        self, pulse_patterns: List[List[Tuple[int, int]]], channel_idx: int, pulse_idx: int, shift_value: int
+        self,
+        pulse_patterns: List[List[Tuple[int, int]]],
+        channel_idx: int,
+        pulse_idx: int,
+        shift_value: int,
     ) -> None:
         """Changes the duration of the pulse of interest.
 
@@ -362,7 +393,11 @@ class Pulse_Streamer(Device):
         return
 
     def shift_all_start_time(
-        self, pulse_patterns: List[List[Tuple[int, int]]], channel_idx: int, pulse_idx: int, shift_value: int
+        self,
+        pulse_patterns: List[List[Tuple[int, int]]],
+        channel_idx: int,
+        pulse_idx: int,
+        shift_value: int,
     ) -> int:
         """Shifts the start time of the pulse and returns a value by which the pulses
            after this one, on other channels, should be shifted by.
@@ -442,7 +477,11 @@ class Pulse_Streamer(Device):
         return
 
     def no_shift_duration(
-        self, pulse_patterns: List[List[Tuple[int, int]]], channel_idx: int, pulse_idx: int, shift_value: int
+        self,
+        pulse_patterns: List[List[Tuple[int, int]]],
+        channel_idx: int,
+        pulse_idx: int,
+        shift_value: int,
     ) -> None:
         """Shifts duration of the pulse of interest and preserves the other pulses
            in their original places.
@@ -474,12 +513,19 @@ class Pulse_Streamer(Device):
                         5 ns before the next pulse."
                 )
                 shift_value -= 5
-            pulse_patterns[channel_idx][pulse_idx + 1] = (next_pulse[0] + pulse[0] - shift_value, next_pulse[1])
+            pulse_patterns[channel_idx][pulse_idx + 1] = (
+                next_pulse[0] + pulse[0] - shift_value,
+                next_pulse[1],
+            )
 
         return
 
     def no_shift_start_time(
-        self, pulse_patterns: List[List[Tuple[int, int]]], channel_idx: int, pulse_idx: int, shift_value: int
+        self,
+        pulse_patterns: List[List[Tuple[int, int]]],
+        channel_idx: int,
+        pulse_idx: int,
+        shift_value: int,
     ) -> None:
         """Shifts the start time of the pulse of interest and preserves the other pulses
            in their original places.
@@ -504,7 +550,10 @@ class Pulse_Streamer(Device):
             pre_pulse = pulse_patterns[channel_idx][pulse_idx - 1]
             original_start = pre_pulse[0]
             if self.parameters["add_time"]:
-                pulse_patterns[channel_idx][pulse_idx - 1] = (original_start + shift_value, pre_pulse[1])
+                pulse_patterns[channel_idx][pulse_idx - 1] = (
+                    original_start + shift_value,
+                    pre_pulse[1],
+                )
             else:
                 pulse_patterns[channel_idx][pulse_idx - 1] = (shift_value, pre_pulse[1])
         return
@@ -549,7 +598,9 @@ class Pulse_Streamer(Device):
             new_types,
         )
 
-    def convert_pattern(self, pulse_pattern: List[Pulse], type: List[str]) -> Tuple[List[Tuple], List[str]]:
+    def convert_pattern(
+        self, pulse_pattern: List[Pulse], type: List[str]
+    ) -> Tuple[List[Tuple], List[str]]:
         """Converts a pulse_pattern from `Pulse_Sequence` form to the
            Swabian form. Converts the types of the pulses as well. Adds
            `Zero` type to portion of the pattern where the value is zero.
@@ -596,13 +647,16 @@ class Pulse_Streamer(Device):
                 channel and the channel number.
         """
         if "A" in channel:
-            swabian_channel = Swabian_Channel(int(channel[-1]), self.device_sequence.setAnalog)
+            swabian_channel = Swabian_Channel(
+                int(channel[-1]), self.device_sequence.setAnalog
+            )
         else:
-            swabian_channel = Swabian_Channel(int(channel[-1]), self.device_sequence.setDigital)
+            swabian_channel = Swabian_Channel(
+                int(channel[-1]), self.device_sequence.setDigital
+            )
         return swabian_channel
 
-
-    def get_device_gui(self)-> tuple[APIRouter, str]:
+    def get_device_gui(self) -> tuple[APIRouter, str]:
         """Calls the `Pulse_Streamer` device GUI which is `Pulse_Sequence_GUI`.
 
         Returns:
@@ -611,7 +665,6 @@ class Pulse_Streamer(Device):
         """
         self.gui_router = Pulse_Sequence_GUI.device_gui_router
         return self.gui_router, Pulse_Sequence_GUI.device_gui_name
-
 
     def update_sequence_from_gui(self, sequence: Pulse_Sequence) -> None:
         """Updates sequence to the one in the currently shown in the GUI.
@@ -627,9 +680,9 @@ class Pulse_Streamer(Device):
         ) = self.convert_to_swabian(sequence, types)
         return
 
-
     def generate_full_scan(self, scan_type, minimum, maximum):
         return
+
 
 # if __name__ == "__main__":
 #     ps_config = bc.utils.load_config(

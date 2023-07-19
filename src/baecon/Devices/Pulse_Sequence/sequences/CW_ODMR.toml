@@ -1,0 +1,15 @@
+[PS-0.pulse_0]
+duration = 100.0
+start_time = 1.0
+
+[PS-1.pulse_0]
+duration = 50.0
+start_time = 1.0
+
+[PS-7.pulse_0]
+duration = 1.0
+start_time = 46.0
+
+[PS-7.pulse_1]
+duration = 1.0
+start_time = 96.0

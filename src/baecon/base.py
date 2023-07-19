@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 
 import numpy as np
 
-from baecon.device import Device, Devices_directory
+from baecon.device import DEVICES_DIRECTORY, Device
 
 
 @dataclass
@@ -141,18 +141,17 @@ def make_device(config: dict) -> dict:
     try:
         to_import = config["device"]
     except KeyError as e:
-        print(f"make_device() could not find {e} not found in device configuration.")
+        ## should be log
+        print(f"make_device() could not find {e} in device configuration.")
 
-    inst_path = os.path.abspath(f"{Devices_directory}\\{to_import}\\{to_import}.py")
+    inst_path = os.path.abspath(f"{DEVICES_DIRECTORY}\\{to_import}\\{to_import}.py")
     spec = importlib.util.spec_from_file_location(to_import, inst_path)
     device_module = importlib.util.module_from_spec(spec)
     sys.modules[to_import] = device_module
     spec.loader.exec_module(device_module)
     available_modules = dict(inspect.getmembers(device_module, inspect.isclass))
     device = available_modules[to_import](config)
-    print(f"dev: {device}")
-    # full_device = config
-    # full_device.update({'device': device})
+    print(f"dev: {device}")  ## should be logging
     return device
 
 
@@ -188,7 +187,7 @@ def make_scan(scan_settings: dict, device: Device) -> dict:
 
     try:
         if not scan_settings["device"] == device.__class__.__name__:
-            print("Settings do not match selected device")
+            print("Settings do not match selected device")  ## should be logging
             return
         scan_key = f"{device.name}-{scan_settings['parameter']}"
         scan_settings.update({"name": device.name})
@@ -201,8 +200,10 @@ def make_scan(scan_settings: dict, device: Device) -> dict:
         }
         return {scan_key: {"settings": scan_settings, "scan": scan}}
 
-    except KeyError:
-        print("make_scan could not find {e} in the supplied scan_settings.")
+    except KeyError as e:
+        print(
+            f"make_scan could not find {e} in the supplied scan_settings."
+        )  ## should be logging
 
     return
 
@@ -238,11 +239,15 @@ def make_scan_schedule(scan_settings: dict) -> np.ndarray:
     """
 
     def linear():
-        array = np.linspace(scan_settings["min"], scan_settings["max"], int(scan_settings["points"]))
+        array = np.linspace(
+            scan_settings["min"], scan_settings["max"], int(scan_settings["points"])
+        )
         return np.tile(array, int(scan_settings["repetitions"]))
 
     def log():
-        array = np.logspace(scan_settings["min"], scan_settings["max"], int(scan_settings["points"]))
+        array = np.logspace(
+            scan_settings["min"], scan_settings["max"], int(scan_settings["points"])
+        )
         return np.tile(array, int(scan_settings["repetitions"]))
 
     def custom():

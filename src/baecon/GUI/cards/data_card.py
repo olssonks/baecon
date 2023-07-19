@@ -1,4 +1,3 @@
-import sys
 from datetime import datetime
 
 from nicegui import ui
@@ -6,18 +5,23 @@ from nicegui import ui
 import baecon as bc
 from baecon.GUI import gui_utils
 
-## should be working with this, but if baecon cannot be found uncomment this
-# sys.path.insert(0,"C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon")
-
 
 head_style = "color: #37474f; font-size: 200%; font-weight: 300"
 
-date_prefix = gui_utils.holder(datetime.now().strftime("%Y_%m_%d"))
-meas_number = gui_utils.holder("0")  ## should read data files in folder and update
-alt_data_file_name = gui_utils.holder("")
+date_prefix = gui_utils.Holder(datetime.now().strftime("%Y_%m_%d"))
+meas_number = gui_utils.Holder("0")  ## should read data files in folder and update
+alt_data_file_name = gui_utils.Holder("")
 
 
-def main(gui_fields: gui_utils.GUI_fields, meas_data: bc.Measurement_Data):
+def main(gui_fields: gui_utils.GUI_fields, meas_data: bc.Measurement_Data) -> None:
+    """Section of the GUI which controls data configuration.
+       Configuration includes name, path, file type, and auto-save.
+
+    Args:
+        gui_fields (gui_utils.GUI_fields): GUI fields for the current measurement.
+        meas_data (bc.Measurement_Data): Current measurement data object,
+            which will be saved.
+    """
     gui_fields.data_file = (
         "_".join([date_prefix.value, meas_number.value, gui_fields.exp_name])
         + gui_fields.data_file_format
@@ -71,23 +75,32 @@ def main(gui_fields: gui_utils.GUI_fields, meas_data: bc.Measurement_Data):
     return
 
 
-async def pick_file():
-    result = await gui_utils.load_file(".")
-    return result
+async def pick_data_folder(gui_fields: gui_utils.GUI_fields) -> None:
+    """Pick the directory to load/save data.
+       The ``data_folder`` attribute in the GUI fields is set to the chosen directory.
 
-
-async def pick_data_folder(gui_fields: gui_utils.GUI_fields):
-    result = await gui_utils.load_file(".")
+    Args:
+        gui_fields (gui_utils.GUI_fields): GUI fields for the current measurement.
+    """
+    result = await gui_utils.pick_file(gui_utils.DATA_DIRECTORY)
     gui_fields.data_folder = result
     return
 
 
 async def save_as_button(
-    alt_data_file_name: gui_utils.holder,
+    alt_data_file_name: gui_utils.Holder,
     meas_data: bc.Measurement_Data,
     date_prefix: str,
     meas_number: str,
-):
+) -> None:
+    """Save data to a different file name. Called when clicking the "Save as" button.
+
+    Args:
+        alt_data_file_name (gui_utils.Holder): Holds the new name for the data file.
+        meas_data (bc.Measurement_Data): Data from the measurement.
+        date_prefix (str): File type to save data.
+        meas_number (str): Nth+1 measurement for when N measurements in the current directory
+    """
     if alt_data_file_name.value in ["Alt. Data File Name", ""]:
         file = await pick_file()
         if file:
@@ -100,7 +113,14 @@ async def save_as_button(
     return
 
 
-def update_file_name(gui_fields):
+def update_file_name(gui_fields: gui_utils.GUI_fields) -> None:
+    """Updates the data file name.
+       This is called in the experiment card, such that the data file name
+       is updated with current experiment name.
+
+    Args:
+        gui_fields (_type_): GUI fields for the current measurement.
+    """
     gui_fields.data_file = (
         "_".join([date_prefix.value, meas_number.value, gui_fields.exp_name])
         + gui_fields.data_file_format
@@ -108,7 +128,14 @@ def update_file_name(gui_fields):
     return
 
 
-def update_file_format(new_format, gui_fields):
+def update_file_format(new_format: str, gui_fields: gui_utils.GUI_fields) -> None:
+    """Updates the data file format based on a change in the GUI.
+       Changes the GUI fields for the data file format and the data file path.
+
+    Args:
+        new_format (str): New format for the data.
+        gui_fields (gui_utils.GUI_fields): GUI fields for the current measurement.
+    """
     gui_fields.data_file_format = new_format
     if "." in gui_fields.data_file:
         strip_format = ".".join(gui_fields.data_file.split(".")[:-1])

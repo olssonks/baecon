@@ -413,7 +413,7 @@ document.write(`
 <dt class="sig sig-object py" id="baecon.GUI.baecon_GUI.main">
 <span class="sig-prename descclassname"><span class="pre">baecon.GUI.baecon_GUI.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.baecon_GUI.main" title="Permalink to this definition">#</a></dt>
 <dd><p>Main GUI for <code class="xref py py-mod docutils literal notranslate"><span class="pre">baecon</span></code>.</p>
-<p>Includes sections (i.e., <code class="xref py py-mod docutils literal notranslate"><span class="pre">cards</span></code>) for the following:</p>
+<p>Includes sections (i.e., <code class="xref py py-mod docutils literal notranslate"><span class="pre">nicegui.ui.cards</span></code>) for the following:</p>
 <ul class="simple">
 <li><p>Data format and saving</p></li>
 <li><p>Loading, configuring, and controlling acquisition and scan devices</p></li>
@@ -425,10 +425,16 @@ document.write(`
 </dd></dl>
 
 <span class="target" id="module-baecon.GUI.gui_utils"></span><dl class="py class">
+<dt class="sig sig-object py" id="baecon.GUI.gui_utils.All_GUI_Elements">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">All_GUI_Elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements:</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.gui_utils.All_GUI_Elements" title="Permalink to this definition">#</a></dt>
+<dd><p>Holds list of all elements (i.e. cards) in the GUI.
+Used to update all the fields when loading experiments.</p>
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="baecon.GUI.gui_utils.GUI_fields">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">GUI_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_data:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine_name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averages:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_auto_save:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_folder:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file_format:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_analysis:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_active:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">abort_measurement:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.gui_utils.GUI_fields" title="Permalink to this definition">#</a></dt>
-<dd><p>Object holding all the fields in <a class="reference internal" href="#baecon.GUI.baecon_GUI.main" title="baecon.GUI.baecon_GUI.main"><code class="xref py py-func docutils literal notranslate"><span class="pre">baecon.GUI.baecon_GUI.main()</span></code></a> required for
-defining an experiment.</p>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">GUI_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_data:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_dev_files:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acq_dev_files:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine_name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averages:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_auto_save:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_folder:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file_format:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_analysis:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_active:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">abort_measurement:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.gui_utils.GUI_fields" title="Permalink to this definition">#</a></dt>
+<dd><p>Object holding all the fields in <a class="reference internal" href="#baecon.GUI.baecon_GUI.main" title="baecon.GUI.baecon_GUI.main"><code class="xref py py-func docutils literal notranslate"><span class="pre">baecon.GUI.baecon_GUI.main()</span></code></a>.</p>
 <p>These fields mostly correspond to file names and paths for various <code class="xref py py-mod docutils literal notranslate"><span class="pre">baecon</span></code>
 objects, e.g. scan device file name or data file name an path.</p>
 <div class="admonition note">
@@ -457,8 +463,8 @@ circumvent this issue, letting methods be defined without arguments.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="baecon.GUI.gui_utils.Plot_Settings">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">Plot_Settings</span></span><a class="headerlink" href="#baecon.GUI.gui_utils.Plot_Settings" title="Permalink to this definition">#</a></dt>
-<dd><p>Currently not used for anything. Could be used in for holding the settings of the plot,
-maybe passed to py:mod:<cite>engine_card</cite> and</p>
+<dd><p>Currently not used for anything. Could hold plot formatting/setting.</p>
+<p>These plot maybe passed to <code class="xref py py-mod docutils literal notranslate"><span class="pre">engine_card</span></code> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">data_card</span></code>.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -478,10 +484,7 @@ maybe passed to py:mod:<cite>engine_card</cite> and</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.gui_utils.from_gui_fields_config">
 <span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">from_gui_fields_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.gui_utils.from_gui_fields_config" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>Fills a <a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><code class="xref py py-class docutils literal notranslate"><span class="pre">baecon.GUI.gui_utils.GUI_fields</span></code></a> object with information</dt><dd><p>stored in a dictionary.</p>
-</dd>
-</dl>
+<dd><p>Fills a <a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><code class="xref py py-class docutils literal notranslate"><span class="pre">GUI_fields</span></code></a> from dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -511,7 +514,7 @@ maybe passed to py:mod:<cite>engine_card</cite> and</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.gui_utils.pick_file">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">pick_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#baecon.GUI.gui_utils.pick_file" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">pick_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">directory</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span></span></span><a class="headerlink" href="#baecon.GUI.gui_utils.pick_file" title="Permalink to this definition">#</a></dt>
 <dd><p>Opens a GUI window to pick a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -527,9 +530,10 @@ maybe passed to py:mod:<cite>engine_card</cite> and</p>
 <dt class="sig sig-object py" id="baecon.GUI.gui_utils.to_gui_fields_config">
 <span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">to_gui_fields_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#baecon.GUI.gui_utils.to_gui_fields_config" title="Permalink to this definition">#</a></dt>
 <dd><dl>
-<dt>Generates a dictionary from a <a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><code class="xref py py-class docutils literal notranslate"><span class="pre">baecon.GUI.gui_utils.GUI_fields</span></code></a></dt><dd><p>object. This dictionary then defines an experiment.</p>
-<p>Sets the <code class="docutils literal notranslate"><span class="pre">plot_data</span></code> field to an empty dictionary. We don’t want to save
-plot data in this configuration dictionary.</p>
+<dt>Generates a dictionary from <a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><code class="xref py py-class docutils literal notranslate"><span class="pre">GUI_fields</span></code></a>.</dt><dd><p>This dictionary then defines an experiment.</p>
+<p>Also, the <code class="docutils literal notranslate"><span class="pre">plot_data</span></code> field is set to an empty dictionary. We
+don’t want to save plot data in this configuration dictionary, the data
+saving is handled by <a class="reference internal" href="data_card.html#module-baecon.GUI.cards.data_card" title="baecon.GUI.cards.data_card"><code class="xref py py-mod docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Card</span></code></a>.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -541,6 +545,23 @@ plot data in this configuration dictionary.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.gui_utils.update_everything">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">update_everything</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.gui_utils.update_everything" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Updates all the elements of the GUI.</dt><dd><p>For certain GUI elements not bound to one of the <a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><code class="xref py py-class docutils literal notranslate"><span class="pre">GUI_fields</span></code></a></p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>GUI_fields</em></a>) – _description_</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – _description_</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -615,6 +636,7 @@ plot data in this configuration dictionary.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.baecon_GUI.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.All_GUI_Elements"><code class="docutils literal notranslate"><span class="pre">All_GUI_Elements</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.GUI_fields"><code class="docutils literal notranslate"><span class="pre">GUI_fields</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.Holder"><code class="docutils literal notranslate"><span class="pre">Holder</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.Plot_Settings"><code class="docutils literal notranslate"><span class="pre">Plot_Settings</span></code></a></li>
@@ -623,6 +645,7 @@ plot data in this configuration dictionary.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.name_from_path"><code class="docutils literal notranslate"><span class="pre">name_from_path()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.pick_file"><code class="docutils literal notranslate"><span class="pre">pick_file()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.to_gui_fields_config"><code class="docutils literal notranslate"><span class="pre">to_gui_fields_config()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.update_everything"><code class="docutils literal notranslate"><span class="pre">update_everything()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.load_file"><code class="docutils literal notranslate"><span class="pre">load_file</span></code></a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.load_file._handle_ok"><code class="docutils literal notranslate"><span class="pre">load_file._handle_ok()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.load_file.handle_double_click"><code class="docutils literal notranslate"><span class="pre">load_file.handle_double_click()</span></code></a></li>

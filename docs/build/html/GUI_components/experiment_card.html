@@ -409,6 +409,27 @@ document.write(`
                   
   <section id="module-baecon.GUI.cards.experiment_card">
 <span id="experiment-card"></span><h1>Experiment Card<a class="headerlink" href="#module-baecon.GUI.cards.experiment_card" title="Permalink to this heading">#</a></h1>
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.experiment_card.main">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.experiment_card.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.experiment_card.main" title="Permalink to this definition">#</a></dt>
+<dd><dl class="simple">
+<dt>Section of the GUI that saves/loads the full experiment to/from a config file.</dt><dd><p>All of the fields, except <code class="docutils literal notranslate"><span class="pre">plot_data</span></code>, in <code class="xref py py-class docutils literal notranslate"><span class="pre">GUI_Fields</span></code> are saved
+to a dictionary like format (<code class="docutils literal notranslate"><span class="pre">.toml</span></code>, <code class="docutils literal notranslate"><span class="pre">.yml</span></code>, or <code class="docutils literal notranslate"><span class="pre">.json</span></code>). The plot data
+is excluded to keep the config file readable, and the actual
+<code class="xref py py-class docutils literal notranslate"><span class="pre">Measurement_Data</span></code> is saved elsewhere.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – GUI fields for the current measurement.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Measurement settings for the current
+measurement.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -451,6 +472,16 @@ document.write(`
             
               
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.experiment_card.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">

@@ -411,7 +411,7 @@ document.write(`
 <span id="scan-card"></span><h1>Scan Card<a class="headerlink" href="#module-baecon.GUI.cards.scan_card" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.scan_card.add_scan_dialog">
-<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.scan_card.</span></span><span class="sig-name descname"><span class="pre">add_scan_dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.scan_card.add_scan_dialog" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.scan_card.</span></span><span class="sig-name descname"><span class="pre">add_scan_dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.scan_card.add_scan_dialog" title="Permalink to this definition">#</a></dt>
 <dd><p>Pop-up dialog to input scan settings for a new scan.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -444,22 +444,25 @@ this is necessary to properly bind the values.
 
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.scan_card.get_points">
-<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.scan_card.</span></span><span class="sig-name descname"><span class="pre">get_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.scan_card.get_points" title="Permalink to this definition">#</a></dt>
-<dd><p>Choose whether input field for scan points is the step size or number of
-points.
-If input is <cite>points</cite>, an array of from <cite>min</cite> to <cite>max</cite> is made using the
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.scan_card.</span></span><span class="sig-name descname"><span class="pre">get_points</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_key</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.scan_card.get_points" title="Permalink to this definition">#</a></dt>
+<dd><dl>
+<dt>Choose whether input field for scan points is the step size or number of</dt><dd><p>points.</p>
+<p>If input is <cite>points</cite>, an array of from <cite>min</cite> to <cite>max</cite> is made using the
 given number of points.
 If input is <cite>step_size</cite>, an array from <cite>min</cite> to <cite>max</cite> is made with the given
 step size.
 Number of points generatred for step size is rounded to nearest integer,
-leading the actual step size to be slight different from the input value.
-:param selected_settings: Scan settings to add.
-:type selected_settings: dict
-:param scan_key: The key for accessing the value in the scan settings</p>
-<blockquote>
-<div><p>dictionary. In this function, <cite>scan_key</cite> should always be <cite>points</cite>.</p>
-</div></blockquote>
+leading the actual step size to be slight different from the input value.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>selected_settings</strong> (<em>dict</em>) – Scan settings to add.</p></li>
+<li><p><strong>scan_key</strong> (<em>str</em>) – The key for accessing the value in the scan settings
+dictionary. In this function, <cite>scan_key</cite> should always be <cite>points</cite>.</p></li>
+</ul>
+</dd>
 </dl>
 </dd></dl>
 
@@ -473,21 +476,6 @@ leading the actual step size to be slight different from the input value.
 <li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – _description_</p></li>
 <li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – _description_</p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="baecon.GUI.cards.scan_card.pick_file">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.scan_card.</span></span><span class="sig-name descname"><span class="pre">pick_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.scan_card.pick_file" title="Permalink to this definition">#</a></dt>
-<dd><p>Opens dialog to chose a file to save or load, and returns a string of
-the path to that file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>_description_</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>_type_</p>
 </dd>
 </dl>
 </dd></dl>
@@ -507,8 +495,8 @@ the path to that file.</p>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="baecon.GUI.cards.scan_card.remove_device">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.scan_card.</span></span><span class="sig-name descname"><span class="pre">remove_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.scan_card.remove_device" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="baecon.GUI.cards.scan_card.remove_scan">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.scan_card.</span></span><span class="sig-name descname"><span class="pre">remove_scan</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.scan_card.remove_scan" title="Permalink to this definition">#</a></dt>
 <dd><p>Removes the scan selected in the scan table from both the scan table and
 the <cite>meas_settings</cite>.</p>
 <dl class="field-list simple">
@@ -517,6 +505,17 @@ the <cite>meas_settings</cite>.</p>
 <li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – _description_</p></li>
 <li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – _description_</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.scan_card.save_as_collection">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.scan_card.</span></span><span class="sig-name descname"><span class="pre">save_as_collection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.scan_card.save_as_collection" title="Permalink to this definition">#</a></dt>
+<dd><p>Saves scan collection to config file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – _description_</p>
 </dd>
 </dl>
 </dd></dl>
@@ -647,9 +646,9 @@ attribute of <cite>ui.aggrid</cite>.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.scan_card.choose_settings"><code class="docutils literal notranslate"><span class="pre">choose_settings()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.scan_card.get_points"><code class="docutils literal notranslate"><span class="pre">get_points()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.scan_card.load_collection"><code class="docutils literal notranslate"><span class="pre">load_collection()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.scan_card.pick_file"><code class="docutils literal notranslate"><span class="pre">pick_file()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.scan_card.primary_buttons"><code class="docutils literal notranslate"><span class="pre">primary_buttons()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.scan_card.remove_device"><code class="docutils literal notranslate"><span class="pre">remove_device()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.scan_card.remove_scan"><code class="docutils literal notranslate"><span class="pre">remove_scan()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.scan_card.save_as_collection"><code class="docutils literal notranslate"><span class="pre">save_as_collection()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.scan_card.save_collection"><code class="docutils literal notranslate"><span class="pre">save_collection()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.scan_card.save_load"><code class="docutils literal notranslate"><span class="pre">save_load()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.scan_card.scan_from_settings"><code class="docutils literal notranslate"><span class="pre">scan_from_settings()</span></code></a></li>

@@ -1,0 +1,53 @@
+averages = 1
+
+[acquisition_devices]
+
+[GUI_Fields]
+exp_name = "test"
+exp_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Experiments\\test.toml"
+engine_name = ""
+engine_file = ""
+scan_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml"
+averages = 1
+data_auto_save = ""
+data_folder = ""
+data_file = "2023_07_10_0_Exp_123"
+data_file_format = ""
+data_analysis = ""
+plot_active = false
+abort_measurement = false
+
+[scan_devices.SG1]
+name = "SG1"
+device = "SG380"
+
+[scan_collection.SG1-frequency]
+name = "SG1"
+device = "SG380"
+parameter = "frequency"
+min = 2700.0
+max = 2900.0
+points = 101.0
+repetitions = 1.0
+scale = "linear"
+randomize = false
+note = ""
+
+[GUI_Fields.plot_data]
+
+[GUI_Fields.scan_dev_files]
+SG1 = ""
+
+[GUI_Fields.acq_dev_files]
+
+[scan_devices.SG1.parameters]
+frequency = 2800.0
+phase = 0
+amplitude = 0.0
+modulation_enabled = false
+modulation_type = "IQ"
+modulation_function = "External"
+
+[scan_devices.SG1.latent_parameters]
+IPaddress = "10.229.42.86"
+port = "5025"

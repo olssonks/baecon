@@ -8,6 +8,7 @@ from nicegui import ui
 import baecon as bc
 from baecon.GUI import gui_utils
 
+
 head_style = "color: #37474f; font-size: 200%; font-weight: 300"
 
 
@@ -16,12 +17,12 @@ def main(
     meas_settings: bc.Measurement_Settings,
     meas_data: bc.Measurement_Data,
 ):
-
     def toggle_active():
         if gui_fields.plot_active:
             plot_updates.activate()
         else:
             plot_updates.deactivate()
+
     with ui.column().classes("w-full items-center q-gutter-lg"):
         fig = go.Figure()
         main_plot = ui.plotly(fig).classes("w-full h-full")
@@ -31,9 +32,9 @@ def main(
             plot_updates = ui.timer(
                 0.1, partial(plot_data, *(main_plot, meas_data)), active=False
             )
-            ui.checkbox("Plot Active", on_change=toggle_active).bind_value(gui_fields, "plot_active")
-
-
+            ui.checkbox("Plot Active", on_change=toggle_active).bind_value(
+                gui_fields, "plot_active"
+            )
     return
 
 
@@ -168,3 +169,13 @@ def secondary_trace_style(fig, trace_data: dict):
         }
         fig.get("data").insert(0, new_trace)
     return fig
+
+
+if __name__ in {"__main__", "__mp_main__"}:
+    gui_fields = gui_utils.GUI_fields()
+    meas_settings = bc.Measurement_Settings()
+    meas_data = bc.Measurement_Data()
+
+    main(gui_fields, meas_settings, meas_data)
+
+    ui.run(port=8082)

@@ -1,10 +1,9 @@
 import os
-import pathlib
+from pathlib import Path
 from abc import ABC, abstractmethod
 
-# current working directory
-# "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\Instruments"
-Devices_directory = pathlib.Path(__file__).parent.parent.resolve() / "Devices"
+
+DEVICES_DIRECTORY = Path(__file__).parent.parent.resolve() / "Devices"
 
 
 ## abstractmethods must be redefined in child class
@@ -85,13 +84,13 @@ class Device(ABC):
         return
 
     def check_default_file(self):
-        files = os.listdir(f"{Devices_directory}/{self.__module__}")
+        files = os.listdir(f"{DEVICES_DIRECTORY}/{self.__module__}")
         default = [file for file in files if "default" in file]
         if len(default) == 1:
-            from baecon import utils
+            from baecon.utils import utils
 
             config = utils.load_config(default[0])
-        else:
+        else:  ## should be logging
             print("No configuration supplied.")
             print(f"No default_config file found in Device/{self.__module__}")
             config = {}
@@ -109,20 +108,20 @@ class Device(ABC):
 
         if "name" in configuration:
             self.name = configuration["name"]
-        else:
+        else:  ## shhould be logging
             print(f"No device name found, using default: {self.name}")
             configuration.update({"name": self.name})
         if "parameters" in configuration:
             for key, value in list(configuration["parameters"].items()):
                 self.parameters.update({key: value})
-        else:
+        else:  ## shhould be logging
             print("No parameters found, using defaults")
             print(self.parameters)
             configuration.update({"parameters": self.parameters})
         if "latent_parameters" in configuration:
             for key, value in list(configuration["latent_parameters"].items()):
                 self.latent_parameters.update({key: value})
-        else:
+        else:  ## shhould be logging
             print("No parameters found, using defaults")
             print(self.latent_parameters)
             configuration.update({"latent_parameters": self.latent_parameters})
@@ -157,7 +156,7 @@ class Device(ABC):
         return
 
     def get_device_gui(self) -> None:
-        print("This device does not have a GUI.")
+        print("This device does not have a GUI.")  ## should be logging
         return
 
     ## abstarctmethods must be redefined in child class

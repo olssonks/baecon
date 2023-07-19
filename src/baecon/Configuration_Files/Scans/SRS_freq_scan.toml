@@ -1,0 +1,11 @@
+[SG1-frequency]
+name = "SG1"
+device = "SG380"
+parameter = "frequency"
+min = 2700.0
+max = 2900.0
+points = 101.0
+repetitions = 1.0
+scale = "linear"
+randomize = false
+note = ""

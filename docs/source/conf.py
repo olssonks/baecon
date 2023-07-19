@@ -12,34 +12,34 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('../../src'))
+# import baecon
+# import pydata_sphinx_theme
+
+sys.path.insert(0, os.path.abspath("../../src"))
 # sys.path.append('../../src')
 # sys.path.append('C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\docs')
-
-import baecon
-import pydata_sphinx_theme
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'Baecon'
-copyright = '2023, Kevin S. Olsson'
-author = 'Kevin S. Olsson'
-release = '0.0.1'
+project = "Baecon"
+copyright = "2023, Kevin S. Olsson"
+author = "Kevin S. Olsson"
+release = "0.0.1"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
-    'sphinx.ext.intersphinx',
-    'sphinx.ext.todo',
-    'sphinx.ext.napoleon',
+    "sphinx.ext.napoleon",
+    "sphinx.ext.autodoc",
+    "sphinx.ext.doctest",
+    "sphinx.ext.intersphinx",
+    "sphinx.ext.todo",
     #'groundwork-sphinx-theme',
 ]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 exclude_patterns = []
 
 todo_include_todos = True
@@ -48,10 +48,10 @@ todo_include_todos = True
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'pydata_sphinx_theme'
-html_static_path = ['_static']
+html_theme = "pydata_sphinx_theme"
+html_static_path = ["_static"]
 html_css_files = [
-    'css/custom.css',
+    "css/custom.css",
 ]
 
 html_theme_options = {

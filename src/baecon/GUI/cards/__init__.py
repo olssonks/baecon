@@ -8,10 +8,10 @@ from baecon.GUI.cards import (
 )
 
 __all__ = (
-    "scan_card",
-    "devices_card",
-    "experiment_card",
     "data_card",
+    "devices_card",
+    "engine_card",
+    "experiment_card",
     "plot_card",
-    "engine_card"
+    "scan_card",
 )

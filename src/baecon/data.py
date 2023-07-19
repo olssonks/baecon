@@ -35,10 +35,10 @@ class Measurement_Data:
             scan collection. One full scan will fill the entire array.
         data_current_scan (:py:mod:`xarrray.DataArray`): Holds the data
             for the currently running scan. After scan is finished, this data
-            is add to `data_set.
+            is add to ``data_set``.
         data_set (:py:mod:`xarrray.Dataset`): The full data for the measurement.
             After a scan collection, the :py:mod:`xarrray.DataArray` is added to
-            the `data_set`. When taking multiple runs of the scan collection, i.e,
+            the ``data_set``. When taking multiple runs of the scan collection, i.e,
             :py:attr:`Measurement_Settings.averages`, each average will be an
             :py:mod:`xarrray.DataArray` within ``data_set``. Additionally, all
             the measurement settings are are saved as metadtata held in the

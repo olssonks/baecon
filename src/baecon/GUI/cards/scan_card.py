@@ -1,13 +1,9 @@
-import sys
 from functools import partial
 
 from nicegui import ui
 
 import baecon as bc
 from baecon.GUI import gui_utils
-
-## should be working with this, but if baecon cannot be found uncomment this
-# sys.path.insert(0,"C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon")
 
 scan_settings = bc.define_scan_settings()
 
@@ -28,13 +24,13 @@ header_widths = [300, 300, 150, 150, 150, 300, 300, 300, 300]
 card_width = "1000px"
 
 
-gui_config_holder = gui_utils.holder()
+gui_config_holder = gui_utils.Holder()
 
-file_holder = gui_utils.holder()
-scan_name = gui_utils.holder("pick a file")
+file_holder = gui_utils.Holder()
+scan_name = gui_utils.Holder("pick a file")
 
-scan_table_holder = gui_utils.holder()
-table_args_holder = gui_utils.holder()
+scan_table_holder = gui_utils.Holder()
+table_args_holder = gui_utils.Holder()
 
 head_style = "color: #37474f; font-size: 200%; font-weight: 300"
 
@@ -53,12 +49,21 @@ def main(
             table_args_holder.value = scan_table_args(gui_fields, meas_settings)
             scan_table_holder.value = ui.aggrid({"rowSelection": "single"}).classes("w-full")
             update_table()
+
+    return update_scan_card, ()
+
+
+def update_scan_card(
+    gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Settings
+):
+    for scan_name, collection in meas_settings.scan_collection.items():
+        scan_from_settings({scan_name: collection['settings']}, gui_fields, meas_settings)
     return
 
 
 def save_load(gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Settings):
     """Section of the GUI where the name of the scan, file name, save, and load
-       buttons are derined.
+    buttons are derined.
 
     Args:
         gui_fields (gui_utils.GUI_fields): _description_
@@ -70,21 +75,11 @@ def save_load(gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Se
             gui_fields, "scan_file"
         ).classes("w-full relative-right text-right")
         ui.button("Save", on_click=partial(save_collection, *(gui_fields, meas_settings)))
-        ## parital function here is used to supply async functions with args
-        ## trying to supply directly results in a async/await error
+        ui.button(
+            "Save as", on_click=partial(save_as_collection, *(gui_fields, meas_settings))
+        )
         ui.button("Load", on_click=partial(load_collection, *(gui_fields, meas_settings)))
     return
-
-
-async def pick_file():
-    """Opens dialog to chose a file to save or load, and returns a string of
-       the path to that file.
-
-    Returns:
-        _type_: _description_
-    """
-    result = await gui_utils.load_file(".")  ## should be a different file location
-    return result
 
 
 async def save_collection(
@@ -96,7 +91,28 @@ async def save_collection(
         gui_fields (gui_utils.GUI_fields): _description_
     """
 
-    file = await pick_file()
+    file = gui_fields.scan_file
+    if file:
+        gui_fields.scan_file = file
+        scan_name.value = name_from_file(file)
+        ## settings is a dict of the settings defining the scan, this dict is saved
+        scan_dict = {}
+        for key in meas_settings.scan_collection.keys():
+            scan_dict.update({key: meas_settings.scan_collection[key]["settings"]})
+        bc.utils.dump_config(scan_dict, gui_fields.scan_file)
+    return
+
+
+async def save_as_collection(
+    gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Settings
+):
+    """Saves scan collection to config file.
+
+    Args:
+        gui_fields (gui_utils.GUI_fields): _description_
+    """
+
+    file = await gui_utils.pick_file(gui_utils.SCANS_DIRECTORY)
     if file:
         gui_fields.scan_file = file
         scan_name.value = name_from_file(file)
@@ -117,7 +133,7 @@ async def load_collection(
         gui_fields (gui_utils.GUI_fields): _description_
         meas_settings (bc.Measurement_Settings): _description_
     """
-    file = await pick_file()
+    file = await gui_utils.pick_file(gui_utils.SCANS_DIRECTORY)
     if file:
         gui_fields.scan_file = file
         scan_name.value = name_from_file(file)
@@ -149,7 +165,7 @@ def primary_buttons(
         ).classes("w-full")
         ## don't use lambda here, breaks async of remove device
         ui.button(
-            "Remove", on_click=partial(remove_device, *(gui_fields, meas_settings))
+            "Remove", on_click=partial(remove_scan, *(gui_fields, meas_settings))
         ).classes("w-full")
     return
 
@@ -170,7 +186,7 @@ def scan_table_args(
     gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Settings
 ) -> dict:
     """Create a dictionary from `bc.Measurement_Settings.scan_collection` to
-       populate the scan table.
+    populate the scan table.
 
     Args:
         gui_fields (gui_utils.GUI_fields): _description_
@@ -180,11 +196,11 @@ def scan_table_args(
         dict: Dictionary with column and row information for he scan table.
     """
     scans = meas_settings.scan_collection
-    columnDefs = []
-    rowData = []
+    column_defs = []
+    row_data = []
 
     for idx, key in enumerate(scan_headers.keys()):
-        columnDefs.append(
+        column_defs.append(
             {
                 "headerName": f"{scan_headers[key]}",
                 "field": f"{key}",
@@ -199,19 +215,21 @@ def scan_table_args(
         settings = scans[key]["settings"]
         for setting in scan_headers.keys():
             row.update({f"{setting}": settings[setting]})
-        rowData.append(row)
+        row_data.append(row)
 
-    return {"columnDefs": columnDefs, "rowData": rowData}
+    return {"columnDefs": column_defs, "rowData": row_data}
 
 
-def add_scan_dialog(meas_settings: bc.Measurement_Settings):
+def add_scan_dialog(
+    gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Settings
+):
     """Pop-up dialog to input scan settings for a new scan.
 
     Args:
         gui_config (gui_utils.GUI_Measurement_Configuration): _description_
         meas_settings (bc.Measurement_Settings): _description_
     """
-    scan_settings_holder = gui_utils.holder()
+    scan_settings_holder = gui_utils.Holder()
 
     def update_scan_collection():
         """Adds the fields from the scan settings dialog to the `bc.Measurement_Settings`
@@ -244,7 +262,7 @@ def scan_from_settings(
     meas_settings: bc.Measurement_Settings,
 ):
     """Creates a `scan_collection` from a configuration dictionary and adds it
-       `meas_settings.scan_collection`.
+    `meas_settings.scan_collection`.
 
     Args:
         scan_config (dict): Configuration of the scan, comes the from
@@ -259,7 +277,7 @@ def scan_from_settings(
         else:
             scan_device = meas_settings.scan_devices[device_name]
             bc.add_scan(scan_config[scan_key], scan_device, meas_settings)
-    scan_table_args(gui_fields, meas_settings)
+    table_args_holder.value = scan_table_args(gui_fields, meas_settings)
     update_table()
     return
 
@@ -267,8 +285,8 @@ def scan_from_settings(
 def choose_device_and_paramters(meas_settings: bc.Measurement_Settings) -> dict:
     selected_settings = scan_settings.copy()
     """Inputs for choosing the device and parameter for the scan.
-       When the device is selected, the parameter input will read the `parameters`
-       attribute of the device, and populate the parameter input with the `parameters`.
+    When the device is selected, the parameter input will read the `parameters`
+    attribute of the device, and populate the parameter input with the `parameters`.
 
     Returns:
         dict: Diction of scan settings.
@@ -302,9 +320,9 @@ def choose_device_and_paramters(meas_settings: bc.Measurement_Settings) -> dict:
 
 def choose_settings(selected_settings: dict) -> dict:
     """Choose the values for the scan.
-       The input fields are bound to the values in the `selected_settings dict`.
-       The GUI input fields are given labels based on the keys in `selected_settings`;
-       this is necessary to properly bind the values.
+    The input fields are bound to the values in the `selected_settings dict`.
+    The GUI input fields are given labels based on the keys in `selected_settings`;
+    this is necessary to properly bind the values.
     Args:
         selected_settings (dict): Dictionary of scan settings to add.
 
@@ -334,7 +352,9 @@ def choose_settings(selected_settings: dict) -> dict:
                 get_points(selected_settings, scan_key)
             elif scan_key == "scale":
                 ui.select(
-                    ["linear", "log", "custom", "constant"], label="scale", value="linear"
+                    ["linear", "log", "custom", "constant"],
+                    label="scale",
+                    value="linear",
                 ).classes("w-full")
             elif scan_key == "randomize":
                 ui.select([True, False], label="randomize", value=False).classes("w-full")
@@ -349,28 +369,34 @@ def choose_settings(selected_settings: dict) -> dict:
     return selected_settings
 
 
-def get_points(selected_settings: dict, scan_key: str):
+def get_points(selected_settings: dict, scan_key: str) -> None:
     """Choose whether input field for scan points is the step size or number of
        points.
+
        If input is `points`, an array of from `min` to `max` is made using the
        given number of points.
        If input is `step_size`, an array from `min` to `max` is made with the given
        step size.
        Number of points generatred for step size is rounded to nearest integer,
        leading the actual step size to be slight different from the input value.
+
     Args:
+
         selected_settings (dict): Scan settings to add.
         scan_key (str): The key for accessing the value in the scan settings
             dictionary. In this function, `scan_key` should always be `points`.
     """
 
-    def steps_to_points(selected_settings, input, stepsize_or_points):
-        if stepsize_or_points.value == "step size":
-            span = selected_settings["max"] - selected_settings["min"]
-            points = round(span / input)
-            selected_settings.update({"points": points})
-        else:
-            selected_settings.update({"points": input})
+    def steps_to_points(selected_settings, input_value, stepsize_or_points):
+        try:
+            if stepsize_or_points.value == "step size":
+                span = selected_settings["max"] - selected_settings["min"]
+                points = round(span / input_value)
+                selected_settings.update({"points": points})
+            else:
+                selected_settings.update({"points": input_value})
+        except ZeroDivisionError:
+            pass  ## probably don't need logging, zero division only happens when typing input
         return
 
     ui.number(
@@ -382,11 +408,11 @@ def get_points(selected_settings: dict, scan_key: str):
     return
 
 
-async def remove_device(
+async def remove_scan(
     gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Settings
 ):
     """Removes the scan selected in the scan table from both the scan table and
-       the `meas_settings`.
+    the `meas_settings`.
 
     Args:
         gui_fields (gui_utils.GUI_fields): _description_
@@ -401,10 +427,6 @@ async def remove_device(
 
 
 if __name__ in {"__main__", "__mp_main__"}:
-    gui_config = gui_utils.load_gui_config(
-        "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\test_measurement_settings.toml"
-    )
-
     meas_config = bc.utils.load_config(
         "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\generated_config.toml"
     )

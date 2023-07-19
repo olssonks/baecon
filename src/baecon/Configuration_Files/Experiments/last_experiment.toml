@@ -1,0 +1,28 @@
+averages = 1
+
+[acquisition_devices]
+
+[scan_devices]
+
+[scan_collection]
+
+[GUI_Fields]
+exp_name = ""
+exp_file = ""
+engine_name = ""
+engine_file = ""
+scan_file = ""
+averages = 1
+data_auto_save = ""
+data_folder = ""
+data_file = "2023_07_18_0_"
+data_file_format = ""
+data_analysis = ""
+plot_active = false
+abort_measurement = false
+
+[GUI_Fields.plot_data]
+
+[GUI_Fields.scan_dev_files]
+
+[GUI_Fields.acq_dev_files]

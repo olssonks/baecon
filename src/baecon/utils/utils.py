@@ -3,7 +3,6 @@ import fileinput
 import importlib
 import json
 import os
-import pathlib
 import sys
 
 import toml
@@ -12,7 +11,7 @@ import yaml
 import baecon as bc
 
 
-def load_config(file:str, options = None)->dict:
+def load_config(file: str, options=None) -> dict:
     """Loads configuration file ``file`` and returns dictionary of configurations.
        File type may be ``.toml``, ``.yml``, or ``.json``.
 
@@ -25,12 +24,17 @@ def load_config(file:str, options = None)->dict:
         dict: Configuration dictionary
 
     """
-    file = os.path.normpath(file)
-    _, file_exetension = os.path.splitext(file)
-    configuration = load_functions[file_exetension](file, options)
-    return configuration
+    try:
+        file = os.path.normpath(file)
+        _, file_exetension = os.path.splitext(file)
+        configuration = load_functions[file_exetension](file, options)
+        return configuration
+    except TypeError as e:
+        pass  ## logging here
+    return
 
-def dump_config(config:dict, file:str, options = None)->None:
+
+def dump_config(config: dict, file: str, options=None) -> None:
     """Saves configuration dictionary into ``file``.
        File type may be ``.toml``, ``.yml``, or ``.json``. If no file type is
        given, ``.toml`` is used.
@@ -42,15 +46,19 @@ def dump_config(config:dict, file:str, options = None)->None:
             need extendsion, like encoding type.
 
     """
-    file = os.path.normpath(file)
-    _, file_exetension = os.path.splitext(file)
-    if file_exetension == "":
-        file_exetension = ".toml"
-        file = file + ".toml"
-    dump_functions[file_exetension](config, file, options)
+    try:
+        file = os.path.normpath(file)
+        _, file_exetension = os.path.splitext(file)
+        if file_exetension == "":
+            file_exetension = ".toml"
+            file = file + ".toml"
+        dump_functions[file_exetension](config, file, options)
+    except TypeError as e:
+        pass  ## logging here
     return
 
-def toml_load(file:str, options = None)->dict:
+
+def toml_load(file: str, options=None) -> dict:
     """Reads ``toml`` file and returns ``dict``.
 
     Args:
@@ -66,7 +74,7 @@ def toml_load(file:str, options = None)->dict:
     return loaded_toml
 
 
-def yaml_load(file:str, options = None)->dict:
+def yaml_load(file: str, options=None) -> dict:
     """Reads ``yaml`` file and returns ``dict``.
 
     Args:
@@ -82,7 +90,7 @@ def yaml_load(file:str, options = None)->dict:
     return loaded_yaml
 
 
-def json_load(file:str, options = None)->dict:
+def json_load(file: str, options=None) -> dict:
     """Reads ``json`` file and returns ``dict``.
 
     Args:
@@ -98,7 +106,7 @@ def json_load(file:str, options = None)->dict:
     return loaded_json
 
 
-def toml_dump(config:dict, file:str, options = None)->None:
+def toml_dump(config: dict, file: str, options=None) -> None:
     """Write configuration dictionary (``config``) to a ``toml`` file.
 
     Args:
@@ -113,7 +121,7 @@ def toml_dump(config:dict, file:str, options = None)->None:
     return
 
 
-def yaml_dump(config:dict, file:str, options = None)->None:
+def yaml_dump(config: dict, file: str, options=None) -> None:
     """Write configuration dictionary (``config``) to a  ``yaml`` file.
 
     Args:
@@ -128,7 +136,7 @@ def yaml_dump(config:dict, file:str, options = None)->None:
     return
 
 
-def json_dump(config:dict, file:str, options = None)->None:
+def json_dump(config: dict, file: str, options=None) -> None:
     """Write configuration dictionary (``config``) to a  ``json`` file.
 
     Args:
@@ -142,26 +150,28 @@ def json_dump(config:dict, file:str, options = None)->None:
         json.dump(config, f)
     return
 
-load_functions = {".toml":toml_load, ".yml":yaml_load, ".json":json_load}
-dump_functions = {".toml":toml_dump, ".yml":yaml_dump, ".json":json_dump}
+
+load_functions = {".toml": toml_load, ".yml": yaml_load, ".json": json_load}
+dump_functions = {".toml": toml_dump, ".yml": yaml_dump, ".json": json_dump}
+
 
 ## Probablyt don't want to use this.
-def set_device_directory(Devices_directory:str):
+def set_device_directory(Devices_directory: str):
     """Sets default devices directory in :py:class:`Device` to the input
        directory.
 
     Args:
         Devices_directory (str): New directory for the devices.
     """
-    for line in fileinput.FileInput("./device/device.py",inplace=True):
+    for line in fileinput.FileInput("./device/device.py", inplace=True):
         if line.startswith("Devices_directory"):
-            print("Devices_directory = \'%s\'" % Devices_directory)
+            print("Devices_directory = \'%s\'" % Devices_directory)  ## shhould be logging
         else:
             sys.stdout.write(line)
     return
 
 
-def generate_measurement_config_from_file(config_list_file:str, out_file:str)->None:
+def generate_measurement_config_from_file(config_list_file: str, out_file: str) -> None:
     """Generates measurement configuration from list of indiviual files, yielding
        a single file for the measurement.
 
@@ -181,7 +191,7 @@ def generate_measurement_config_from_file(config_list_file:str, out_file:str)->N
         out_file (str): Name of file for saving the configuration of the generated
         Measurement_Settings.
     """
-    acq_insts, scan_insts, scans = {}, {},{}
+    acq_insts, scan_insts, scans = {}, {}, {}
     file_list = load_config(config_list_file)
     for inst_name, file in list(file_list["acquisition_devices"].items()):
         config = load_config(file)
@@ -193,15 +203,18 @@ def generate_measurement_config_from_file(config_list_file:str, out_file:str)->N
         config = load_config(file)
         scans.update({scan_name: config})
 
-    meas_config = {"acquisition_devices": acq_insts,
-                     "scan_devices": scan_insts,
-                     "scan_collection": scans,
-                     "averages":file_list["averages"]}
+    meas_config = {
+        "acquisition_devices": acq_insts,
+        "scan_devices": scan_insts,
+        "scan_collection": scans,
+        "averages": file_list["averages"],
+    }
 
     dump_config(meas_config, out_file)
     return
 
-def save_measurement_config(ms:bc.Measurement_Settings, out_file:str)->None:
+
+def save_measurement_config(ms: bc.Measurement_Settings, out_file: str) -> None:
     """Generatres configuration dictioary from Measurement_Settings object
        and saves to specified file.
 
@@ -213,16 +226,18 @@ def save_measurement_config(ms:bc.Measurement_Settings, out_file:str)->None:
     dump_config(meas_settings, out_file)
     return
 
+
 def save_scan_collection():
     return
+
 
 def save_device():
     return
 
-def save_baecon_data(md:bc.Measurement_Data,
-                     file_name:str,
-                     format:str =".zarr",
-                     options=None)->None:
+
+def save_baecon_data(
+    md: bc.Measurement_Data, file_name: str, format: str = ".zarr", options=None
+) -> None:
     """Saves measurement data to choice of ``format``.
        The default format is a Zarr group file. Possible formats:
        ``zarr``, ``netcdf``, ``hdf5``, and ``csv``.
@@ -242,18 +257,21 @@ def save_baecon_data(md:bc.Measurement_Data,
         options (optional): Options for extension in the future, likely
         chunking and compression.
     """
+
     def use_zarr():
         if options:
             md.data_set.to_zarr(file_name, **options)
         else:
             md.data_set.to_zarr(file_name, mode="w")
         return
+
     def use_netcdf():
         if options:
             md.data_set.to_netcdf(file_name, **options)
         else:
             md.data_set.to_netcdf(file_name)
         return
+
     def use_hdf5():
         df = md.data_set.to_pandas()
         if options:
@@ -261,15 +279,13 @@ def save_baecon_data(md:bc.Measurement_Data,
         else:
             df.to_hdf(file_name)
         return
+
     def use_csv():
         df = md.data_set.to_dataframe()
         df.to_csv(file_name)
         return
-    formats = {".zarr":use_zarr,
-               ".nc"  :use_netcdf,
-               ".h5"  :use_hdf5,
-               ".csv" :use_csv
-    }
+
+    formats = {".zarr": use_zarr, ".nc": use_netcdf, ".h5": use_hdf5, ".csv": use_csv}
 
     formats[format]()
     return
@@ -291,38 +307,47 @@ def arg_parser():
     """
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-c", "--config_file",
+    parser.add_argument(
+        "-c",
+        "--config_file",
         metavar="C",
         default="None",
-        help="Measurement configuration file."
-        )
+        help="Measurement configuration file.",
+    )
 
-    parser.add_argument("-g", "--gen_config",
+    parser.add_argument(
+        "-g",
+        "--gen_config",
         metavar="G",
         default="None",
         help="""Generate measurement configuration from file with list of
             configuration files. Use with `generate_measurement_configuration`
             tool.
-        """
-        )
+        """,
+    )
 
-    parser.add_argument("-e", "--engine",
+    parser.add_argument(
+        "-e",
+        "--engine",
         metavar="E",
         default="None",
         help="""Measurement engine to use.
-        """
-        )
+        """,
+    )
 
-    parser.add_argument("-o", "--output_file",
+    parser.add_argument(
+        "-o",
+        "--output_file",
         metavar="E",
         default="None",
         help="""Output file to save to.
-        """
-        )
+        """,
+    )
     args = parser.parse_args()
     return args
 
-def load_module_from_path(file_path:str):
+
+def load_module_from_path(file_path: str):
     """Loads module from specified path.
        This is used to load specific :py:class:`Device`
        analysis file for :py:mod:`data`.
@@ -344,9 +369,12 @@ def load_module_from_path(file_path:str):
         sys.modules[to_import] = device_module
         spec.loader.exec_module(device_module)
         return device_module
-    except AttributeError:
-        print(f"Tried to load a module from a path with: {file_path} but failed")
+    except AttributeError as e:
+        print(
+            f"Tried to load a module from a path with: {file_path} but failed"
+        )  ## shhould be logging
         return
+
 
 # def baecon_install_directory():
 #     pathlib.Path(__file__).parent.resolve()

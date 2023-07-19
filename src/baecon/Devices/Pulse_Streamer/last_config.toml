@@ -1,0 +1,14 @@
+name = "PS1"
+device = "Pulse_Streamer"
+
+[parameters]
+type_to_scan = "pi/2"
+scan_catagory = "start"
+scan_shift = "no_shift"
+add_time = true
+loop_number = -1
+
+[latent_parameters]
+IPaddress = "10.229.42.144"
+
+[parameters.pulse_sequence]

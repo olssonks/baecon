@@ -5,6 +5,7 @@ import baecon as bc
 
 Self = TypeVar("Self")
 
+
 @dataclass
 class Pulse:
     """Data structure for defining a pulse.
@@ -57,14 +58,16 @@ class Pulse_Sequence:
     """
 
     channels: list = field(default_factory=list)
-    pulse_patterns: list = field(default_factory=list)  ## make dict {channel: pulse_pattern} to preserve order?
+    pulse_patterns: list = field(
+        default_factory=list
+    )  ## make dict {channel: pulse_pattern} to preserve order?
     total_duration: float = field(init=False)
 
-    def __post_init__(self)->None:
+    def __post_init__(self) -> None:
         self.total_duration = self.calc_duration()
         return
 
-    def update(self)-> None:
+    def update(self) -> None:
         self.sort_sequence()
         self.__post_init__()
         return
@@ -80,7 +83,6 @@ class Pulse_Sequence:
         sequence = self.from_dict(seq_dict)
         return sequence
 
-
     def save_sequence(self, seq_file: str) -> None:
         """Saves `Sequence` to a file.
             The `Sequence` is first converted to a `dict` so it can be easily
@@ -93,7 +95,6 @@ class Pulse_Sequence:
         bc.utils.dump_config(seq_dict, seq_file)
         return
 
-
     def to_dict(self) -> dict:
         """Converts `Sequence` into dictionary format.
 
@@ -104,13 +105,16 @@ class Pulse_Sequence:
         for ch_idx, chan in enumerate(self.channels):
             pattern_dict = {}
             for p_idx, pulse in enumerate(self.pulse_patterns[ch_idx]):
-                pulse_info = {"type": pulse.type, "duration": pulse.duration, "start_time": pulse.start_time}
+                pulse_info = {
+                    "type": pulse.type,
+                    "duration": pulse.duration,
+                    "start_time": pulse.start_time,
+                }
                 pattern_dict.update({f"pulse_{p_idx}": pulse_info})
             sequence_dict.update({f"{chan}": pattern_dict})
         return sequence_dict
 
-
-    def from_dict(self:Self, sequence_dict: dict) -> Self:
+    def from_dict(self: Self, sequence_dict: dict) -> Self:
         """Converts `dict` to `Sequence`.
 
         Returns:
@@ -125,20 +129,24 @@ class Pulse_Sequence:
                 pattern = []
                 for _p_idx, pulse in enumerate(list(sequence_dict[chan].values())):
                     ## imported object pulse is a dict not at Pulse
-                    pattern.append(Pulse(type=pulse["type"], start_time=pulse["start_time"], duration=pulse["duration"]))
+                    pattern.append(
+                        Pulse(
+                            type=pulse.get("type"),
+                            start_time=pulse.get("start_time"),
+                            duration=pulse.get("duration"),
+                        )
+                    )
                 pulse_patterns.append(pattern)
             return Pulse_Sequence(channels, pulse_patterns)
         except AttributeError:
             print("Given sequence is empty")
             return Pulse_Sequence([], [])
 
-
     def sort_sequence(self):
         """Sorts the sequence for pulses to be in the proper time order."""
         for ch_idx, _chan in enumerate(self.channels):
             self.pulse_patterns[ch_idx] = self.sort_channel(ch_idx)
         return
-
 
     def sort_channel(self, channel_index: int) -> list[Pulse]:
         """Sorts the pulses for a single channel in :attr:pulse_pattern
@@ -150,13 +158,15 @@ class Pulse_Sequence:
         start_times_copy = start_times.copy()
         start_times.sort()
         sorted_indeces = [start_times_copy.index(time) for time in start_times]
-        sorted_pulses = [self.pulse_patterns[channel_index][index] for index in sorted_indeces]
+        sorted_pulses = [
+            self.pulse_patterns[channel_index][index] for index in sorted_indeces
+        ]
         return sorted_pulses
 
     def get_types(self) -> list[list[str]]:
         return [[pulse.type for pulse in pattern] for pattern in self.pulse_patterns]
 
-    def calc_duration(self)->float:
+    def calc_duration(self) -> float:
         ## sum function can flatten nested list
         flat_seq: list = sum(self.pulse_patterns, [])
         end_times = [pulse.end_time for pulse in flat_seq]

@@ -29,8 +29,10 @@ class SG380(Device):
         super().__init__(configuration)
 
         for param, value in list(self.parameters.items()):
-            self.write(param, value)
+            if param or value is None:
+                return
 
+            self.write(param, value)
         return
 
     def connnect_to_device(self, configuration: dict):
@@ -171,7 +173,7 @@ class SG380(Device):
             str: Message to send to device.
         """
         units = " MHz"
-        value = round(value, 6)  ## round to Hz
+        value = round(float(value), 6)  ## round to Hz
         message = "FREQ" + read_toggle + " " + str(value) + units
         return message
 
@@ -208,7 +210,7 @@ class SG380(Device):
         else:
             prefix = "AMPR"
         units = ""  ## dBm
-        value = round(value, 2)  ## round to 0.01 dBm
+        value = round(float(value), 2)  ## round to 0.01 dBm
         message = prefix + read_toggle + " " + str(value) + units
         return message
 
@@ -303,6 +305,9 @@ class SG380(Device):
     def mod_dev(self, value, read_toggle):
         deviation_types = {"AM": "ADEP", "FM": "FDEV", "PM": "PDEV", "Sweep": "SDEV"}
 
+        if self.parameters["modulation_type"] == 'IQ':
+            return
+
         message = (
             deviation_types[self.parameters["modulation_type"]] + read_toggle + str(value)
         )
@@ -335,24 +340,6 @@ class SG380(Device):
 
         message = "MODL" + read_toggle + str(int(value))
         return message
-
-    def SetMWSweep(self, center, span, rate):
-        ## needs updating
-        cntr = center
-        dev = span / 2
-
-        bands = [band * 1e6 for band in Sweep_bands[self.get_freq_sweep_range(cntr)]]
-
-        if (cntr - dev) < bands[0] or (cntr + dev) > bands[1]:
-            print("Scan out of range: reduce span or shift center")
-        else:
-            self.inst.write("MODL 1")
-            self.inst.write("TYPE 3")  ## 3 for sweep
-            self.SetMWFreq(center)
-            self.inst.write(f"SDEV {dev} Hz")
-            self.inst.write(f"SRAT {rate} Hz")
-            self.inst.write("SFNC 1")  ## 1 for ramp
-        return
 
     commands: ClassVar[dict[str, Callable]] = {
         "frequency": freq,

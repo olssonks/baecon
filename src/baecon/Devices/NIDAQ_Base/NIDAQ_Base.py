@@ -7,7 +7,7 @@ from baecon import Device
 
 
 class NIDAQ_Base(Device):
-    def __init__(self, configuration: Optional[dict]=None) -> None:
+    def __init__(self, configuration: Optional[dict] = None) -> None:
         self.parameters = {
             "device_name": "",
             "read_sample_rate": 50e3,
@@ -39,12 +39,12 @@ class NIDAQ_Base(Device):
 
         return
 
-    def __del__(self)->None:
+    def __del__(self) -> None:
         """Resets DAQ completely when object is closed
-            Note:
-                This may cause issues when use the same DAQ as multiple
-                devices, e.g., reading analog inputs (acquisition)
-                and writing analog outputs (scan).
+        Note:
+            This may cause issues when use the same DAQ as multiple
+            devices, e.g., reading analog inputs (acquisition)
+            and writing analog outputs (scan).
         """
         PyDAQmx.ResetDevice(self.parameters["device_name"])
         return
@@ -110,9 +110,7 @@ class NIDAQ_Base(Device):
         time_source = str(self.latent_parameters["read_clock_source"])
 
         if time_source.upper()[0:3].find("PFI") >= 0:
-            time_source = (
-                "/" + self.parameters["device_name"] + "/" + time_source.upper(),
-            )
+            time_source = ("/" + self.parameters["device_name"] + "/" + time_source.upper(),)
 
         total_samples = int(
             number_of_channels
@@ -147,8 +145,7 @@ class NIDAQ_Base(Device):
 
     def read_analog_input(self):
         SampsPerChan = int(
-            self.parameters["read_samples_total"]
-            / len(self.parameters["read_channels"])
+            self.parameters["read_samples_total"] / len(self.parameters["read_channels"])
         )
         # if self.AI_data is not None:
         #     data = np.zeros(int((SampsToRead*self.AI_channels,)), dtype=np.float64)
@@ -181,10 +178,10 @@ class NIDAQ_Base(Device):
                 preparation_methods[prep]()
             read_method = preparations["read_method"]
             self.prepared_read_function = read_methods[read_method]
+        except TypeError as e:
+            return  ## happends when preparations is empty
         except KeyError as e:
-            print(
-                f"{e} not found in read preparations or method listed, check preparations"
-            )
+            print(f"{e} not found in read preparations or method listed, check preparations")
         return
 
     def show_parameter_optitions(self) -> None:
