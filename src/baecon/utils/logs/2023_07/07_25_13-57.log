@@ -1,7 +1,0 @@
-ERROR | 2023-07-25 13:57:39,231 | Module: baecon_logger | Line: 40    :: Function: wrapper :: Args: () :: Exception raised in a. exception: division by zero
-Traceback (most recent call last):
-  File "c:\Users\walsworth1\Documents\Jupyter_Notebooks\baecon\src\baecon\utils\baecon_logger.py", line 37, in wrapper
-    result = func(*args, **kwargs)
-  File "c:\Users\walsworth1\Documents\Jupyter_Notebooks\baecon\src\baecon\utils\baecon_logger.py", line 48, in a
-    return 1 / x
-ZeroDivisionError: division by zero
