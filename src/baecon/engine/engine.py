@@ -233,11 +233,11 @@ def perform_measurement(
 
 
 if __name__ == {"__main__", "__mp_main__"}:
-    meas_config = Measurement_Data.utils.load_config(
+    meas_config = bc.utils.load_config(
         "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\generated_config.toml"
     )
 
-    ms = Measurement_Data.make_measurement_settings(meas_config)
+    ms = bc.make_measurement_settings(meas_config)
     scans = ms.scan_collection
     acq_methods = ms.acquisition_devices
 

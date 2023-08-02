@@ -1,4 +1,4 @@
-.. image:: https://github.com/olssonks/baecon/tree/main/docs/source/_static/baecon.svg
+.. image:: ./docs/source/_static/baecon.svg
 
 |docs|
 

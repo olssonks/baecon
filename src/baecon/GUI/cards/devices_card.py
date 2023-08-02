@@ -974,3 +974,7 @@ if __name__ in {"__main__", "__mp_main__"}:
     main(gui_fields, meas_settings, "Scan Devices")
     app.on_disconnect(app.shutdown)
     ui.run(port=8082, reload=False)
+
+if __name__ == "__main__":
+    ##
+    pass
