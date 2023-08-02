@@ -1,9 +1,9 @@
-+++++++++++++++++++++++++++
-Device Construction Example
-+++++++++++++++++++++++++++
+++++++++++++++++++++++++++++
+Device Construction Tutorial
+++++++++++++++++++++++++++++
 
 This expample will explain the process of writing a new :py:class:`Device`, using
-the PulseStreamer device as an example. Hopefully, it serves somewhat as a 
+the references PulseStreamer device as an example. Hopefully, it serves somewhat as a 
 tutorial of the thought process behind building a new :py:class:`Device`.
 
 Find Communication Protocol

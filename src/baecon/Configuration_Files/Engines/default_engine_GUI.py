@@ -145,7 +145,9 @@ def make_scan_list(
     return scan_list
 
 
-def measure_thread(ms: bc.Measurement_Settings, data_queue: queue.Queue, abort: abort):
+def measure_thread_function(
+    meas_settings: bc.Measurement_Settings, data_queue: queue.Queue, abort: abort
+):
     """Thread that performs measurements.
 
        Value from the measurements are put in a Queue object (`data_queue`), which
@@ -158,9 +160,9 @@ def measure_thread(ms: bc.Measurement_Settings, data_queue: queue.Queue, abort: 
         data_queue (queue.Queue): Used to move data between the measure and data threads.
         abort (abort): Exits measurement if ``True``
     """
-    scans = ms.scan_collection
-    acq_methods = ms.acquisition_devices
-    for idx in np.arange(ms.averages, dtype=np.int32):
+    scans = meas_settings.scan_collection
+    acq_methods = meas_settings.acquisition_devices
+    for idx in np.arange(meas_settings.averages, dtype=np.int32):
         consecutive_measurement(scans, acq_methods, data_queue, abort)
         data_queue.put(["scan_done"])
         print(f"measurement {idx} done")
@@ -170,7 +172,9 @@ def measure_thread(ms: bc.Measurement_Settings, data_queue: queue.Queue, abort: 
     return
 
 
-def data_thread(md: bc.Measurement_Data, data_queue: queue.Queue, abort: abort) -> None:
+def data_thread_function(
+    meas_data: bc.Measurement_Data, data_queue: queue.Queue, abort: abort
+) -> None:
     """Recieves data from the `measure_thread` and stores it in a Measurement_Data
        object.
 
@@ -187,17 +191,17 @@ def data_thread(md: bc.Measurement_Data, data_queue: queue.Queue, abort: abort) 
     idx = 0
     # md.data_measurement_holder = copy.deepcopy(md.data_template)
     while not data_done == "measurement_done":
-        md.data_current_scan = copy.deepcopy(md.data_template)
-        data_done = get_scan_data(md.data_current_scan, data_queue, data_done, abort)
+        meas_data.data_current_scan = copy.deepcopy(meas_data.data_template)
+        data_done = get_scan_data(meas_data.data_current_scan, data_queue, data_done, abort)
         if abort.abort_measurement:
             break
         if "scan_done" in data_done:
-            for acq_key in list(md.data_current_scan.keys()):
-                md.data_set[f"{acq_key}-{idx}"] = md.data_current_scan[acq_key]
+            for acq_key in list(meas_data.data_current_scan.keys()):
+                meas_data.data_set[f"{acq_key}-{idx}"] = meas_data.data_current_scan[acq_key]
             data_done = ""
             idx += 1
     abort.abort_measurement = True
-    md.data_current_scan = copy.deepcopy(md.data_template)
+    meas_data.data_current_scan = copy.deepcopy(meas_data.data_template)
     return
 
 
@@ -263,10 +267,10 @@ def abort_monitor(abort: abort):
 
 
 async def perform_measurement(
-    ms: bc.Measurement_Settings,
-    md: bc.Measurement_Data,
+    meas_settings: bc.Measurement_Settings,
+    meas_data: bc.Measurement_Data,
     abort: abort,
-) -> bc.Measurement_Data:
+) -> None:
     """The core method of the engine, which starts the measurement and data threads.
        All :py:class:`engine` have this method.
 
@@ -279,25 +283,42 @@ async def perform_measurement(
         bc.Measurement_Data: _description_
     """
     data_cue = queue.Queue()
+    abort.abort_measurement = False
 
-    m_t = threading.Thread(
-        target=measure_thread,
-        args=(
-            ms,
-            data_cue,
-            abort,
-        ),
-    )
-    d_t = threading.Thread(target=data_thread, args=(md, data_cue, abort))
-    m_t.start()
-    d_t.start()
-    return
+    def meas_thread():
+        return threading.Thread(
+            target=measure_thread_function,
+            args=(
+                meas_settings,
+                data_cue,
+                abort,
+            ),
+            name=f'thr_{np.random.randint(low=0, high=int(1e8))}',
+            # daemon=True,
+        )
+
+    def data_thread():
+        return threading.Thread(
+            target=data_thread_function,
+            args=(meas_data, data_cue, abort),
+            name=f'thr_{np.random.randint(low=0, high=int(1e8))}',
+            # daemon=True,
+        )
+
+    # meas_thread.start()
+    # data_thread.start()
+    return [meas_thread(), data_thread()]
 
 
-async def main(ms, md, abort):
-    task = asyncio.create_task(perform_measurement(ms, md, abort))
-    await task
-    return task
+async def main(
+    meas_settings: bc.Measurement_Settings,
+    meas_data: bc.Measurement_Data,
+    abort: abort,
+):
+    ## asyncio.run() cannot be called from a running event loop
+    threads = asyncio.create_task(perform_measurement(meas_settings, meas_data, abort))
+    # await task
+    return threads
 
 
 if __name__ in {"__main__", "__mp_main__"}:

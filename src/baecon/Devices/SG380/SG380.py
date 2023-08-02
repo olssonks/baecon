@@ -110,16 +110,6 @@ class SG380(Device):
 
         return device
 
-    # def intialize_parameters(self, configuration):
-    #     '''populate parameters from config file or present device values'''
-    #     if "Parameters" in configuration:
-    #         for key,value in list(configuration['Parameters'].items()):
-    #             self.parameters.update({key: value})
-    #     else:
-    #         print('No parameters found, using defaults')
-    #         print(self.parameters)
-    #     return
-
     def enable_output(self, value):
         self.write("enabled", value)
         return

@@ -8,12 +8,10 @@ import threading
 meas_settings = bc.Measurement_Settings()
 
 daq_config = bc.utils.load_config('tests\\test_daq_config.toml')
-bc.add_device(daq_config, 
-                  meas_settings.acquisition_devices)
+bc.add_device(daq_config, meas_settings.acquisition_devices)
 
 sg_config = bc.utils.load_config('tests\\test_sig_gen_config.toml')
-bc.add_device(sg_config,
-                  meas_settings.scan_devices)
+bc.add_device(sg_config, meas_settings.scan_devices)
 
 scan_settings_1 = bc.utils.load_config('tests\\test_scan.toml')
 bc.add_scan(scan_settings_1, meas_settings.scan_devices['SG1'], meas_settings)

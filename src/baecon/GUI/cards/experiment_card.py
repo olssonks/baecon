@@ -1,12 +1,11 @@
 from functools import partial
 from pathlib import Path
 
-from nicegui import ui, app
+from nicegui import app, ui
 
 import baecon as bc
 from baecon.GUI import gui_utils
 from baecon.GUI.cards import data_card
-
 
 head_style = "color: #37474f; font-size: 200%; font-weight: 300"
 
@@ -33,7 +32,7 @@ def main(gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Setting
     with ui.row().classes("w-full no-wrap items-end"):
         ui.input("Experiment File").bind_value(gui_fields, "exp_file").classes(
             "w-2/3 h-full"
-        ).props('type=textarea autogrow rounded outlined')
+        ).props("type=textarea autogrow rounded outlined")
         ui.button(
             "Save", on_click=partial(save_exp_file, *(gui_fields, meas_settings))
         ).classes("w-1/9")
@@ -50,7 +49,22 @@ def main(gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Setting
 
 def make_experiment_config(
     gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Settings
-):
+) -> dict:
+    """Generates a configuration file for describing the entire experiment.
+
+       The file is contains dictionary elements for
+       :py:class:`Measurement Settings <baecon.Measurement_Settings>` and
+       :py:class:`GUI Fields <gui_utils.GUI_fields>`.
+
+    Args:
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+
+    Returns:
+        dict: Dictionary containing all information for defining an experiment in
+            the GUI.
+    """
     exp_config = {}
     exp_config.update(bc.generate_measurement_config(meas_settings))
     exp_config.update({"GUI_Fields": gui_utils.to_gui_fields_config(gui_fields)})
@@ -60,6 +74,13 @@ def make_experiment_config(
 async def load_exp_file(
     gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Settings
 ) -> None:
+    """Opens dialog window for picking and loading an experiment configuration.
+
+    Args:
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
     exp_file = await gui_utils.pick_file(gui_utils.EXPERIMENT_DIRECTORY)
     exp_config = bc.utils.load_config(exp_file)
     gui_utils.from_gui_fields_config(exp_config, gui_fields)
@@ -73,6 +94,13 @@ async def load_exp_file(
 async def save_exp_file(
     gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Settings
 ) -> None:
+    """Saves experiment configuration with currently chosen configuration file name.
+
+    Args:
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
     config = make_experiment_config(gui_fields, meas_settings)
     bc.utils.dump_config(config, gui_fields.exp_file)
     return
@@ -81,6 +109,13 @@ async def save_exp_file(
 async def save_as_exp_file(
     gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Settings
 ) -> None:
+    """Opens dialog window for picking file to save experiment configuration as.
+
+    Args:
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
     new_file = Path(await gui_utils.pick_file(gui_utils.EXPERIMENT_DIRECTORY))
     gui_fields.exp_file = str(new_file)
     gui_fields.exp_name = new_file.name.split(".")[0]
@@ -92,7 +127,14 @@ async def save_as_exp_file(
 async def save_as_last_experiment(
     gui_fields: gui_utils.GUI_fields, meas_settings: bc.Measurement_Settings
 ):
-    file = gui_utils.EXPERIMENT_DIRECTORY / 'last_experiment.toml'
+    """Save current expierment configuration in `last_config` on GUI shutdown.
+
+    Args:
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
+    file = gui_utils.EXPERIMENT_DIRECTORY / "last_experiment.toml"
     config = make_experiment_config(gui_fields, meas_settings)
     bc.utils.dump_config(config, file)
     return

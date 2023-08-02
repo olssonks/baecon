@@ -1,28 +1,85 @@
 averages = 1
 
-[acquisition_devices]
-
-[scan_devices]
-
-[scan_collection]
-
 [GUI_Fields]
 exp_name = ""
 exp_file = ""
-engine_name = ""
-engine_file = ""
-scan_file = ""
+engine_name = "default_engine_GUI.py"
+engine_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Engines\\default_engine_GUI.py"
+scan_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml"
 averages = 1
 data_auto_save = ""
 data_folder = ""
-data_file = "2023_07_18_0_"
+data_file = "2023_08_01_0_"
 data_file_format = ""
 data_analysis = ""
-plot_active = false
+plot_active = true
 abort_measurement = false
+measurement_threads = [ "<Thread(Thread-7 (measure_thread_function), started daemon 21420)>", "<Thread(Thread-8 (data_thread_function), started daemon 27256)>",]
+
+[acquisition_devices.Daq1]
+name = "Daq1"
+device = "NIDAQ_Base"
+
+[scan_devices.SG1]
+name = "SG1"
+device = "SG380"
+
+[scan_collection.SG1-frequency]
+name = "SG1"
+device = "SG380"
+parameter = "frequency"
+min = 2700.0
+max = 2900.0
+points = 101.0
+repetitions = 1.0
+scale = "linear"
+randomize = false
+note = ""
 
 [GUI_Fields.plot_data]
 
 [GUI_Fields.scan_dev_files]
+SG1 = ""
 
 [GUI_Fields.acq_dev_files]
+Daq1 = ""
+
+[acquisition_devices.Daq1.parameters]
+device_name = "Dev1"
+read_sample_rate = 50000.0
+read_samples_per_chan = 10000.0
+reads_per_sample = 1
+read_samples_total = 10000
+read_channels = [ "ai1",]
+read_sample_rate_out = 1000.0
+
+[acquisition_devices.Daq1.latent_parameters]
+units = "volts"
+voltage_limits = 2
+terminal_type = "RSE"
+read_clock_source = "OnboardClock"
+read_active_edge = "rising_edge"
+read_sample_mode = "finite_samples"
+read_fill_mode = "by_channel"
+read_timeout = "infinite_timeout"
+read_trigger_channel = "PFI0"
+
+[acquisition_devices.Daq1.preparations]
+read = [ "analog_input",]
+read_method = "analog_input"
+
+[scan_devices.SG1.parameters]
+frequency = "2700.0"
+phase = 0
+amplitude = -3.0
+enabled = false
+modulation_enabled = false
+modulation_type = "IQ"
+modulation_function = "External"
+modulation_dev = 0
+modulation_rate = 0
+
+[scan_devices.SG1.latent_parameters]
+IPaddress = "10.229.42.86"
+port = "5025"
+read_termination = "r\n"

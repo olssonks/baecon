@@ -47,10 +47,13 @@ read_method = "analog_input"
 [scan_devices.SG1.parameters]
 frequency = 2800.0
 phase = 0
-amplitude = 0.0
+amplitude = 16.0
+enabled = true
 modulation_enabled = false
-modulation_type = "AM"
-modulation_function = "External"
+modulation_type = "FM"
+modulation_function = "Sine"
+modulation_dev = 1e6
+modulation_rate = 100
 
 [scan_devices.SG1.latent_parameters]
 #GPIB = 27

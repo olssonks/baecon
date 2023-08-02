@@ -1,6 +1,4 @@
 from nicegui import app, ui
-import time
-
 
 import baecon as bc
 from baecon.GUI import gui_utils
@@ -13,7 +11,6 @@ from baecon.GUI.cards import (
     scan_card,
 )
 
-
 head_style = "color: #37474f; font-size: 200%; font-weight: 300"
 
 ui.colors(primary="#485696", secondary="#E7E7E7", accent="#FC7A1E", positive="#53B689")
@@ -24,12 +21,6 @@ ui.colors(primary="#485696", secondary="#E7E7E7", accent="#FC7A1E", positive="#5
 ## meas_settings: actual measurement configuration with has instrument objects
 ##     in it for communication
 ## meas_data: measurement data
-
-# meas_config = bc.utils.load_config(
-#     "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\tests\\generated_config.toml"
-# )
-
-# meas_settings = bc.make_measurement_settings(meas_config)
 
 meas_settings = bc.Measurement_Settings()
 
@@ -62,33 +53,33 @@ def main():
         with ui.row().classes("flex items-stretch"):
             with ui.column().classes("grid justify-items-stretch"):
                 ## Scan devices card
-                with ui.card().classes("w-96  h-full") as card_scan_dev:
+                with ui.card().classes("w-96  h-full"):
                     ## possible card props: .props('flat bordered')
                     refresh, extra_args = devices_card.main(
                         gui_fields, meas_settings, "Scan Devices"
                     )
                     card_dict.update(
-                        {'card_scan_dev': {'function': refresh, 'args': extra_args}}
+                        {"card_scan_dev": {"function": refresh, "args": extra_args}}
                     )
                 ## Acquisition devices card
-                with ui.card().classes("w-96  h-full") as card_acq_dev:
+                with ui.card().classes("w-96  h-full"):
                     refresh, extra_args = devices_card.main(
                         gui_fields, meas_settings, "Acquisition Devices"
                     )
                     card_dict.update(
-                        {'card_acq_dev': {'function': refresh, 'args': extra_args}}
+                        {"card_acq_dev": {"function": refresh, "args": extra_args}}
                     )
                 with ui.card().classes("w-full h-full place-content-evenly"):
                     data_card.main(gui_fields, meas_data)
             with ui.column().classes("h-full"):
                 with ui.card().classes("w-full"):
                     plot_card.main(gui_fields, meas_settings, meas_data)
-                with ui.card() as card_scan:
+                with ui.card():
                     refresh, extra_args = scan_card.main(
                         gui_fields, meas_settings, meas_data
                     )
                     card_dict.update(
-                        {'card_scan': {'function': refresh, 'args': extra_args}}
+                        {"card_scan": {"function": refresh, "args": extra_args}}
                     )
     gui_utils.set_gui_cards(card_dict)
     gui_utils.update_everything(gui_fields, meas_settings)
@@ -97,14 +88,16 @@ def main():
 if __name__ in {"__main__", "__mp_main__"}:
     ## Try different port if usual one is blocked
     ## This usually occurs if GUI page, other than main one, uses ui.run()
-    for _ in range(10):
-        try:
-            ui.run(port=gui_utils.GUI_PORT)
-        except PermissionError as e:
-            gui_utils.GUI_PORT += 1
-            time.sleep(0.1)
-        else:
-            break
+    # for _ in range(10):
+    #     try:
+    #         main()
+    #         app.on_disconnect(app.shutdown)
+    #         ui.run(port=gui_utils.GUI_PORT, reload=False)
+    #     except PermissionError:
+    #         gui_utils.GUI_PORT += 1
+    #         time.sleep(0.1)
+    #     else:
+    #         break
     main()
     app.on_disconnect(app.shutdown)
     ui.run(port=gui_utils.GUI_PORT, reload=False)

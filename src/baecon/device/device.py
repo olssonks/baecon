@@ -1,7 +1,6 @@
 import os
-from pathlib import Path
 from abc import ABC, abstractmethod
-
+from pathlib import Path
 
 DEVICES_DIRECTORY = Path(__file__).parent.parent.resolve() / "Devices"
 
@@ -143,17 +142,24 @@ class Device(ABC):
         return
 
     def set_parameter(self, parameter, value) -> None:
+        """
+        .. todo::
+            This method seems to not be used.
+
+        """
         self.write(parameter, value)
         self.parameters[parameter] = value
         return
 
     def get_parameter(self, parameter, value):
+        """
+        .. todo::
+            This method seems to not be used.
+
+        """
         value = self.read(parameter)
         self.parameters[parameter] = value
         return value
-
-    def close_device(self) -> None:
-        return
 
     def get_device_gui(self) -> None:
         print("This device does not have a GUI.")  ## should be logging
@@ -202,5 +208,14 @@ class Device(ABC):
 
         Args:
             value (bool): 0 or 1 for off or on
+        """
+        return
+
+    def close_device(self) -> None:
+        """
+        .. todo::
+            Need to figure out if we want devices to have this method.
+            If so, need to be an abstract method.
+
         """
         return

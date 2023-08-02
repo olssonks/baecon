@@ -6,7 +6,6 @@ from nicegui import ui
 
 import baecon as bc
 
-
 GUI_UTILS_DIRECTORY = Path(__file__).parent.resolve()
 
 DATA_DIRECTORY = Path(__file__).parent.parent.resolve() / "Configuration_Files/Data"
@@ -55,12 +54,15 @@ class Plot_Settings:
     plot = ""
 
 
-## Might need to use this to make sure fields in the cards get updated
+## Might need to use to collect the actual GUI elements
+## So far not necessary
 @dataclass
 class All_GUI_Elements:
     """
     Holds list of all elements (i.e. cards) in the GUI.
     Used to update all the fields when loading experiments.
+
+    Currently this class is unused/unneeded.
     """
 
     elements: list = field(default_factory=list)
@@ -98,6 +100,7 @@ class GUI_fields:
     data_analysis: str = ""  ### Probably a seperate Window
     plot_active: bool = False
     abort_measurement: bool = False
+    measurement_threads: list = field(default_factory=list)
 
 
 class load_file(ui.dialog):
@@ -200,7 +203,7 @@ class load_file(ui.dialog):
             f"getElement({self.grid.id}).gridOptions.api.getSelectedRows()"
         )
         try:
-            if not self.file_name.value == "":  # noqa: PLC1901
+            if not self.file_name.value == "":
                 full_path = str(Path(self.path.resolve(), self.file_name.value))
             else:
                 full_path = str(Path(self.path.resolve(), rows[0]["name"]))
@@ -297,7 +300,7 @@ def update_everything(gui_fields: GUI_fields, meas_settings: bc.Measurement_Sett
         meas_settings (bc.Measurement_Settings): _description_
     """
     for _, card_info in GUI_CARD_HOLDER.value.items():
-        card_info['function'](*card_info['args'], gui_fields, meas_settings)
+        card_info["function"](*card_info["args"], gui_fields, meas_settings)
     return
 
 
@@ -307,13 +310,6 @@ def find_gui_element(element, element_tag):
         ## place holder for search children elements
         pass
     return element
-
-
-# def search_element_parents(element, element_tag):
-#     test_parent_slot = element.parent_slot
-#     while not (test_parent_slot is None or test_parent_slot.parent.tag == element_tag):
-#         test_parent_slot = test_parent_slot.parent.parent_slot
-#     return test_parent_slot
 
 
 def search_element_parents(element: ui.element, element_tag: str):
@@ -335,14 +331,20 @@ def search_element_parents(element: ui.element, element_tag: str):
         test_parent = test_parent.parent_slot.parent
     return test_parent
 
-    ## this is needs to be more complex as elements can have multiple children
-
 
 def search_element_children(element, element_tag):
+    """
+    Unfinished. More complicated that :py:meth:`search_element_parents` as an
+    element can have multiple childern.
+
+    Args:
+        element (_type_): _description_
+        element_tag (_type_): _description_
+    """
     test_parent_slot = element.parent_slot
     while not (test_parent_slot is None or test_parent_slot.parent.tag == element_tag):
         test_parent_slot = test_parent_slot.parent.parent_slot
-    return t
+    return
 
 
 # def find_gui_element(element, element_tag):

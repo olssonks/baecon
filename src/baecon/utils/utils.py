@@ -227,70 +227,6 @@ def save_measurement_config(ms: bc.Measurement_Settings, out_file: str) -> None:
     return
 
 
-def save_scan_collection():
-    return
-
-
-def save_device():
-    return
-
-
-def save_baecon_data(
-    md: bc.Measurement_Data, file_name: str, format: str = ".zarr", options=None
-) -> None:
-    """Saves measurement data to choice of ``format``.
-       The default format is a Zarr group file. Possible formats:
-       ``zarr``, ``netcdf``, ``hdf5``, and ``csv``.
-
-    ``zarr`` and ``netcdf`` play well with :py:mod:`xarray`. For the other
-    formats data is coverted :py:mod:`pandas` then saved.
-
-    .. todo::
-        Need to check settings saved as metadata correctly
-
-        Possible formats to implement in the future: parquet, feather.
-
-    Args:
-        md (:py:mod:`Measurement_Data`): Configuration of measurement.
-        file_name (str): File name for saving data.
-        format (str, optional): File format to use, defaults to '.zarr'
-        options (optional): Options for extension in the future, likely
-        chunking and compression.
-    """
-
-    def use_zarr():
-        if options:
-            md.data_set.to_zarr(file_name, **options)
-        else:
-            md.data_set.to_zarr(file_name, mode="w")
-        return
-
-    def use_netcdf():
-        if options:
-            md.data_set.to_netcdf(file_name, **options)
-        else:
-            md.data_set.to_netcdf(file_name)
-        return
-
-    def use_hdf5():
-        df = md.data_set.to_pandas()
-        if options:
-            df.to_hdf(file_name, **options)
-        else:
-            df.to_hdf(file_name)
-        return
-
-    def use_csv():
-        df = md.data_set.to_dataframe()
-        df.to_csv(file_name)
-        return
-
-    formats = {".zarr": use_zarr, ".nc": use_netcdf, ".h5": use_hdf5, ".csv": use_csv}
-
-    formats[format]()
-    return
-
-
 def arg_parser():
     """Argument parser for command line interface.
 
@@ -374,8 +310,3 @@ def load_module_from_path(file_path: str):
             f"Tried to load a module from a path with: {file_path} but failed"
         )  ## shhould be logging
         return
-
-
-# def baecon_install_directory():
-#     pathlib.Path(__file__).parent.resolve()
-#     return pathlib.Path(__file__).parent.resolve()

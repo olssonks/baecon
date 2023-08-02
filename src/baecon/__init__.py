@@ -14,10 +14,15 @@ from baecon.device import Device, DEVICES_DIRECTORY
 from baecon.engine import perform_measurement
 
 ## Needs to imported after baecon.base to avoid circular imports
+from baecon import data
 from baecon.utils import utils
 from baecon import GUI
 
+__version__ = "0.0.1"
+
 __all__ = (
+    "__version__",
+    "data",
     "GUI",
     "utils",
     "Measurement_Settings",

@@ -1,6 +1,7 @@
+import itertools
 import pathlib
 from dataclasses import dataclass, field
-import itertools
+
 import numpy as np
 import plotly.graph_objects as go
 from nicegui import APIRouter, app, ui
@@ -18,7 +19,7 @@ device_gui_router = APIRouter()
 device_gui_name = pathlib.Path(__file__).name.split(".")[0]
 
 ## Sequence directory
-SEQUENCE_DIRECTORY = pathlib.Path(__file__).parent.parent.resolve() / 'sequences'
+SEQUENCE_DIRECTORY = pathlib.Path(__file__).parent.parent.resolve() / "sequences"
 
 
 @dataclass
@@ -67,7 +68,7 @@ def main():
             with ui.row().classes("w-full no-wrap items-stretch"):
                 with ui.card():
                     edit_channel_card()
-                with ui.card().classes('flex'):
+                with ui.card().classes("flex"):
                     edit_pulse_card()
 
 
@@ -127,9 +128,9 @@ def edit_channel_card():
 
 def edit_pulse_card():
     with ui.column().classes(""):
-        with ui.row().classes('w-full no-wrap grid-rows-2 justify-between'):
-            ui.label("Edit Pulse").classes('')
-            ui.label("Times rounded to nearest nanosecond").classes('font-bold opacity-25')
+        with ui.row().classes("w-full no-wrap grid-rows-2 justify-between"):
+            ui.label("Edit Pulse").classes("")
+            ui.label("Times rounded to nearest nanosecond").classes("font-bold opacity-25")
 
         with ui.row().classes("w-full no-wrap"):
             ps_gui_holder.pulse_num_ui = (
@@ -145,13 +146,13 @@ def edit_pulse_card():
             ).classes("text-uppercase")
 
         with ui.row().classes("no-wrap"):
-            with ui.column().classes('w-2/3'):
-                with ui.row().classes('w-full no-wrap'):
+            with ui.column().classes("w-2/3"):
+                with ui.row().classes("w-full no-wrap"):
                     ui.label("Start Time:").classes("w-2/5 grid justify-end self-end")
                     ui.number("time (us)", value=0, step=0.001, format="%.3f").classes(
                         "w-3/5"
                     ).bind_value(ps_gui_holder, "pulse_start")
-                with ui.row().classes('w-full no-wrap'):
+                with ui.row().classes("w-full no-wrap"):
                     ui.label("Pulse Duration:").classes("w-2/5 grid justify-end self-end")
                     ui.number("duration (us)", value=0, step=0.001, format="%.3f").classes(
                         "w-3/5"
@@ -667,7 +668,7 @@ def make_plot_traces(
         list[dict]: Dictionarys of data for each pulse pattern.
     """
     trace_color = itertools.cycle(
-        ["#e0003c", '#66A37A', '#357ded', '#f8d53a', '#f06f05', "#54457F"]
+        ["#e0003c", "#66A37A", "#357ded", "#f8d53a", "#f06f05", "#54457F"]
     )
     traces = []
     for idx, seq in enumerate(sequence_to_plot):

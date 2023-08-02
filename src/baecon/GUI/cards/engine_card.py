@@ -84,20 +84,11 @@ async def run_measurement(
     meas_data.assign_measurement_settings(meas_settings)
     meas_data.data_current_scan = copy.deepcopy(meas_data.data_template)
 
-    task = await engine_holder.value.main(meas_settings, meas_data, gui_fields)
+    threads = await engine_holder.value.main(meas_settings, meas_data, gui_fields)
+    gui_fields.measurement_threads = await threads
+    [thread.start() for thread in gui_fields.measurement_threads]
 
-    # gui_fields.plot_active = True
-
-    # baecon_cards = gui_utils.get_card_elements(nicegui_element_holder)
-    # plot_card = [el for el in baecon_cards if el.name == 'card_plot'][0]
-
-    # plot_card.update()
-
-    while not task.done():
-        gui_fields.plot_active = True
-    else:
-        gui_fields.plot_active = False
-    # ui.update(plot_card)
+    gui_fields.plot_active = True
     return
 
 

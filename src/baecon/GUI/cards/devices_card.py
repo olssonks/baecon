@@ -1,13 +1,11 @@
-import os
 from functools import partial
 from pathlib import Path
 from typing import Any
 
-from nicegui import app, ui, events
+from nicegui import app, events, ui
 
 import baecon as bc
 from baecon.GUI import gui_utils
-
 
 devices_catagory_holder = gui_utils.Holder()
 
@@ -16,7 +14,7 @@ devices_card_holder = gui_utils.Holder({})
 device_column_holder = gui_utils.Holder()
 
 """:todo:
-    Devices currenlty can only apear in the cards. Adding custom pages for devices
+    Devices currenlty can only appear in the cards. Adding custom pages for devices
     would be good, so for things like pulse generators can display the pulse
     pattern, or for cameras show an image for aligning etc.
 """
@@ -40,9 +38,6 @@ def main(
         * After device is added/removed, the list of devices is updated by
           devices_catagory_holder as the key for the correct card in
           devices_card_holder.
-
-    **This flow is a bit clumsy, but I do not know how to best pass or bind
-    the values so work with the async functions.**
 
     `functools.partial` can be used to provide args to async functions.
 
@@ -69,13 +64,12 @@ def main(
         with devices_card_holder.value[devices_catagory]:
             show_devices(devices_catagory, gui_fields, meas_settings)
         with ui.column().classes("w-full"):
-            ## async functions don't work with on_click and args
-            ## on_click will pass the event e when calling method without args
-            ## functools partial method doesn't work when trying to use event as an arg
-            async def add_fix(e):
-                await add_device_button(e, devices_catagory, gui_fields, meas_settings)
-
-            ui.button(add_label, on_click=add_fix).classes("w-full")
+            ui.button(
+                add_label,
+                on_click=partial(
+                    add_device_button, *(devices_catagory, gui_fields, meas_settings)
+                ),
+            ).classes("w-full")
             ## Remove function isn't async
             ui.button(
                 remove_label,
@@ -87,22 +81,20 @@ def main(
     return update_devices_card, (devices_catagory,)
 
 
-# def update_card(
-#     gui_fields: gui_utils.GUI_fields,
-#     meas_settings: bc.Measurement_Settings,
-# ):
-#     device_column = device_column_holder.value
-#     update_devices_card(device_column, gui_fields, meas_settings)
-#     return
-
-
 def update_devices_card(
     device_category: str,
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
 ):
-    """Updates the card listing devices when a device is added or removed."""
-    devices_catagory = device_category  # device_column.default_slot.children[0].text
+    """Updates the card listing devices when a device is added or removed.
+
+    Args:
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
+    devices_catagory = device_category
     card = devices_card_holder.value[devices_catagory]
     card.clear()
     with card:
@@ -121,7 +113,6 @@ def add_remove_button_labels(devices_catagory_holder: gui_utils.Holder) -> tuple
         tuple: The labels for the buttons for add_device_button and
             remove_device_button.
     """
-    # devices_catagory = device_column
     if devices_catagory_holder.value == "Scan Devices":
         add_label = "Add Scan Device"
         remove_label = "Remove Scan Device"
@@ -138,19 +129,17 @@ def add_remove_button_labels(devices_catagory_holder: gui_utils.Holder) -> tuple
 ## might not need this functin anymore
 ## could remove this func and just use add_device_dialog when clicking Add Device button
 async def add_device_button(
-    click_event,
     device_category: str,
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
 ):
-    """
-    Async function for calling the add_device_dialog window.
-        Catagory of device is determined from the click_event_arg.
+    """Async function for calling the add_device_dialog window.
 
     Args:
-        click_event (nicegui event): Click information passed to this function
-            from the button element. The text of the button is used to determine
-            which catagory of device to work with.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
     """
     await add_device_dialog(device_category, gui_fields, meas_settings)
     return
@@ -161,16 +150,20 @@ async def add_device_dialog(
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
 ):
-    """
-    Dialog window for choosing a device to add.
-        The list of devices is populated
-        by the "Instruments" directory in baecon. When adding a device you choose
-        the working name, or nickname for the device in the experiment, which is
-        different than the device class.
+    """Makes a :py:class:`ui.dialog` for choosing a device to add.
 
-    Once the working name and device type are selected, the device will
-    be loaded on into gui_config_holder with the
+       The list of devices is populated from the :py:obj:`bc.DEVICES_DIRECTORY.
+       When adding a device you choose the working name, a.k.a. nickname,
+       for the device to have in the experiment, which is different than the
+       device class (a.k.a type).
 
+       The device will not be loaded without a working name.
+
+    Args:
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
     """
     device_name_holder = gui_utils.Holder()
     device_type_holder = gui_utils.Holder()
@@ -184,7 +177,7 @@ async def add_device_dialog(
         )
 
         grid = generate_device_list(device_name_holder)
-        with ui.row().classes('w-full no-wrap'):
+        with ui.row().classes("w-full no-wrap"):
             with ui.column():
                 ui.button(
                     "Choose Device",
@@ -194,8 +187,8 @@ async def add_device_dialog(
                             grid,
                             dialog,
                             device_category,
-                            device_type_holder,
                             device_name_holder,
+                            device_type_holder,
                             device_gui_enabled,
                             device_load_last,
                             gui_fields,
@@ -207,7 +200,7 @@ async def add_device_dialog(
             with ui.column():
                 ui.radio(
                     {
-                        1: 'Load last device configuration.',
+                        1: "Load last device configuration.",
                         0: "Choose configuration to load.",
                     },
                     value=1,
@@ -220,13 +213,13 @@ def generate_device_list(device_name_holder: gui_utils.Holder):
     """Generates the list of devices available to load in `baecon`.
 
     Reads :py:obj:`baecon.DEVICES_DIRECTORY` and populates the
-    :py:class:`aggrid<nicegui.ui.aggrid>`.
+    :py:class:`aggrid <nicegui.ui.aggrid>`.
 
     Args:
         device_name_holder (gui_utils.Holder): Holder for working name of device.
 
     Returns:
-        aggrid: The :py:class:`aggrid<nicegui.ui.aggrid>` listing the available devices.
+        aggrid: The :py:class:`aggrid <nicegui.ui.aggrid>` listing the available devices.
     """
     ui.input(
         "Device Name",
@@ -249,41 +242,50 @@ async def choose_device(
     grid: ui.aggrid,
     dialog: ui.dialog,
     device_category: str,
-    device_type_holder: gui_utils.Holder,
     device_name_holder: gui_utils.Holder,
+    device_type_holder: gui_utils.Holder,
     device_gui_enabled: gui_utils.Holder,
     device_load_last: gui_utils.Holder,
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
 ):
-    """Loads chosen :py:class:`Device<baecon.device.Device>`.
+    """Loads chosen :py:class:`Device <baecon.device.Device>`.
 
-    On clicking the `Choose Device`, the device is loaded with
+       On clicking the `Choose Device`, the device is loaded with
 
     Args:
-        device_gui_enabled (gui_utils.Holder): Boolean indicating to open
-            device specific gui.
         grid (ui.aggrid): Table showing available device types.
         dialog (ui.dialog): Pop-up dialog holding for choosing a device.
-        device_category (str): Scan or acquisition device.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        device_name_holder (gui_utils.Holder): Holder for chosen name.
         device_type_holder (gui_utils.Holder): Holder for type of
             device, e.g. SG380 or NIDAQ_Base.
-        device_name_holder (gui_utils.Holder): Holder for chosen name.
-        gui_fields (gui_utils.GUI_fields): Object holding all the fields in
-            :py:func:`baecon.GUI.baecon_GUI.main`.
-        meas_settings (bc.Measurement_Settings): _description_
+        device_gui_enabled (gui_utils.Holder): Boolean indicating to open
+            device specific gui.
+        device_load_last (gui_utils.Holder): Boolean; `True` indicates load `last_config`
+            and `False` indicates to launch the file picker dialog.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
     """
-    if device_name_holder.value == "":  # noqa: PLC1901
+    row = await grid.get_selected_row()
+    if device_name_holder.value == "":
         ui.notify(
             "Please Choose Working Name",
             position="center",
             type="negative",
             timeout=1000,
         )
+    elif row is None:
+        ui.notify(
+            "No Device selected",
+            position="center",
+            type="negative",
+            timeout=1000,
+        )
     else:
-        row = await grid.get_selected_row()
         device_type_holder.update(row["name"])
-        await add_device_configs(
+        await add_chosen_device(
             device_category,
             device_name_holder,
             device_type_holder,
@@ -299,7 +301,7 @@ async def choose_device(
     return
 
 
-async def add_device_configs(
+async def add_chosen_device(
     device_category: str,
     device_name_holder: gui_utils.Holder,
     device_type_holder: gui_utils.Holder,
@@ -307,21 +309,29 @@ async def add_device_configs(
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
 ):
-    """
-    Adds selected device to :py:class:`meas_settings<baecon.base.Measurement_Settings>`.
+    """Adds device using the desired configuration.
+
+       By default, the `last_config` for the device is loaded. If no such file
+       exists, the `default` config file is load. And if no such file exists
+       again, the class default configurations are used.
+
+       Alternatively, you can choose to select a configuration file to load.
 
     Args:
-        device_type_holder (gui_utils.holder): Holder for selected device type, e.g. SG380.
-        device_name_holder (gui_utils.holder): Holder for device name input.
-        meas_settings (bc.Measurement_Settings): Object defining the entire
-            measurement.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        device_name_holder (gui_utils.Holder): Holder for chosen name.
+        device_type_holder (gui_utils.Holder): Holder for type of
+            device, e.g. SG380 or NIDAQ_Base.
+        device_load_last (gui_utils.Holder): Boolean; `True` indicates load `last_config`
+            and `False` indicates to launch the file picker dialog.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
     """
     devices_catagory = device_category
-    device_config_holder = gui_utils.Holder()
+    gui_utils.Holder()
     if not device_load_last.value:
-        device_config = await device_configuration_dialog(
-            device_name_holder, device_type_holder
-        )
+        device_config = await device_configuration_dialog(device_type_holder)
     else:
         device_config = get_device_config(
             device_load_last, device_name_holder, device_type_holder
@@ -344,18 +354,40 @@ async def add_device_configs(
 
 
 async def device_configuration_dialog(
-    device_name_holder: gui_utils.Holder,
     device_type_holder: gui_utils.Holder,
-):
+) -> dict:
+    """Opens dialog for choosing a configuration file for the device.
+
+    Args:
+        device_type_holder (gui_utils.Holder): Holds the type (e.g. SG380) for
+            the device.
+
+    Returns:
+        dict: Configruation dictionary for the device.
+    """
     device_directory = bc.DEVICES_DIRECTORY / device_type_holder.value
     file = await gui_utils.load_file(device_directory)
     config = bc.utils.load_config(file)
     return config
 
 
-def open_device_gui(device_category: str, device_name_holder, meas_settings) -> None:
-    devices_catagory = device_category
-    if devices_catagory == "Scan Devices":
+def open_device_gui(
+    device_category: str,
+    device_name_holder: gui_utils.Holder,
+    meas_settings: bc.Measurement_Settings,
+) -> None:
+    """Opens device specific GUI in a seperate browser tab.
+
+       Device specific GUI should be kept in the corresponding Device directory.
+
+    Args:
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        device_name_holder (gui_utils.Holder): Holder for chosen name.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
+
+    if device_category == "Scan Devices":
         device = meas_settings.scan_devices.get(device_name_holder.value)
     else:
         device = meas_settings.acquisition_devices.get(device_name_holder.value)
@@ -378,27 +410,27 @@ def get_device_config(
     device_name_holder: gui_utils.Holder,
     device_type_holder: gui_utils.Holder,
 ) -> dict:
-    """Checks for default configuration file in the directory of the selected
-    device.
-    Generates and returns configuration dictionary for the device.
-    :todo:
-            May want to rethink this. Devices can just have their defaults
-            defined within their class.
+    """Finds path to the `last_config` file and loads its configuration
+
+       If `last_file` is not found in the device's directory, `None` is passed
+       to :py:meth:`device_load_config`.
+
     Args:
-        device_type_holder (gui_utils.holder): Holder for selected device type.
-        device_name_holder (gui_utils.holder): Holder for device name input.
+        device_load_last (gui_utils.Holder): Boolean; `True` indicates load `last_config`
+            and `False` indicates to launch the file picker dialog.
+        device_name_holder (gui_utils.Holder): Holder for chosen name.
+        device_type_holder (gui_utils.Holder): Holder for type of
+            device, e.g. SG380 or NIDAQ_Base.
 
     Returns:
-        dict: Dictionary with the default configuration for the device.
+        dict: Configruation dictionary for the device.
     """
 
-    # device_path = os.path.join(bc.DEVICES_DIRECTORY, device_type_holder.value)
     device_directory = bc.DEVICES_DIRECTORY / device_type_holder.value
-    config_names = {0: "default", 1: "last_config"}
 
     config_file = None
     for item in device_directory.iterdir():  ## items are absolute Paths
-        if config_names[device_load_last.value] in str(item):
+        if "last_config" in str(item):
             config_file = str(item)
             break
 
@@ -409,7 +441,22 @@ def get_device_config(
 
 def device_load_config(
     file: str, device_name_holder: gui_utils.Holder, device_type_holder: gui_utils.Holder
-):
+) -> dict:
+    """Loads device configuration from the file provided and returns it in a dictionary.
+
+       If `None` is given as the file, then this method will look for the
+       `default` configuration file. If that file isn't found, this method
+       return a dictionary of the class defaults.
+
+    Args:
+        file (str): String of file path.
+        device_name_holder (gui_utils.Holder): Holder for chosen name.
+        device_type_holder (gui_utils.Holder): Holder for type of
+            device, e.g. SG380 or NIDAQ_Base.
+
+    Returns:
+        dict: Configruation dictionary for the device.
+    """
     if file is not None:
         config = bc.utils.load_config(file)
     else:
@@ -429,15 +476,15 @@ def remove_device_button(
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
 ):
-    """Opens dialog to select device and removes it.
+    """
+    Generates dialog to select which device to remove and then removes it.
 
     Args:
-        click_event: `nicegui` event object for the remove device button. The
-            category (scan or aquisition) is selected based on the label of the
-            button, which is given by `click_event.sender.text`.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
     """
-    # device_category = click_event.sender.text
-
     if "Scan" in device_category:
         devices_catagory_holder.value = "Scan Devices"
         device_list = meas_settings.scan_devices
@@ -465,12 +512,15 @@ def show_devices(
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
 ):
-    """Populates the device card with currently chosen devices.
-    Adds the scan and acquisition devices listed in `meas_settings`.
+    """Populates the device card with the measurement devices.
+
+       These are the devices listed in `meas_settings`.
 
     Args:
-        meas_settings (bc.Measurement_Settings): Object defining the entire
-            measurement.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
     """
     devices_catagory = device_category
     if devices_catagory == "Scan Devices":
@@ -493,6 +543,17 @@ def show_devices(
 
 
 def device_buttons(device_name: str, category: str, meas_settings: bc.Measurement_Settings):
+    """Buttons within the device drop-down expansion.
+
+       These allow for opening the device specific GUI, reconnecting to the
+       device, and toggling device output on and off.
+
+    Args:
+        device_name (str): Chosen working name.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
     device_name_holder = gui_utils.Holder(device_name)
     with ui.column().classes("w-full"):
         with ui.row().classes("w-full no-wrap"):
@@ -520,16 +581,23 @@ def device_tabs(
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
 ):
-    """Creates the drop down tabs for all the devices.
-    Within the drop down, tabs are create for all the attributes of the
-    device, which are `parameters`, `latent_parameters`, and any other
-    custom attribute for that the device type.
+    """Generates the tabs in the drop-down expansion of the device.
+
+       The tabs are given by any dictionary term given in the configuration
+       dictinary. For all device this includes `parameters` and `latent_parameters`.
+       Some devices will have extra entries in configuration dictionary, which
+       will also be given a tab.
+
+       Each device also gets a tab for saving and loading its configuration to
+       a configuration file.
 
     Args:
-        device_name (str): Working name of the device.
-        device_configuration (dict): The `configuration` attribute of the Device
-            containing all information do set up a device.
-        meas_settings (bc.Measurement_Settings): _description_
+        device_name (str): Chosen working name.
+        device_configuration (dict): Configuration dictionary for the device.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
     """
     ## device_parameters are: parameters, latent_parameters, etc.
     with ui.tabs().classes("w-full") as tabs:
@@ -556,6 +624,23 @@ def save_load_tab(
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
 ):
+    """Populates the device tab with saving and loading GUI elements.
+
+       These elements are buttons for `load`, `save`, and `save as`, as well as
+       an input box for the file name.
+
+       :py:meth:`save_as_last_config` is specified in this function, since there
+       is already saving happening. Upon the app disconnecting (equivalent to
+       shutting down), the current configuration of the device will be save in
+       the `last_config` file.
+
+    Args:
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        device_name (str): Chosen working name.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
     with ui.column().classes("w-full h-full"):
         devices_catagory = device_category
         if devices_catagory == "Scan Devices":
@@ -596,11 +681,26 @@ def save_load_tab(
 
 
 async def save_button(
-    button_event,
+    button_event: events.ClickEventArguments,
     device_category: str,
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
 ) -> None:
+    """Saves current device configuration.
+
+       The configuration is saved to the file currently specified in the GUI.
+       The name of the device is taken from the click arguments of the button
+       object.
+
+
+    Args:
+        button_event (events.ClickEventArguments): Event args from clicking
+            save button.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
     device, device_files, _ = determine_device(
         button_event, device_category, gui_fields, meas_settings
     )
@@ -612,11 +712,25 @@ async def save_button(
 
 
 async def save_as_button(
-    button_event,
+    button_event: events.ClickEventArguments,
     device_category: str,
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
 ) -> None:
+    """Opens dialog window to pick file to save the device as.
+
+       The name of the device is taken from the click arguments of the button
+       object.
+
+    Args:
+        button_event (events.ClickEventArguments): Event args from clicking
+            save button.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
+
     device, device_files, _ = determine_device(
         button_event, device_category, gui_fields, meas_settings
     )
@@ -630,14 +744,37 @@ async def save_as_button(
 
 
 def determine_device(
-    gui_event,
+    gui_event: events.EventArguments,
     devices_catagory: str,
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
-) -> tuple[bc.Device, dict]:
+) -> tuple[bc.Device, dict, dict]:
+    """Determines device from the GUI event arguments and device catagory.
+
+       The property `sender` of `gui_event` is used a the start element for
+       the :py:meth:`gui_utils.find_gui_element`.
+
+       This method then returns the :py:class:`Device <baecon.device.Device>`
+       of the device, a `dict` of device names and currently used config file,
+       and `acquisition_devices or `scan_devices` property of
+       `bc.Measurement_Settings`.
+
+    Args:
+        button_event (events.ClickEventArguments): Event args from clicking
+            save button.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    Returns:
+        tuple[bc.Device, dict, dict]: Tuple where the first element is a :
+        py:class:`Device <baecon.device.Device>` and the second a dictitonary
+            with elements `{device_name: config file name}`, and either
+            `acquisition_devices or `scan_devices`.
+    """
     ## more  efficient way to get device name??
     element = gui_event.sender
-    found_element = gui_utils.find_gui_element(element, 'q-expansion-item')
+    found_element = gui_utils.find_gui_element(element, "q-expansion-item")
     device_name = found_element._props["label"]
 
     if devices_catagory == "Scan Devices":
@@ -651,11 +788,24 @@ def determine_device(
 
 
 async def load_button(
-    button_event,  ## ClickEventArgs
+    button_event: events.ClickEventArguments,
     device_catory: str,
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
-):
+) -> None:
+    """Opens a dialog with to pick and load a device configuration file.
+
+       The name of the device is taken from the click arguments of the button
+       object.
+
+    Args:
+        button_event (events.ClickEventArguments): Event args from clicking
+            save button.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
     device, device_files, devices = determine_device(
         button_event, device_catory, gui_fields, meas_settings
     )
@@ -675,13 +825,14 @@ def list_parameters(
     device_name: str, parameters: dict, meas_settings: bc.Measurement_Settings
 ):
     """Generates a tab and lists the supplied parameters for a device. Here
-    parameters includes the devices `parameters`, `latent_parameters`, and
-    other parameter dicts specific to the device.
+       parameters includes the devices `parameters`, `latent_parameters`, and
+       other parameter dicts specific to the device.
 
     Args:
         device_name (str): Working name of device for which the tab is being made.
         parameters (dict): Dictionary of parameters for which to create input fields.
-        meas_settings (bc.Measurement_Settings): _description_
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
     """
     with ui.column().classes("w-full"):
         for param_name, value in list(parameters.items()):
@@ -702,8 +853,9 @@ def device_output(value: int, device_name: str, meas_settings: bc.Measurement_Se
 
     Args:
         value (int): On or off values (1 or 0).
-        device_name (str): Device being controlled
-        meas_settings (bc.Measurement_Settings): _description_
+        device_name (str): Device being controlled.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
     """
     if device_name in meas_settings.scan_devices:
         device = meas_settings.scan_devices[device_name]
@@ -719,16 +871,18 @@ def update_parameter(
     value: Any, parameter: str, device_name: str, meas_settings: bc.Measurement_Settings
 ):
     """Updates the device with the new parameter value.
+
     Args:
         value (Any): New value of parameter.
         parameter (str): Parameter to set to new value.
         device_name (str): Name of device that's have its value changed.
-        meas_settings (bc.Measurement_Settings): _description_
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
     """
     if device_name in meas_settings.scan_devices:
         device = meas_settings.scan_devices[device_name]
     elif device_name in meas_settings.acquisition_devices:
-        device = meas_settings.scan_devices[device_name]
+        device = meas_settings.acquisition_devices[device_name]
     else:
         pass  ## put logging here
 
@@ -740,7 +894,7 @@ def update_parameter(
 
 def update_device_configuration(value: Any, parameter: str, device: bc.Device):
     """Update the `configuration` atrribute of the `Device` with a new parameter
-    value.
+       value.
 
     Args:
         value (Any): Value to update
@@ -759,23 +913,43 @@ def available_devices() -> list:
     Returns:
         list: _List of `Device` modules available.
     """
-    device_path = bc.DEVICES_DIRECTORY
-    contents = os.listdir(device_path)
-    devices = [content for content in contents if os.path.isdir(device_path / content)]
+    contents = bc.DEVICES_DIRECTORY.iterdir()
+    devices = [
+        str(content.relative_to(bc.DEVICES_DIRECTORY))
+        for content in contents
+        if content.is_dir()
+    ]
     return devices
 
 
 ## Not working, the column holding the expansion elements is empty when calling it on shutdown
 ## not sure when these elements are removed
 async def save_as_last_config(
-    button_element,
+    button_element: events.ClickEventArguments,
     devices_catagory: str,
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
-):
+) -> None:
+    """Save current device configuration in `last_config` file.
+
+       This method is called when the GUI is shutdown. Shutdown events don't
+       send event arguments, so the save button element is used to create
+       dummy `ClickEventArguments`.
+
+       .. todo::
+            This method is not working correctly.
+
+    Args:
+        button_event (events.ClickEventArguments): Event args from clicking
+            save button.
+        device_category (str): `Scan_Devices` or `Acquisition_Devices`.
+        gui_fields (gui_utils.GUI_fields): All fields for the GUI.
+        meas_settings (bc.Measurement_Settings): Settings that completely
+            describe the measurement.
+    """
     dummy_event = events.ClickEventArguments(
         sender=button_element, client=button_element.client
-    )  ## app.on_shutdown doesn't pass event args
+    )
 
     device, device_files, _ = determine_device(
         dummy_event, devices_catagory, gui_fields, meas_settings
@@ -785,10 +959,6 @@ async def save_as_last_config(
     file = device_directory / "last_config.toml"
     if file is not None:
         bc.utils.dump_config(device.configuration, file)
-    return
-
-
-async def prep_shutdown():
     return
 
 

@@ -72,7 +72,7 @@ class Pulse_Streamer(Device):
             seq_dict = {}
 
         if not len(seq_dict) == 0:
-            ## use if sequence defined in config, else make a blank empty sequence
+            ## if sequence defined in config use it
             self.set_sequence(seq_dict)
         else:
             self.swabian_types: List[List[str]] = []
@@ -128,7 +128,6 @@ class Pulse_Streamer(Device):
 
         return ps_device, sequence
 
-    # Writing and Reading will be device specfic as connect types and command are all different
     def write(self, parameter: str, value: float) -> None:
         """Communication to the PulseStreamer device. The main
            commands are pretty simple: for sending the pulse sequence object the

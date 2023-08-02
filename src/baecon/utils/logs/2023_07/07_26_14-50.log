@@ -1,0 +1,30 @@
+DEBUG | 2023-07-26 14:50:24,470 | Module: baecon_logger | Line: 35 
+ 	 :: Method main(gui_fields: baecon.GUI.gui_utils.GUI_fields, meas_data: baecon.data.Measurement_Data) -> None was called with args (GUI_fields(plot_data={}, scan_dev_files={}, acq_dev_files={}, exp_name='', exp_file='', engine_name='', engine_file='', scan_file='', averages=1, data_auto_save='', data_folder='', data_file='', data_file_format='', data_analysis='', plot_active=False, abort_measurement=False), Measurement_Data(data_template=<xarray.DataArray ()>
+array(nan), data_current_scan=<xarray.DataArray ()>
+array(nan), data_set=<xarray.Dataset>
+Dimensions:  ()
+Data variables:
+    *empty*, processed_data=<xarray.Dataset>
+Dimensions:  ()
+Data variables:
+    *empty*)). ::
+DEBUG | 2023-07-26 14:50:24,471 | Module: baecon_logger | Line: 35 
+ 	 :: Method update_file_format(new_format: str, gui_fields: baecon.GUI.gui_utils.GUI_fields) -> None was called with args ('', GUI_fields(plot_data={}, scan_dev_files={}, acq_dev_files={}, exp_name='', exp_file='', engine_name='', engine_file='', scan_file='', averages=1, data_auto_save='', data_folder='', data_file='2023_07_26_0_', data_file_format='', data_analysis='', plot_active=False, abort_measurement=False)). ::
+DEBUG | 2023-07-26 14:50:24,472 | Module: baecon_logger | Line: 35 
+ 	 :: Method save_as_button(alt_data_file_name: baecon.GUI.gui_utils.Holder, meas_data: baecon.data.Measurement_Data, date_prefix: str, meas_number: str) -> None was called with args (Holder(value=''), Measurement_Data(data_template=<xarray.DataArray ()>
+array(nan), data_current_scan=<xarray.DataArray ()>
+array(nan), data_set=<xarray.Dataset>
+Dimensions:  ()
+Data variables:
+    *empty*, processed_data=<xarray.Dataset>
+Dimensions:  ()
+Data variables:
+    *empty*), Holder(value='2023_07_26'), Holder(value='0')). ::
+DEBUG | 2023-07-26 14:51:06,199 | Module: baecon_logger | Line: 35 
+ 	 :: Method update_file_name(gui_fields: baecon.GUI.gui_utils.GUI_fields) -> None was called with args (GUI_fields(plot_data={}, scan_dev_files={'SG1': ''}, acq_dev_files={'DAQ1': ''}, exp_name='Y', exp_file='', engine_name='', engine_file='', scan_file='C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml', averages=1, data_auto_save='', data_folder='', data_file='2023_07_26_0_', data_file_format='', data_analysis='', plot_active=False, abort_measurement=False)). ::
+DEBUG | 2023-07-26 14:51:06,636 | Module: baecon_logger | Line: 35 
+ 	 :: Method update_file_name(gui_fields: baecon.GUI.gui_utils.GUI_fields) -> None was called with args (GUI_fields(plot_data={}, scan_dev_files={'SG1': ''}, acq_dev_files={'DAQ1': ''}, exp_name='Yo', exp_file='', engine_name='', engine_file='', scan_file='C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml', averages=1, data_auto_save='', data_folder='', data_file='2023_07_26_0_Y', data_file_format='', data_analysis='', plot_active=False, abort_measurement=False)). ::
+DEBUG | 2023-07-26 14:51:06,839 | Module: baecon_logger | Line: 35 
+ 	 :: Method update_file_name(gui_fields: baecon.GUI.gui_utils.GUI_fields) -> None was called with args (GUI_fields(plot_data={}, scan_dev_files={'SG1': ''}, acq_dev_files={'DAQ1': ''}, exp_name='Yol', exp_file='', engine_name='', engine_file='', scan_file='C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml', averages=1, data_auto_save='', data_folder='', data_file='2023_07_26_0_Yo', data_file_format='', data_analysis='', plot_active=False, abort_measurement=False)). ::
+DEBUG | 2023-07-26 14:51:06,995 | Module: baecon_logger | Line: 35 
+ 	 :: Method update_file_name(gui_fields: baecon.GUI.gui_utils.GUI_fields) -> None was called with args (GUI_fields(plot_data={}, scan_dev_files={'SG1': ''}, acq_dev_files={'DAQ1': ''}, exp_name='Yolo', exp_file='', engine_name='', engine_file='', scan_file='C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml', averages=1, data_auto_save='', data_folder='', data_file='2023_07_26_0_Yol', data_file_format='', data_analysis='', plot_active=False, abort_measurement=False)). ::

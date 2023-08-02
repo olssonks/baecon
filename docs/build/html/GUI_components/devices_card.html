@@ -410,32 +410,43 @@ document.write(`
   <section id="module-baecon.GUI.cards.devices_card">
 <span id="devices-card"></span><h1>Devices Card<a class="headerlink" href="#module-baecon.GUI.cards.devices_card" title="Permalink to this heading">#</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.add_device_button">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">add_device_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">click_event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.add_device_button" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>Async function for calling the add_device_dialog window.</dt><dd><p>Catagory of device is determined from the click_event_arg.</p>
-</dd>
-</dl>
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.add_chosen_device">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">add_chosen_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_type_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_load_last</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.add_chosen_device" title="Permalink to this definition">#</a></dt>
+<dd><p>Adds device using the desired configuration.</p>
+<blockquote>
+<div><p>By default, the <cite>last_config</cite> for the device is loaded. If no such file
+exists, the <cite>default</cite> config file is load. And if no such file exists
+again, the class default configurations are used.</p>
+<p>Alternatively, you can choose to select a configuration file to load.</p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>click_event</strong> (<em>nicegui event</em>) – Click information passed to this function
-from the button element. The text of the button is used to determine
-which catagory of device to work with.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>device_name_holder</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Holder for chosen name.</p></li>
+<li><p><strong>device_type_holder</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Holder for type of
+device, e.g. SG380 or NIDAQ_Base.</p></li>
+<li><p><strong>device_load_last</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Boolean; <cite>True</cite> indicates load <cite>last_config</cite>
+and <cite>False</cite> indicates to launch the file picker dialog.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.add_device_configs">
-<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">add_device_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_type_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.add_device_configs" title="Permalink to this definition">#</a></dt>
-<dd><p>Adds selected device to <a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><code class="xref py py-class docutils literal notranslate"><span class="pre">meas_settings</span></code></a>.</p>
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.add_device_button">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">add_device_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.add_device_button" title="Permalink to this definition">#</a></dt>
+<dd><p>Async function for calling the add_device_dialog window.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>device_type_holder</strong> (<em>gui_utils.holder</em>) – Holder for selected device type, e.g. SG380.</p></li>
-<li><p><strong>device_name_holder</strong> (<em>gui_utils.holder</em>) – Holder for device name input.</p></li>
-<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Object defining the entire
-measurement.</p></li>
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
 </ul>
 </dd>
 </dl>
@@ -443,16 +454,25 @@ measurement.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.add_device_dialog">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">add_device_dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.add_device_dialog" title="Permalink to this definition">#</a></dt>
-<dd><dl class="simple">
-<dt>Dialog window for choosing a device to add.</dt><dd><p>The list of devices is populated
-by the “Instruments” directory in baecon. When adding a device you choose
-the working name, or nickname for the device in the experiment, which is
-different than the device class.</p>
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">add_device_dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.add_device_dialog" title="Permalink to this definition">#</a></dt>
+<dd><p>Makes a <code class="xref py py-class docutils literal notranslate"><span class="pre">ui.dialog</span></code> for choosing a device to add.</p>
+<blockquote>
+<div><p>The list of devices is populated from the :py:obj:<a href="#id1"><span class="problematic" id="id2">`</span></a>bc.DEVICES_DIRECTORY.
+When adding a device you choose the working name, a.k.a. nickname,
+for the device to have in the experiment, which is different than the
+device class (a.k.a type).</p>
+<p>The device will not be loaded without a working name.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
 </dd>
 </dl>
-<p>Once the working name and device type are selected, the device will
-be loaded on into gui_config_holder with the</p>
 </dd></dl>
 
 <dl class="py function">
@@ -493,16 +513,85 @@ device catagory the card is.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.choose_device">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">choose_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_gui_enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AgGrid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dialog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dialog</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name_input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_type_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.choose_device" title="Permalink to this definition">#</a></dt>
-<dd><p>Create tables of devices available in the :py:attr:</p>
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">choose_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">AgGrid</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dialog</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dialog</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_type_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_gui_enabled</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_load_last</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.choose_device" title="Permalink to this definition">#</a></dt>
+<dd><p>Loads chosen <a class="reference internal" href="../device.html#baecon.device.Device" title="baecon.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></a>.</p>
+<blockquote>
+<div><p>On clicking the <cite>Choose Device</cite>, the device is loaded with</p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>grid</strong> (<em>ui.aggrid</em>) – Table showing available device types.</p></li>
-<li><p><strong>dialog</strong> (<em>ui.dialog</em>) – Pop-up dialog holding table</p></li>
-<li><p><strong>name_input</strong> (<em>gui_utils.holder</em>) – Field for entering device working name.</p></li>
-<li><p><strong>device_type_holder</strong> (<em>gui_utils.holder</em>) – Holder for device type, scan or aquisition</p></li>
-<li><p><strong>device_name_holder</strong> (<em>gui_utils.holder</em>) – Holder for name provided in <cite>name_input</cite>.</p></li>
+<li><p><strong>dialog</strong> (<em>ui.dialog</em>) – Pop-up dialog holding for choosing a device.</p></li>
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>device_name_holder</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Holder for chosen name.</p></li>
+<li><p><strong>device_type_holder</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Holder for type of
+device, e.g. SG380 or NIDAQ_Base.</p></li>
+<li><p><strong>device_gui_enabled</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Boolean indicating to open
+device specific gui.</p></li>
+<li><p><strong>device_load_last</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Boolean; <cite>True</cite> indicates load <cite>last_config</cite>
+and <cite>False</cite> indicates to launch the file picker dialog.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.determine_device">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">determine_device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">EventArguments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">devices_catagory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../device.html#baecon.device.Device" title="baecon.device.device.Device"><span class="pre">baecon.device.device.Device</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#baecon.GUI.cards.devices_card.determine_device" title="Permalink to this definition">#</a></dt>
+<dd><p>Determines device from the GUI event arguments and device catagory.</p>
+<blockquote>
+<div><p>The property <cite>sender</cite> of <cite>gui_event</cite> is used a the start element for
+the <code class="xref py py-meth docutils literal notranslate"><span class="pre">gui_utils.find_gui_element()</span></code>.</p>
+<p>This method then returns the <a class="reference internal" href="../device.html#baecon.device.Device" title="baecon.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">Device</span></code></a>
+of the device, a <cite>dict</cite> of device names and currently used config file,
+and <cite>acquisition_devices or `scan_devices</cite> property of
+<cite>bc.Measurement_Settings</cite>.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>button_event</strong> (<em>events.ClickEventArguments</em>) – Event args from clicking
+save button.</p></li>
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p>Tuple where the first element is a :
+py:class:<cite>Device &lt;baecon.device.Device&gt;</cite> and the second a dictitonary</p>
+<blockquote>
+<div><p>with elements <cite>{device_name: config file name}</cite>, and either
+<cite>acquisition_devices or `scan_devices</cite>.</p>
+</div></blockquote>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>tuple[bc.Device, dict, dict]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.device_buttons">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">device_buttons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.device_buttons" title="Permalink to this definition">#</a></dt>
+<dd><p>Buttons within the device drop-down expansion.</p>
+<blockquote>
+<div><p>These allow for opening the device specific GUI, reconnecting to the
+device, and toggling device output on and off.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_name</strong> (<em>str</em>) – Chosen working name.</p></li>
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
 </ul>
 </dd>
 </dl>
@@ -518,6 +607,51 @@ pattern, or for cameras show an image for aligning etc.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.device_configuration_dialog">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">device_configuration_dialog</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_type_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#baecon.GUI.cards.devices_card.device_configuration_dialog" title="Permalink to this definition">#</a></dt>
+<dd><p>Opens dialog for choosing a configuration file for the device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>device_type_holder</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Holds the type (e.g. SG380) for
+the device.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Configruation dictionary for the device.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.device_load_config">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">device_load_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_type_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#baecon.GUI.cards.devices_card.device_load_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Loads device configuration from the file provided and returns it in a dictionary.</p>
+<blockquote>
+<div><p>If <cite>None</cite> is given as the file, then this method will look for the
+<cite>default</cite> configuration file. If that file isn’t found, this method
+return a dictionary of the class defaults.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>str</em>) – String of file path.</p></li>
+<li><p><strong>device_name_holder</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Holder for chosen name.</p></li>
+<li><p><strong>device_type_holder</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Holder for type of
+device, e.g. SG380 or NIDAQ_Base.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Configruation dictionary for the device.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.device_output">
 <span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">device_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.device_output" title="Permalink to this definition">#</a></dt>
 <dd><p>Turns the device on or off.</p>
@@ -525,8 +659,9 @@ pattern, or for cameras show an image for aligning etc.</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>value</strong> (<em>int</em>) – On or off values (1 or 0).</p></li>
-<li><p><strong>device_name</strong> (<em>str</em>) – Device being controlled</p></li>
-<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – _description_</p></li>
+<li><p><strong>device_name</strong> (<em>str</em>) – Device being controlled.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
 </ul>
 </dd>
 </dl>
@@ -534,43 +669,69 @@ pattern, or for cameras show an image for aligning etc.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.device_tabs">
-<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">device_tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.device_tabs" title="Permalink to this definition">#</a></dt>
-<dd><p>Creates the drop down tabs for all the devices.
-Within the drop down, tabs are create for all the attributes of the
-device, which are <cite>parameters</cite>, <cite>latent_parameters</cite>, and any other
-custom attribute for that the device type.</p>
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">device_tabs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.device_tabs" title="Permalink to this definition">#</a></dt>
+<dd><p>Generates the tabs in the drop-down expansion of the device.</p>
+<blockquote>
+<div><p>The tabs are given by any dictionary term given in the configuration
+dictinary. For all device this includes <cite>parameters</cite> and <cite>latent_parameters</cite>.
+Some devices will have extra entries in configuration dictionary, which
+will also be given a tab.</p>
+<p>Each device also gets a tab for saving and loading its configuration to
+a configuration file.</p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>device_name</strong> (<em>str</em>) – Working name of the device.</p></li>
-<li><p><strong>device_configuration</strong> (<em>dict</em>) – The <cite>configuration</cite> attribute of the Device
-containing all information do set up a device.</p></li>
-<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – _description_</p></li>
+<li><p><strong>device_name</strong> (<em>str</em>) – Chosen working name.</p></li>
+<li><p><strong>device_configuration</strong> (<em>dict</em>) – Configuration dictionary for the device.</p></li>
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.get_device_default">
-<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">get_device_default</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_name_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_type_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#baecon.GUI.cards.devices_card.get_device_default" title="Permalink to this definition">#</a></dt>
-<dd><p>Checks for default configuration file in the directory of the selected
-device.
-Generates and returns configuration dictionary for the device.
-:todo:</p>
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.generate_device_list">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">generate_device_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_name_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.generate_device_list" title="Permalink to this definition">#</a></dt>
+<dd><p>Generates the list of devices available to load in <cite>baecon</cite>.</p>
+<p>Reads <code class="xref py py-obj docutils literal notranslate"><span class="pre">baecon.DEVICES_DIRECTORY</span></code> and populates the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">aggrid</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>device_name_holder</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Holder for working name of device.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">aggrid</span></code> listing the available devices.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>aggrid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.get_device_config">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">get_device_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_load_last</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_type_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#baecon.GUI.cards.devices_card.get_device_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Finds path to the <cite>last_config</cite> file and loads its configuration</p>
 <blockquote>
-<div><p>May want to rethink this. Devices can just have their defaults
-defined within their class.</p>
+<div><p>If <cite>last_file</cite> is not found in the device’s directory, <cite>None</cite> is passed
+to <a class="reference internal" href="#baecon.GUI.cards.devices_card.device_load_config" title="baecon.GUI.cards.devices_card.device_load_config"><code class="xref py py-meth docutils literal notranslate"><span class="pre">device_load_config()</span></code></a>.</p>
 </div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>device_type_holder</strong> (<em>gui_utils.holder</em>) – Holder for selected device type.</p></li>
-<li><p><strong>device_name_holder</strong> (<em>gui_utils.holder</em>) – Holder for device name input.</p></li>
+<li><p><strong>device_load_last</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Boolean; <cite>True</cite> indicates load <cite>last_config</cite>
+and <cite>False</cite> indicates to launch the file picker dialog.</p></li>
+<li><p><strong>device_name_holder</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Holder for chosen name.</p></li>
+<li><p><strong>device_type_holder</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Holder for type of
+device, e.g. SG380 or NIDAQ_Base.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Dictionary with the default configuration for the device.</p>
+<dd class="field-even"><p>Configruation dictionary for the device.</p>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
@@ -581,15 +742,40 @@ defined within their class.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.list_parameters">
 <span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">list_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.list_parameters" title="Permalink to this definition">#</a></dt>
-<dd><p>Generates a tab and lists the supplied parameters for a device. Here
-parameters includes the devices <cite>parameters</cite>, <cite>latent_parameters</cite>, and
+<dd><dl class="simple">
+<dt>Generates a tab and lists the supplied parameters for a device. Here</dt><dd><p>parameters includes the devices <cite>parameters</cite>, <cite>latent_parameters</cite>, and
 other parameter dicts specific to the device.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>device_name</strong> (<em>str</em>) – Working name of device for which the tab is being made.</p></li>
 <li><p><strong>parameters</strong> (<em>dict</em>) – Dictionary of parameters for which to create input fields.</p></li>
-<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – _description_</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.load_button">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">load_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">button_event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClickEventArguments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_catory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.devices_card.load_button" title="Permalink to this definition">#</a></dt>
+<dd><p>Opens a dialog with to pick and load a device configuration file.</p>
+<blockquote>
+<div><p>The name of the device is taken from the click arguments of the button
+object.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>button_event</strong> (<em>events.ClickEventArguments</em>) – Event args from clicking
+save button.</p></li>
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
 </ul>
 </dd>
 </dl>
@@ -604,18 +790,16 @@ other parameter dicts specific to the device.</p>
 <dt>Flow:</dt><dd><ul class="simple">
 <li><p>Device card is constructed and populated based on gui_config
 and devices_catagory.</p></li>
-<li><p>On pressing add or remove device buttons, the device_catagory_holder will
+<li><p>On pressing add or remove device buttons, the devices_catagory_holder will
 be updated based on the button text, and the device will be added
 to gui_config.</p></li>
 <li><p>After device is added/removed, the list of devices is updated by
-device_catagory_holder as the key for the correct card in
+devices_catagory_holder as the key for the correct card in
 devices_card_holder.</p></li>
 </ul>
 </dd>
 </dl>
-<p><strong>This flow is a bit clumsy, but I do not know how to best pass or bind
-the values so work with the async functions.</strong></p>
-<p><cite>functools.partial</cite> can be used to provide args.</p>
+<p><cite>functools.partial</cite> can be used to provide args to async functions.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -632,27 +816,148 @@ make the respective cards.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.remove_device_button">
-<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">remove_device_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">click_event</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.remove_device_button" title="Permalink to this definition">#</a></dt>
-<dd><p>Opens dialog to select device and removes it.</p>
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.open_device_gui">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">open_device_gui</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name_holder</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.devices_card.open_device_gui" title="Permalink to this definition">#</a></dt>
+<dd><p>Opens device specific GUI in a seperate browser tab.</p>
+<blockquote>
+<div><p>Device specific GUI should be kept in the corresponding Device directory.</p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>click_event</strong> – <cite>nicegui</cite> event object for the remove device button. The
-category (scan or aquisition) is selected based on the label of the
-button, which is given by <cite>click_event.sender.text</cite>.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>device_name_holder</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><em>gui_utils.Holder</em></a>) – Holder for chosen name.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.remove_device_button">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">remove_device_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.remove_device_button" title="Permalink to this definition">#</a></dt>
+<dd><p>Generates dialog to select which device to remove and then removes it.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.save_as_button">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">save_as_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">button_event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClickEventArguments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.devices_card.save_as_button" title="Permalink to this definition">#</a></dt>
+<dd><p>Opens dialog window to pick file to save the device as.</p>
+<blockquote>
+<div><p>The name of the device is taken from the click arguments of the button
+object.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>button_event</strong> (<em>events.ClickEventArguments</em>) – Event args from clicking
+save button.</p></li>
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.save_as_last_config">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">save_as_last_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">button_element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClickEventArguments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">devices_catagory</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.devices_card.save_as_last_config" title="Permalink to this definition">#</a></dt>
+<dd><p>Save current device configuration in <cite>last_config</cite> file.</p>
+<blockquote>
+<div><p>This method is called when the GUI is shutdown. Shutdown events don’t
+send event arguments, so the save button element is used to create
+dummy <cite>ClickEventArguments</cite>.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>button_event</strong> (<em>events.ClickEventArguments</em>) – Event args from clicking
+save button.</p></li>
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.save_button">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">save_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">button_event</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ClickEventArguments</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.devices_card.save_button" title="Permalink to this definition">#</a></dt>
+<dd><p>Saves current device configuration.</p>
+<blockquote>
+<div><p>The configuration is saved to the file currently specified in the GUI.
+The name of the device is taken from the click arguments of the button
+object.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>button_event</strong> (<em>events.ClickEventArguments</em>) – Event args from clicking
+save button.</p></li>
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.save_load_tab">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">save_load_tab</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.save_load_tab" title="Permalink to this definition">#</a></dt>
+<dd><p>Populates the device tab with saving and loading GUI elements.</p>
+<blockquote>
+<div><p>These elements are buttons for <cite>load</cite>, <cite>save</cite>, and <cite>save as</cite>, as well as
+an input box for the file name.</p>
+<p><a class="reference internal" href="#baecon.GUI.cards.devices_card.save_as_last_config" title="baecon.GUI.cards.devices_card.save_as_last_config"><code class="xref py py-meth docutils literal notranslate"><span class="pre">save_as_last_config()</span></code></a> is specified in this function, since there
+is already saving happening. Upon the app disconnecting (equivalent to
+shutting down), the current configuration of the device will be save in
+the <cite>last_config</cite> file.</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>device_name</strong> (<em>str</em>) – Chosen working name.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.show_devices">
-<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">show_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.show_devices" title="Permalink to this definition">#</a></dt>
-<dd><p>Populates the device card with currently chosen devices.
-Adds the scan and acquisition devices listed in <cite>meas_settings</cite>.</p>
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">show_devices</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.show_devices" title="Permalink to this definition">#</a></dt>
+<dd><p>Populates the device card with the measurement devices.</p>
+<blockquote>
+<div><p>These are the devices listed in <cite>meas_settings</cite>.</p>
+</div></blockquote>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Object defining the entire
-measurement.</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -660,8 +965,10 @@ measurement.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.update_device_configuration">
 <span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">update_device_configuration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../device.html#baecon.device.Device" title="baecon.device.device.Device"><span class="pre">Device</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.update_device_configuration" title="Permalink to this definition">#</a></dt>
-<dd><p>Update the <cite>configuration</cite> atrribute of the <cite>Device</cite> with a new parameter
-value.</p>
+<dd><dl class="simple">
+<dt>Update the <cite>configuration</cite> atrribute of the <cite>Device</cite> with a new parameter</dt><dd><p>value.</p>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -675,22 +982,35 @@ value.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.update_devices_card">
-<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">update_devices_card</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.update_devices_card" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">update_devices_card</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device_category</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.update_devices_card" title="Permalink to this definition">#</a></dt>
 <dd><p>Updates the card listing devices when a device is added or removed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>device_category</strong> (<em>str</em>) – <cite>Scan_Devices</cite> or <cite>Acquisition_Devices</cite>.</p></li>
+<li><p><strong>gui_fields</strong> (<a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><em>gui_utils.GUI_fields</em></a>) – All fields for the GUI.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.devices_card.update_parameter">
 <span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.devices_card.</span></span><span class="sig-name descname"><span class="pre">update_parameter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parameter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.cards.devices_card.update_parameter" title="Permalink to this definition">#</a></dt>
-<dd><p>Updates the device with the new parameter value.
-:param value: New value of parameter.
-:type value: Any
-:param parameter: Parameter to set to new value.
-:type parameter: str
-:param device_name: Name of device that’s have its value changed.
-:type device_name: str
-:param meas_settings: _description_
-:type meas_settings: bc.Measurement_Settings</p>
+<dd><p>Updates the device with the new parameter value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>value</strong> (<em>Any</em>) – New value of parameter.</p></li>
+<li><p><strong>parameter</strong> (<em>str</em>) – Parameter to set to new value.</p></li>
+<li><p><strong>device_name</strong> (<em>str</em>) – Name of device that’s have its value changed.</p></li>
+<li><p><strong>meas_settings</strong> (<em>bc.Measurement_Settings</em>) – Settings that completely
+describe the measurement.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -742,19 +1062,30 @@ value.</p>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.add_chosen_device"><code class="docutils literal notranslate"><span class="pre">add_chosen_device()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.add_device_button"><code class="docutils literal notranslate"><span class="pre">add_device_button()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.add_device_configs"><code class="docutils literal notranslate"><span class="pre">add_device_configs()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.add_device_dialog"><code class="docutils literal notranslate"><span class="pre">add_device_dialog()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.add_remove_button_labels"><code class="docutils literal notranslate"><span class="pre">add_remove_button_labels()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.available_devices"><code class="docutils literal notranslate"><span class="pre">available_devices()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.choose_device"><code class="docutils literal notranslate"><span class="pre">choose_device()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.determine_device"><code class="docutils literal notranslate"><span class="pre">determine_device()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.device_buttons"><code class="docutils literal notranslate"><span class="pre">device_buttons()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.device_column_holder"><code class="docutils literal notranslate"><span class="pre">device_column_holder</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.device_configuration_dialog"><code class="docutils literal notranslate"><span class="pre">device_configuration_dialog()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.device_load_config"><code class="docutils literal notranslate"><span class="pre">device_load_config()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.device_output"><code class="docutils literal notranslate"><span class="pre">device_output()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.device_tabs"><code class="docutils literal notranslate"><span class="pre">device_tabs()</span></code></a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.get_device_default"><code class="docutils literal notranslate"><span class="pre">get_device_default()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.generate_device_list"><code class="docutils literal notranslate"><span class="pre">generate_device_list()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.get_device_config"><code class="docutils literal notranslate"><span class="pre">get_device_config()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.list_parameters"><code class="docutils literal notranslate"><span class="pre">list_parameters()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.load_button"><code class="docutils literal notranslate"><span class="pre">load_button()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.open_device_gui"><code class="docutils literal notranslate"><span class="pre">open_device_gui()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.remove_device_button"><code class="docutils literal notranslate"><span class="pre">remove_device_button()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.save_as_button"><code class="docutils literal notranslate"><span class="pre">save_as_button()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.save_as_last_config"><code class="docutils literal notranslate"><span class="pre">save_as_last_config()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.save_button"><code class="docutils literal notranslate"><span class="pre">save_button()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.save_load_tab"><code class="docutils literal notranslate"><span class="pre">save_load_tab()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.show_devices"><code class="docutils literal notranslate"><span class="pre">show_devices()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.update_device_configuration"><code class="docutils literal notranslate"><span class="pre">update_device_configuration()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.cards.devices_card.update_devices_card"><code class="docutils literal notranslate"><span class="pre">update_devices_card()</span></code></a></li>

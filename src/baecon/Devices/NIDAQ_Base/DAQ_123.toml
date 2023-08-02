@@ -5,9 +5,9 @@ preparations = ""
 [parameters]
 device_name = "Dev1"
 read_sample_rate = 50000.0
-read_samples_per_chan = 10000.0
+read_samples_per_chan = 500.0
 reads_per_sample = 1
-read_samples_total = 10000
+read_samples_total = 500
 read_channels = [ "ai1",]
 read_sample_rate_out = 1000.0
 

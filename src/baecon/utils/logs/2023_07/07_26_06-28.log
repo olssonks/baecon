@@ -1,0 +1,36 @@
+DEBUG | 2023-07-26 06:28:47,820 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function yes at 0x000002597D576440>). ::
+DEBUG | 2023-07-26 06:28:47,820 | Module: baecon_logger | Line: 35 
+ 	 :: Method add_logging_to_all() was called with args (). ::
+DEBUG | 2023-07-26 06:28:47,820 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function a at 0x000002597D576560>). ::
+DEBUG | 2023-07-26 06:28:47,821 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function add_logging_to_all at 0x000002597D5765F0>). ::
+DEBUG | 2023-07-26 06:28:47,821 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function log at 0x000002597D576680>). ::
+DEBUG | 2023-07-26 06:28:47,821 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function yes at 0x000002597D576710>). ::
+DEBUG | 2023-07-26 06:28:47,821 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function yes at 0x000002597D576710>). ::
+DEBUG | 2023-07-26 06:28:47,838 | Module: baecon_logger | Line: 35 
+ 	 :: Method add_logging_to_all() was called with args (). ::
+DEBUG | 2023-07-26 06:28:47,838 | Module: baecon_logger | Line: 35 
+ 	 :: Method add_logging_to_all() was called with args (). ::
+DEBUG | 2023-07-26 06:28:47,838 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function a at 0x000002597B1BCF70>). ::
+DEBUG | 2023-07-26 06:28:47,838 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function a at 0x000002597B1BCF70>). ::
+DEBUG | 2023-07-26 06:28:47,838 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function add_logging_to_all at 0x000002597D5767A0>). ::
+DEBUG | 2023-07-26 06:28:47,839 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function add_logging_to_all at 0x000002597D5767A0>). ::
+DEBUG | 2023-07-26 06:28:47,839 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function log at 0x000002597D576830>). ::
+DEBUG | 2023-07-26 06:28:47,839 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function log at 0x000002597D576830>). ::
+DEBUG | 2023-07-26 06:28:47,839 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function yes at 0x000002597D5768C0>). ::
+DEBUG | 2023-07-26 06:28:47,839 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function yes at 0x000002597D5768C0>). ::
+DEBUG | 2023-07-26 06:28:47,839 | Module: baecon_logger | Line: 35 
+ 	 :: Method log(func) was called with args (<function yes at 0x000002597D5768C0>). ::

@@ -1,0 +1,18 @@
+name = "P-Stream"
+
+device = "Pulse_Streamer"
+
+[parameters]
+name_to_scan  = 'scan'
+scan_catagory = 'start'
+scan_shift    = 'no_shift'
+add_time      = true
+loop_number = -1
+
+[parameters.pulse_sequence]
+channels = []
+pulse_patterns = []
+total_duration = []
+
+[latent_parameters]
+IPaddress = '10.229.42.144'

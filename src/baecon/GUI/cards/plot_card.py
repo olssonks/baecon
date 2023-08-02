@@ -8,7 +8,6 @@ from nicegui import ui
 import baecon as bc
 from baecon.GUI import gui_utils
 
-
 head_style = "color: #37474f; font-size: 200%; font-weight: 300"
 
 
@@ -30,7 +29,7 @@ def main(
             ui.label("Plots").style(head_style)
             ui.button("Plot Properties")
             plot_updates = ui.timer(
-                0.1, partial(plot_data, *(main_plot, meas_data)), active=False
+                0.1, partial(plot_data, *(main_plot, meas_data, gui_fields)), active=False
             )
             ui.checkbox("Plot Active", on_change=toggle_active).bind_value(
                 gui_fields, "plot_active"
@@ -63,9 +62,11 @@ def props_dialog():
 
 ## engine provides plot data function for ui.timer to use
 ## ui.timer needs to be in the plot card or engine card
-def plot_data(the_plot: ui.plot, meas_data: bc.Measurement_Data) -> None:
+def plot_data(the_plot: ui.plot, meas_data: bc.Measurement_Data, gui_fields) -> None:
     scan_parameters = meas_data.data_set.attrs.get("scan_parameters")
     acquire_methods: list = meas_data.data_set.attrs.get("acquire_methods")
+    if (scan_parameters or acquire_methods) is None:
+        return  ## No plotting if measurement settings not defined
     current_data = get_current_data(
         meas_data.data_current_scan[acquire_methods[0]], scan_parameters
     )  ## returns dict {name: (x,y)}
@@ -85,11 +86,14 @@ def plot_data(the_plot: ui.plot, meas_data: bc.Measurement_Data) -> None:
     if current_data is not None:
         try:
             fig = main_trace_style(fig, {**current_data, **average_data})
-        except TypeError:
+        except TypeError as e:
             pass
     if completed_data is not None:
         fig = secondary_trace_style(fig, completed_data)
     the_plot.update_figure(fig)
+    if not any([thread.is_alive() for thread in gui_fields.measurement_threads]):
+        gui_fields.plot_active = False
+
     return
 
 
@@ -125,9 +129,9 @@ def get_completed_data(data_set: xr.Dataset, scan_parameters: list) -> dict:
 
 
 def get_avg_data(data_set: xr.Dataset, scan_parameters: list) -> dict:
-    ## need to update for handling 2D scans
+    ## need to update for handling multi dimensional scans
     if data_set.nbytes == 0:
-        return
+        return {}
     else:
         parameter = scan_parameters[0]
         data_array = data_set.to_array()
@@ -169,6 +173,11 @@ def secondary_trace_style(fig, trace_data: dict):
         }
         fig.get("data").insert(0, new_trace)
     return fig
+
+
+def clear_plot(fig):
+    ## Need method and button for clearing plot
+    return
 
 
 if __name__ in {"__main__", "__mp_main__"}:

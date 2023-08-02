@@ -144,14 +144,12 @@ class NIDAQ_Base(Device):
         return
 
     def read_analog_input(self):
-        SampsPerChan = int(
+        samps_per_chan = int(
             self.parameters["read_samples_total"] / len(self.parameters["read_channels"])
         )
-        # if self.AI_data is not None:
-        #     data = np.zeros(int((SampsToRead*self.AI_channels,)), dtype=np.float64)
 
         self.prepared_read_task.ReadAnalogF64(
-            SampsPerChan,
+            samps_per_chan,
             PyDAQmx_lookup[self.latent_parameters["read_timeout"]],
             PyDAQmx_lookup[self.latent_parameters["read_fill_mode"]],
             self.read_data,
@@ -169,14 +167,13 @@ class NIDAQ_Base(Device):
         }
         read_methods = {"analog_input": self.read_analog_input}
         try:
-            preparations = configuration["preparations"]
+            self.preparations = configuration["preparations"]
         except KeyError:
             print("prepations not listed in configuration")
-            print("device")
         try:
-            for prep in preparations["read"]:
+            for prep in self.preparations["read"]:
                 preparation_methods[prep]()
-            read_method = preparations["read_method"]
+            read_method = self.preparations["read_method"]
             self.prepared_read_function = read_methods[read_method]
         except TypeError as e:
             return  ## happends when preparations is empty

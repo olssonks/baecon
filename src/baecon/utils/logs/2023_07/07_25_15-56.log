@@ -1,0 +1,10 @@
+DEBUG | 2023-07-25 15:56:46,500 | Module: baecon_logger | Line: 36 
+ 	 :: Method a(x) was called with args (0). ::
+ERROR | 2023-07-25 15:56:46,500 | Module: baecon_logger | Line: 43 
+ 	 :: Exception raised in a. exception: division by zero ::
+Traceback (most recent call last):
+  File "c:\Users\walsworth1\Documents\Jupyter_Notebooks\baecon\src\baecon\utils\baecon_logger.py", line 40, in wrapper
+    result = func(*args, **kwargs)
+  File "c:\Users\walsworth1\Documents\Jupyter_Notebooks\baecon\src\baecon\utils\baecon_logger.py", line 51, in a
+    return 1 / x
+ZeroDivisionError: division by zero

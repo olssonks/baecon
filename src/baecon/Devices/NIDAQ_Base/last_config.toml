@@ -1,6 +1,5 @@
 name = "Daq1"
 device = "NIDAQ_Base"
-preparations = ""
 
 [parameters]
 device_name = "Dev1"
@@ -21,3 +20,7 @@ read_sample_mode = "finite_samples"
 read_fill_mode = "by_channel"
 read_timeout = "infinite_timeout"
 read_trigger_channel = "PFI0"
+
+[preparations]
+read = [ "analog_input",]
+read_method = "analog_input"

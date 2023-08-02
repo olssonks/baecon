@@ -1,9 +1,11 @@
 .vscode
-GUI/nicegui_repo/nicegui
-__pycache__
+*__pycache__
+.ruff_cache
+.pytest_cache
+.mypy_cache
 zarr/
 *.zarr
-GUI/__pycache__
-GUI/cards/__pycache__
 zarr/
 *.zarr
+.mypy_cache
+.pytest_cache

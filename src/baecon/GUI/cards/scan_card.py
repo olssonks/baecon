@@ -50,7 +50,7 @@ def main(
             scan_table_holder.value = ui.aggrid({"rowSelection": "single"}).classes("w-full")
             update_table()
 
-    return update_scan_card, ()
+    return update_scan_card, ()  ## empty tuple used for extra args ??
 
 
 def update_scan_card(

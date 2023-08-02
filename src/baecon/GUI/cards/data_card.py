@@ -1,16 +1,30 @@
-from datetime import datetime
+"""
+.. note::
+    This module has an example of how to add a logging decorator to all functions.
+"""
+
+# from datetime import datetime
+import sys
+from time import localtime, strftime
 
 from nicegui import ui
 
 import baecon as bc
 from baecon.GUI import gui_utils
-
+from baecon.utils.baecon_logger import add_logging_to_all
 
 head_style = "color: #37474f; font-size: 200%; font-weight: 300"
 
-date_prefix = gui_utils.Holder(datetime.now().strftime("%Y_%m_%d"))
+## Ruff has issues with datetime module
+date_prefix = gui_utils.Holder(strftime("%Y_%m_%d", localtime()))
 meas_number = gui_utils.Holder("0")  ## should read data files in folder and update
 alt_data_file_name = gui_utils.Holder("")
+
+functions = [
+    name
+    for (name, thing) in locals().items()
+    if (callable(thing) and thing.__module__ == __name__)
+]
 
 
 def main(gui_fields: gui_utils.GUI_fields, meas_data: bc.Measurement_Data) -> None:
@@ -102,12 +116,12 @@ async def save_as_button(
         meas_number (str): Nth+1 measurement for when N measurements in the current directory
     """
     if alt_data_file_name.value in ["Alt. Data File Name", ""]:
-        file = await pick_file()
+        file = await gui_utils.pick_file()
         if file:
             alt_data_file_name.value = date_prefix.value + file
             gui_fields.data_file_format = "." + file.split(".")[-1]
 
-    bc.utils.save_baecon_data(
+    bc.data.save_baecon_data(
         meas_data, alt_data_file_name.value, format=gui_fields.data_file_format
     )
     return
@@ -145,12 +159,10 @@ def update_file_format(new_format: str, gui_fields: gui_utils.GUI_fields) -> Non
     return
 
 
+add_logging_to_all(sys.modules[__name__])
+
 if __name__ in {"__main__", "__mp_main__"}:
     gui_fields = gui_utils.GUI_fields()
     meas_data = bc.Measurement_Data()
     main(gui_fields, meas_data)
     ui.run(port=8082)
-
-## automatic file name generator
-## "101_exp-name_date-time.zarr"
-## "date-time_exp-name.zarr"

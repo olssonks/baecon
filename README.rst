@@ -1,4 +1,4 @@
-.. image:: https://github.com/olssonks/baecon/blob/main/baecon.svg
+.. image:: https://github.com/olssonks/baecon/tree/main/docs/source/_static/baecon.svg
 
 |docs|
 
@@ -71,7 +71,11 @@ Overview
 
 Installation
 ============
-Blah blah blah
+Clone repo the repo and rom the repo directory run the following in the command line:
+
+::
+    > pip install .
+
 
 Getting Started
 ===============
@@ -86,7 +90,7 @@ These four properties are packaged in the Measurement_Settings class.
 
 License
 =======
-Baecon is open-source and available under the MIT License.
+Baecon is open-source and available under the GPLv3 License.
 
 How to cite
 ===========

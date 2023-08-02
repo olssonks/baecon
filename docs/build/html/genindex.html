@@ -367,17 +367,16 @@ document.write(`
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
- | <a href="#J"><strong>J</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#R"><strong>R</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#W"><strong>W</strong></a>
- | <a href="#Y"><strong>Y</strong></a>
  
 </div>
 <h2 id="_">_</h2>
@@ -399,11 +398,11 @@ document.write(`
 </li>
       <li><a href="base.html#baecon.base.Measurement_Settings.acquisition_devices">acquisition_devices (baecon.base.Measurement_Settings attribute)</a>
 </li>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.add_chosen_device">add_chosen_device() (in module baecon.GUI.cards.devices_card)</a>
+</li>
       <li><a href="base.html#baecon.base.add_device">add_device() (in module baecon.base)</a>
 </li>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.add_device_button">add_device_button() (in module baecon.GUI.cards.devices_card)</a>
-</li>
-      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.add_device_configs">add_device_configs() (in module baecon.GUI.cards.devices_card)</a>
 </li>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.add_device_dialog">add_device_dialog() (in module baecon.GUI.cards.devices_card)</a>
 </li>
@@ -416,8 +415,6 @@ document.write(`
       <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.add_scan_dialog">add_scan_dialog() (in module baecon.GUI.cards.scan_card)</a>
 </li>
       <li><a href="GUI_components/main_gui.html#baecon.GUI.gui_utils.All_GUI_Elements">All_GUI_Elements (class in baecon.GUI.gui_utils)</a>
-</li>
-      <li><a href="utils.html#baecon.utils.arg_parser">arg_parser() (in module baecon.utils)</a>
 </li>
       <li><a href="data.html#baecon.data.Measurement_Data.assign_measurement_settings">assign_measurement_settings() (baecon.data.Measurement_Data method)</a>
 </li>
@@ -546,17 +543,23 @@ document.write(`
 </li>
       <li><a href="base.html#baecon.base.define_scan_settings">define_scan_settings() (in module baecon.base)</a>
 </li>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.determine_device">determine_device() (in module baecon.GUI.cards.devices_card)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="device.html#baecon.device.Device">Device (class in baecon.device)</a>
 </li>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.device_buttons">device_buttons() (in module baecon.GUI.cards.devices_card)</a>
+</li>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.device_column_holder">device_column_holder (in module baecon.GUI.cards.devices_card)</a>
+</li>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.device_configuration_dialog">device_configuration_dialog() (in module baecon.GUI.cards.devices_card)</a>
+</li>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.device_load_config">device_load_config() (in module baecon.GUI.cards.devices_card)</a>
 </li>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.device_output">device_output() (in module baecon.GUI.cards.devices_card)</a>
 </li>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.device_tabs">device_tabs() (in module baecon.GUI.cards.devices_card)</a>
-</li>
-      <li><a href="utils.html#baecon.utils.dump_config">dump_config() (in module baecon.utils)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -580,13 +583,13 @@ document.write(`
 <h2 id="G">G</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="base.html#baecon.base.generate_measurement_config">generate_measurement_config() (in module baecon.base)</a>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.generate_device_list">generate_device_list() (in module baecon.GUI.cards.devices_card)</a>
 </li>
-      <li><a href="utils.html#baecon.utils.generate_measurement_config_from_file">generate_measurement_config_from_file() (in module baecon.utils)</a>
+      <li><a href="base.html#baecon.base.generate_measurement_config">generate_measurement_config() (in module baecon.base)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.get_device_default">get_device_default() (in module baecon.GUI.cards.devices_card)</a>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.get_device_config">get_device_config() (in module baecon.GUI.cards.devices_card)</a>
 </li>
       <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.get_points">get_points() (in module baecon.GUI.cards.scan_card)</a>
 </li>
@@ -615,34 +618,20 @@ document.write(`
   </ul></td>
 </tr></table>
 
-<h2 id="J">J</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="utils.html#baecon.utils.json_dump">json_dump() (in module baecon.utils)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="utils.html#baecon.utils.json_load">json_load() (in module baecon.utils)</a>
-</li>
-  </ul></td>
-</tr></table>
-
 <h2 id="L">L</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.list_parameters">list_parameters() (in module baecon.GUI.cards.devices_card)</a>
 </li>
-      <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.load_collection">load_collection() (in module baecon.GUI.cards.scan_card)</a>
-</li>
-      <li><a href="utils.html#baecon.utils.load_config">load_config() (in module baecon.utils)</a>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.load_button">load_button() (in module baecon.GUI.cards.devices_card)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.load_collection">load_collection() (in module baecon.GUI.cards.scan_card)</a>
+</li>
       <li><a href="base.html#baecon.base.load_custom_scan_file">load_custom_scan_file() (in module baecon.base)</a>
 </li>
       <li><a href="GUI_components/main_gui.html#baecon.GUI.gui_utils.load_file">load_file (class in baecon.GUI.gui_utils)</a>
-</li>
-      <li><a href="utils.html#baecon.utils.load_module_from_path">load_module_from_path() (in module baecon.utils)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -710,6 +699,14 @@ document.write(`
   </ul></td>
 </tr></table>
 
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.open_device_gui">open_device_gui() (in module baecon.GUI.cards.devices_card)</a>
+</li>
+  </ul></td>
+</tr></table>
+
 <h2 id="P">P</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -746,19 +743,25 @@ document.write(`
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="GUI_components/data_card.html#baecon.GUI.cards.data_card.save_as_button">save_as_button() (in module baecon.GUI.cards.data_card)</a>
+
+      <ul>
+        <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.save_as_button">(in module baecon.GUI.cards.devices_card)</a>
 </li>
+      </ul></li>
       <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.save_as_collection">save_as_collection() (in module baecon.GUI.cards.scan_card)</a>
 </li>
-      <li><a href="utils.html#baecon.utils.save_baecon_data">save_baecon_data() (in module baecon.utils)</a>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.save_as_last_config">save_as_last_config() (in module baecon.GUI.cards.devices_card)</a>
+</li>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.save_button">save_button() (in module baecon.GUI.cards.devices_card)</a>
 </li>
       <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.save_collection">save_collection() (in module baecon.GUI.cards.scan_card)</a>
 </li>
       <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.save_load">save_load() (in module baecon.GUI.cards.scan_card)</a>
 </li>
-      <li><a href="utils.html#baecon.utils.save_measurement_config">save_measurement_config() (in module baecon.utils)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.save_load_tab">save_load_tab() (in module baecon.GUI.cards.devices_card)</a>
+</li>
       <li><a href="base.html#baecon.base.Measurement_Settings.scan_collection">scan_collection (baecon.base.Measurement_Settings attribute)</a>
 </li>
       <li><a href="base.html#baecon.base.Measurement_Settings.scan_devices">scan_devices (baecon.base.Measurement_Settings attribute)</a>
@@ -767,7 +770,7 @@ document.write(`
 </li>
       <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.scan_table_args">scan_table_args() (in module baecon.GUI.cards.scan_card)</a>
 </li>
-      <li><a href="utils.html#baecon.utils.set_device_directory">set_device_directory() (in module baecon.utils)</a>
+      <li><a href="GUI_components/main_gui.html#baecon.GUI.gui_utils.search_element_parents">search_element_parents() (in module baecon.GUI.gui_utils)</a>
 </li>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.show_devices">show_devices() (in module baecon.GUI.cards.devices_card)</a>
 </li>
@@ -778,12 +781,6 @@ document.write(`
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="GUI_components/main_gui.html#baecon.GUI.gui_utils.to_gui_fields_config">to_gui_fields_config() (in module baecon.GUI.gui_utils)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="utils.html#baecon.utils.toml_dump">toml_dump() (in module baecon.utils)</a>
-</li>
-      <li><a href="utils.html#baecon.utils.toml_load">toml_load() (in module baecon.utils)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -816,18 +813,6 @@ document.write(`
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="device.html#baecon.device.Device.write">write() (baecon.device.Device method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="Y">Y</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="utils.html#baecon.utils.yaml_dump">yaml_dump() (in module baecon.utils)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="utils.html#baecon.utils.yaml_load">yaml_load() (in module baecon.utils)</a>
 </li>
   </ul></td>
 </tr></table>
