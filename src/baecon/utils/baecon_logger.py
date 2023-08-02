@@ -8,21 +8,26 @@ from time import localtime, strftime
 logger = logging.getLogger(__name__)
 logger.setLevel("DEBUG")
 
-log_path = Path(__file__).parent / f'logs' / f'{strftime("%Y_%m", localtime())}'
-if not log_path.is_dir():
-    log_path.mkdir(parents=True, exist_ok=True)
 
-log_file = log_path / Path(f'{strftime("%m_%d_%H-%M", localtime())}.log')
+def make_log_file():
+    log_path = Path(__file__).parent / f'logs' / f'{strftime("%Y_%m", localtime())}'
 
-log_formatter = logging.Formatter(
-    "%(levelname)s | %(asctime)s | Module: %(module)s | Line: %(lineno)d \n \t"
-    " :: %(message)s ::"
-)
+    if not log_path.is_dir():
+        log_path.mkdir(parents=True, exist_ok=True)
 
-file_handler = logging.FileHandler(f'{log_file}')
-file_handler.setFormatter(log_formatter)
+    log_file = log_path / Path(f'{strftime("%m_%d_%H-%M", localtime())}.log')
 
-logger.addHandler(file_handler)
+    log_formatter = logging.Formatter(
+        "%(levelname)s | %(asctime)s | Module: %(module)s | Line: %(lineno)d \n \t"
+        " :: %(message)s ::"
+    )
+
+    file_handler = logging.FileHandler(f'{log_file}')
+    file_handler.setFormatter(log_formatter)
+
+    logger.addHandler(file_handler)
+
+    return
 
 
 def log(func):
