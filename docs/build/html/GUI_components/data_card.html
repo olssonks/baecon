@@ -28,16 +28,16 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c860b57e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=8df938ec"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'GUI_components/data_card';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -409,6 +409,10 @@ document.write(`
                   
   <section id="module-baecon.GUI.cards.data_card">
 <span id="data-card"></span><h1>Data Card<a class="headerlink" href="#module-baecon.GUI.cards.data_card" title="Permalink to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module has an example of how to add a logging decorator to all functions.</p>
+</div>
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.data_card.main">
 <span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.data_card.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../data.html#baecon.data.Measurement_Data" title="baecon.data.Measurement_Data"><span class="pre">Measurement_Data</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.data_card.main" title="Permalink to this definition">#</a></dt>
@@ -429,7 +433,7 @@ which will be saved.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.data_card.pick_data_folder">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.data_card.</span></span><span class="sig-name descname"><span class="pre">pick_data_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.data_card.pick_data_folder" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.data_card.</span></span><span class="sig-name descname"><span class="pre">pick_data_folder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.data_card.pick_data_folder" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
 <dt>Pick the directory to load/save data.</dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">data_folder</span></code> attribute in the GUI fields is set to the chosen directory.</p>
 </dd>
@@ -443,7 +447,7 @@ which will be saved.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.cards.data_card.save_as_button">
-<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.data_card.</span></span><span class="sig-name descname"><span class="pre">save_as_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alt_data_file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../data.html#baecon.data.Measurement_Data" title="baecon.data.Measurement_Data"><span class="pre">Measurement_Data</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.data_card.save_as_button" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.cards.data_card.</span></span><span class="sig-name descname"><span class="pre">save_as_button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alt_data_file_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="main_gui.html#baecon.GUI.gui_utils.Holder" title="baecon.GUI.gui_utils.Holder"><span class="pre">Holder</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../data.html#baecon.data.Measurement_Data" title="baecon.data.Measurement_Data"><span class="pre">Measurement_Data</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_number</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.cards.data_card.save_as_button" title="Permalink to this definition">#</a></dt>
 <dd><p>Save data to a different file name. Called when clicking the “Save as” button.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -586,7 +590,7 @@ is updated with current experiment name.</p>
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
     <br/>
   </p>
 </div>

@@ -27,16 +27,16 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=c860b57e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
 <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/sphinx_highlight.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=8df938ec"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=4825356b"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'genindex';</script>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
@@ -523,6 +523,8 @@ document.write(`
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="device.html#baecon.device.Device.close_device">close_device() (baecon.device.Device method)</a>
+</li>
       <li><a href="data.html#baecon.data.create_data_template">create_data_template() (in module baecon.data)</a>
 </li>
       <li><a href="base.html#baecon.base.custom_schedule">custom_schedule() (in module baecon.base)</a>
@@ -587,9 +589,11 @@ document.write(`
 </li>
       <li><a href="base.html#baecon.base.generate_measurement_config">generate_measurement_config() (in module baecon.base)</a>
 </li>
+      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.get_device_config">get_device_config() (in module baecon.GUI.cards.devices_card)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.get_device_config">get_device_config() (in module baecon.GUI.cards.devices_card)</a>
+      <li><a href="device.html#baecon.device.Device.get_parameter">get_parameter() (baecon.device.Device method)</a>
 </li>
       <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.get_points">get_points() (in module baecon.GUI.cards.scan_card)</a>
 </li>
@@ -625,11 +629,13 @@ document.write(`
 </li>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.load_button">load_button() (in module baecon.GUI.cards.devices_card)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.load_collection">load_collection() (in module baecon.GUI.cards.scan_card)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="base.html#baecon.base.load_custom_scan_file">load_custom_scan_file() (in module baecon.base)</a>
+</li>
+      <li><a href="GUI_components/experiment_card.html#baecon.GUI.cards.experiment_card.load_exp_file">load_exp_file() (in module baecon.GUI.cards.experiment_card)</a>
 </li>
       <li><a href="GUI_components/main_gui.html#baecon.GUI.gui_utils.load_file">load_file (class in baecon.GUI.gui_utils)</a>
 </li>
@@ -651,6 +657,8 @@ document.write(`
       </ul></li>
       <li><a href="base.html#baecon.base.make_device">make_device() (in module baecon.base)</a>
 </li>
+      <li><a href="GUI_components/experiment_card.html#baecon.GUI.cards.experiment_card.make_experiment_config">make_experiment_config() (in module baecon.GUI.cards.experiment_card)</a>
+</li>
       <li><a href="base.html#baecon.base.make_measurement_settings">make_measurement_settings() (in module baecon.base)</a>
 </li>
       <li><a href="base.html#baecon.base.make_scan">make_scan() (in module baecon.base)</a>
@@ -661,6 +669,8 @@ document.write(`
 </li>
       <li><a href="base.html#baecon.base.Measurement_Settings">Measurement_Settings (class in baecon.base)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     module
 
@@ -750,16 +760,24 @@ document.write(`
       </ul></li>
       <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.save_as_collection">save_as_collection() (in module baecon.GUI.cards.scan_card)</a>
 </li>
+      <li><a href="GUI_components/experiment_card.html#baecon.GUI.cards.experiment_card.save_as_exp_file">save_as_exp_file() (in module baecon.GUI.cards.experiment_card)</a>
+</li>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.save_as_last_config">save_as_last_config() (in module baecon.GUI.cards.devices_card)</a>
+</li>
+      <li><a href="GUI_components/experiment_card.html#baecon.GUI.cards.experiment_card.save_as_last_experiment">save_as_last_experiment() (in module baecon.GUI.cards.experiment_card)</a>
+</li>
+      <li><a href="data.html#baecon.data.save_baecon_data">save_baecon_data() (in module baecon.data)</a>
 </li>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.save_button">save_button() (in module baecon.GUI.cards.devices_card)</a>
 </li>
       <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.save_collection">save_collection() (in module baecon.GUI.cards.scan_card)</a>
 </li>
-      <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.save_load">save_load() (in module baecon.GUI.cards.scan_card)</a>
+      <li><a href="GUI_components/experiment_card.html#baecon.GUI.cards.experiment_card.save_exp_file">save_exp_file() (in module baecon.GUI.cards.experiment_card)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.save_load">save_load() (in module baecon.GUI.cards.scan_card)</a>
+</li>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.save_load_tab">save_load_tab() (in module baecon.GUI.cards.devices_card)</a>
 </li>
       <li><a href="base.html#baecon.base.Measurement_Settings.scan_collection">scan_collection (baecon.base.Measurement_Settings attribute)</a>
@@ -770,7 +788,11 @@ document.write(`
 </li>
       <li><a href="GUI_components/scan_card.html#baecon.GUI.cards.scan_card.scan_table_args">scan_table_args() (in module baecon.GUI.cards.scan_card)</a>
 </li>
+      <li><a href="GUI_components/main_gui.html#baecon.GUI.gui_utils.search_element_children">search_element_children() (in module baecon.GUI.gui_utils)</a>
+</li>
       <li><a href="GUI_components/main_gui.html#baecon.GUI.gui_utils.search_element_parents">search_element_parents() (in module baecon.GUI.gui_utils)</a>
+</li>
+      <li><a href="device.html#baecon.device.Device.set_parameter">set_parameter() (baecon.device.Device method)</a>
 </li>
       <li><a href="GUI_components/devices_card.html#baecon.GUI.cards.devices_card.show_devices">show_devices() (in module baecon.GUI.cards.devices_card)</a>
 </li>
@@ -869,7 +891,7 @@ document.write(`
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
     <br/>
   </p>
 </div>

@@ -28,16 +28,16 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c860b57e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-    <script src="../_static/doctools.js"></script>
-    <script src="../_static/sphinx_highlight.js"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=8df938ec"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'GUI_components/main_gui';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -429,11 +429,12 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">All_GUI_Elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">elements:</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.gui_utils.All_GUI_Elements" title="Permalink to this definition">#</a></dt>
 <dd><p>Holds list of all elements (i.e. cards) in the GUI.
 Used to update all the fields when loading experiments.</p>
+<p>Currently this class is unused/unneeded.</p>
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="baecon.GUI.gui_utils.GUI_fields">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">GUI_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_data:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_dev_files:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acq_dev_files:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine_name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averages:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_auto_save:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_folder:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file_format:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_analysis:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_active:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">abort_measurement:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.gui_utils.GUI_fields" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">GUI_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot_data:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_dev_files:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">acq_dev_files:</span> <span class="pre">dict</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exp_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine_name:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">engine_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">averages:</span> <span class="pre">int</span> <span class="pre">=</span> <span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_auto_save:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_folder:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_file_format:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data_analysis:</span> <span class="pre">str</span> <span class="pre">=</span> <span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plot_active:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">abort_measurement:</span> <span class="pre">bool</span> <span class="pre">=</span> <span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measurement_threads:</span> <span class="pre">list</span> <span class="pre">=</span> <span class="pre">&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.gui_utils.GUI_fields" title="Permalink to this definition">#</a></dt>
 <dd><p>Object holding all the fields in <a class="reference internal" href="#baecon.GUI.baecon_GUI.main" title="baecon.GUI.baecon_GUI.main"><code class="xref py py-func docutils literal notranslate"><span class="pre">baecon.GUI.baecon_GUI.main()</span></code></a>.</p>
 <p>These fields mostly correspond to file names and paths for various <code class="xref py py-mod docutils literal notranslate"><span class="pre">baecon</span></code>
 objects, e.g. scan device file name or data file name an path.</p>
@@ -522,6 +523,21 @@ circumvent this issue, letting methods be defined without arguments.</p>
 </dd>
 <dt class="field-even">Return type<span class="colon">:</span></dt>
 <dd class="field-even"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.gui_utils.search_element_children">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">search_element_children</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_tag</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.gui_utils.search_element_children" title="Permalink to this definition">#</a></dt>
+<dd><p>Unfinished. More complicated that <a class="reference internal" href="#baecon.GUI.gui_utils.search_element_parents" title="baecon.GUI.gui_utils.search_element_parents"><code class="xref py py-meth docutils literal notranslate"><span class="pre">search_element_parents()</span></code></a> as an
+element can have multiple childern.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>element</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>element_tag</strong> (<em>_type_</em>) – _description_</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -668,6 +684,7 @@ saving is handled by <a class="reference internal" href="data_card.html#module-b
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.from_gui_fields_config"><code class="docutils literal notranslate"><span class="pre">from_gui_fields_config()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.name_from_path"><code class="docutils literal notranslate"><span class="pre">name_from_path()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.pick_file"><code class="docutils literal notranslate"><span class="pre">pick_file()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.search_element_children"><code class="docutils literal notranslate"><span class="pre">search_element_children()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.search_element_parents"><code class="docutils literal notranslate"><span class="pre">search_element_parents()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.to_gui_fields_config"><code class="docutils literal notranslate"><span class="pre">to_gui_fields_config()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.update_everything"><code class="docutils literal notranslate"><span class="pre">update_everything()</span></code></a></li>
@@ -720,7 +737,7 @@ saving is handled by <a class="reference internal" href="data_card.html#module-b
       
         <div class="footer-item">
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.0.1.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
     <br/>
   </p>
 </div>

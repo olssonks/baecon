@@ -152,7 +152,7 @@ async def add_device_dialog(
 ):
     """Makes a :py:class:`ui.dialog` for choosing a device to add.
 
-       The list of devices is populated from the :py:obj:`bc.DEVICES_DIRECTORY.
+       The list of devices is populated from the :py:obj:`bc.DEVICES_DIRECTORY`.
        When adding a device you choose the working name, a.k.a. nickname,
        for the device to have in the experiment, which is different than the
        device class (a.k.a type).
@@ -767,8 +767,8 @@ def determine_device(
         meas_settings (bc.Measurement_Settings): Settings that completely
             describe the measurement.
     Returns:
-        tuple[bc.Device, dict, dict]: Tuple where the first element is a :
-        py:class:`Device <baecon.device.Device>` and the second a dictitonary
+        tuple[bc.Device, dict, dict]: Tuple where the first element is a
+            :py:class:`Device <baecon.device.Device>` and the second a dictitonary
             with elements `{device_name: config file name}`, and either
             `acquisition_devices or `scan_devices`.
     """
