@@ -24,7 +24,7 @@ class SG380(Device):
             "read_termination": "r\n",
         }
 
-        self.device = self.connnect_to_device(configuration)
+        self.pyvisa_connection = self.connnect_to_SG380(configuration)
 
         super().__init__(configuration)
 
@@ -35,37 +35,37 @@ class SG380(Device):
             self.write(param, value)
         return
 
-    def connnect_to_device(self, configuration: dict):
+    def connnect_to_SG380(self, configuration: dict):
         connection_settings = configuration["latent_parameters"]
         if "IPaddress" in connection_settings:
-            device = self.IP_device_connection(configuration)
+            pyvisa_connection = self.IP_connection(configuration)
         elif "GPIB" in connection_settings:
-            device = self.GPIB_device_connection(configuration)
+            pyvisa_connection = self.GPIB_connection(configuration)
         else:
             print("No supported connection type found (TCPI or GPIB).")
             print("Connection attempt aborted.")
             return
 
-        return device
+        return pyvisa_connection
 
-    def IP_device_connection(self, configuration: dict):
+    def IP_connection(self, configuration: dict):
         """Takes IP address and port from the configuration dictionary and connects
-        to the device. If no IP address is given, connection attempt is aborted.
+        to the SG380. If no IP address is given, connection attempt is aborted.
 
         Commmunication handled with `PyVISA-Py <https://pyvisa.readthedocs.io/projects/pyvisa-py/en/latest/index.html>`_.
 
         Args:
-            configuration (dict): Dictionary containing device parameter configruations.
+            configuration (dict): Dictionary containing SG380 parameter configruations.
 
         Returns:
-            device: `PyVISA TCPIPSocket <https://pyvisa.readthedocs.io/en/latest/api/resources.html#pyvisa.resources.TCPIPSocket>`_\
-            a type of PyVISA resource.
+            pyvisa_connection: `PyVISA TCPIPSocket <https://pyvisa.readthedocs.io/en/latest/api/resources.html#pyvisa.resources.TCPIPSocket>`_\
+                a type of PyVISA resource.
         """
         try:
             self.address = configuration["latent_parameters"]["IPaddress"]
         except KeyError:
-            print("IPaddress not specified, check device.")
-            print("Device connection aborted.")
+            print("IPaddress not specified, check SG380.")
+            print("SG380 connection aborted.")
             return
         try:
             port = configuration["latent_parameters"]["port"]
@@ -74,93 +74,95 @@ class SG380(Device):
             return
         try:
             rm = pyvisa.ResourceManager("@py")
-            device = rm.open_resource("TCPIP0::" + self.address + "::" + port + "::SOCKET")
-            device.read_termination = self.latent_parameters["read_termination"]
+            pyvisa_connection = rm.open_resource(
+                "TCPIP0::" + self.address + "::" + port + "::SOCKET"
+            )
+            pyvisa_connection.read_termination = self.latent_parameters["read_termination"]
         except Exception as e:
             if "timeout" in str(e):
-                print("Timeout: Device not found, connection aborted.")
+                print("Timeout: SG380 not found, connection aborted.")
             else:
                 print(f"Error: {e}")
                 print("Connection aborted.")
 
-        return device
+        return pyvisa_connection
 
-    def GPIB_device_connection(self, configuration: dict):
-        """Takes GPIB number and connects to the device. If no GPIB
+    def GPIB_connection(self, configuration: dict):
+        """Takes GPIB number and connects to the SG380. If no GPIB
         is given, connection attempt is aborted.
 
         Commmunication handled with `PyVISA-Py <https://pyvisa.readthedocs.io/projects/pyvisa-py/en/latest/index.html>`_.
 
         Args:
-            configuration (dict): Dictionary containing device parameter configruations.
+            configuration (dict): Dictionary containing SG380 parameter configruations.
 
         Returns:
-            device: `PyVISA GPIBInstrument <https://pyvisa.readthedocs.io/en/latest/api/resources.html#pyvisa.resources.GPIBInstrument>`_\
+            pyvisa_connection: `PyVISA GPIBInstrument <https://pyvisa.readthedocs.io/en/latest/api/resources.html#pyvisa.resources.GPIBInstrument>`_\
             a type of PyVISA resource.
         """
         try:
             self.address = configuration["latent_parameters"]["GPIB"]
             rm = pyvisa.ResourceManager()
-            device = rm.open_resource("GPIB0::" + str(self.address) + "::INSTR")
-            device.read_termination = self.latent_parameters["read_termination"]
+            pyvisa_connection = rm.open_resource("GPIB0::" + str(self.address) + "::INSTR")
+            pyvisa_connection.read_termination = self.latent_parameters["read_termination"]
         except KeyError:
-            print("GPIB Number not specified, check device configurations.")
-            print("Device connection aborted.")
+            print("GPIB Number not specified, check SG380 configurations.")
+            print("SG380 connection aborted.")
             return
 
-        return device
+        return pyvisa_connection
 
     def enable_output(self, value):
         self.write("enabled", value)
         return
 
     def write(self, parameter, value):
-        """Sends a message to the device to set `parameter` to `value`.
+        """Sends a message to the SG380 to set `parameter` to `value`.
         Messages are ASCII text blocks following the IEEE-488.2 standard `see
         pg. 54 of the SG380 manual <https://www.thinksrs.com/products/sg380.html>`_
 
         `parameter` is used to index the correct function from the dictionary
         of command functions.
 
-        Reading a value from the device or writing a value to the device
+        Reading a value from the SG380 or writing a value to the SG380
         depends on if a `?` comes after command. The `read_toggle` argument
         facilitates adding this `?` to the message.
 
         Args:
-            parameter (str): Parameter on device to change.
-            value (any): New value for the device parameter.
+            parameter (str): Parameter on SG380 to change.
+            value (any): New value for the SG380 parameter.
         """
         msg = self.commands[parameter](self, value, read_toggle="")
-        self.device.write(msg)
+        self.pyvisa_connection.write(msg)
         self.parameters[parameter] = value
         return
 
     def read(self, parameter, value=None):
-        """Sends a message to device querying the present value of
-        `parameter`, reads value sent from device and returns it.
+        """Sends a message to SG380 querying the present value of
+        `parameter`, reads value sent from SG380 and returns it.
 
         Otherwise, details of `write` also apply to `read`.
 
         Args:
-            parameter (str): Parameter to get from device.
+            parameter (str): Parameter to get from SG380.
 
         Returns:
-            int, float, or string: Reading of device parameter.
+            int, float, or string: Reading of SG380 parameter.
         """
         msg = self.commands[parameter](self, value="", read_toggle="?")
-        reading = self.device.query(msg)
+        reading = self.pyvisa_connection.query(msg)
         self.parameters[parameter] = reading
         return reading
 
     def freq(self, value, read_toggle):
-        """Sets or queries frequency of device.
+        """Sets or queries frequency of SG380.
 
         Args:
             value (int or float): Frequency in MHz
             read_toggle (str): Empty or `?` for set or query.
 
         Returns:
-            str: Message to send to device.
+            str: Message to send to SG380.
         """
         units = " MHz"
         value = round(float(value), 6)  ## round to Hz
@@ -168,14 +170,14 @@ class SG380(Device):
         return message
 
     def phase(self, value, read_toggle):
-        """Sets or queries phase of device.
+        """Sets or queries phase of SG380.
 
         Args:
             value (int or float): Phase in degrees.
             read_toggle (str): Empty or `?` for set or query.
 
         Returns:
-            str: Message to send to device.
+            str: Message to send to SG380.
         """
         units = ""  ## degrees
         value = int(value)  ## round to 1 degree
@@ -183,9 +185,9 @@ class SG380(Device):
         return message
 
     def amp(self, value, read_toggle):
-        """Sets or queries amplitude of device. There are two output ports for
+        """Sets or queries amplitude of SG380. There are two output ports for
         frequencies below 1 MHz (BNC socket: `AMPL`) and above 1 MHz (N-type
-        socket: `AMPR`). Device automatically switchs outpus when changing
+        socket: `AMPR`). SG380 automatically switchs outpus when changing
         the frequency ranges.
 
         Args:
@@ -193,7 +195,7 @@ class SG380(Device):
             read_toggle (str): Empty or `?` for set or query.
 
         Returns:
-            str: Message to send to device.
+            str: Message to send to SG380.
         """
         if float(self.parameters["frequency"]) < 1:  ## 1 MHz
             prefix = "AMPL"
@@ -205,7 +207,7 @@ class SG380(Device):
         return message
 
     def status(self, value, read_toggle):
-        """Sets or queries output status of device. Checks BNC socket (`ENBL`)
+        """Sets or queries output status of SG380. Checks BNC socket (`ENBL`)
         or N-type socket (`ENBR`) for frequencies below or above 1 MHz
         respectively.
 
@@ -214,7 +216,7 @@ class SG380(Device):
             read_toggle (str): Empty or `?` for set or query.
 
         Returns:
-            str: Message to send to device.
+            str: Message to send to SG380.
         """
         ## 0 or 1 for off or on
         if float(self.parameters["frequency"]) < 1:  ## 1 MHz
@@ -226,16 +228,16 @@ class SG380(Device):
         return message
 
     def mod_type(self, value, read_toggle):
-        """Sets or queries what type of modulation of device. Device will always
+        """Sets or queries what type of modulation of SG380. SG380 will always
         have a modulation type, but modulation will be enabled or disabled
         by a different command.
 
         Args:
-            value (str): Modulation type to set device to.
+            value (str): Modulation type to set SG380 to.
             read_toggle (str): Empty or `?` for set or query.
 
         Returns:
-            str: Message to send to device.
+            str: Message to send to SG380.
         """
         modulation_types = {
             "AM": "0",
@@ -263,7 +265,7 @@ class SG380(Device):
             read_toggle (_type_): _description_
 
         Returns:
-            str: Message to send to device.
+            str: Message to send to SG380.
         """
         modulation_types = {
             "AM": " MFNC",
@@ -325,7 +327,7 @@ class SG380(Device):
             read_toggle (_type_): _description_
 
         Returns:
-            str: Message to send to device.
+            str: Message to send to SG380.
         """
 
         message = "MODL" + read_toggle + str(int(value))
