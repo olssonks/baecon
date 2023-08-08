@@ -136,12 +136,14 @@ class load_file(ui.dialog):
         self.show_hidden_files = show_hidden_files
 
         with self, ui.card():
+            ## next returns next element in an iterator
+            ## new loop iterator always defined, and next returns element [0]
             ## [0] is the parent path to ./baecon/src/baecon
-            path_cutoff = [
+            path_cutoff = next(
                 path.resolve().__str__()
                 for path in self.path.parents
                 if "baecon" not in path.resolve().__str__()
-            ][0]
+            )
             ui.label(f"Directory: {self.path.relative_to(path_cutoff)}")
             self.grid = (
                 ui.aggrid(
@@ -293,7 +295,8 @@ def set_gui_cards(card_dict):
 
 def update_everything(gui_fields: GUI_fields, meas_settings: bc.Measurement_Settings):
     """Updates all the elements of the GUI.
-       For certain GUI elements not bound to one of the :py:class:`GUI_fields <baecon.GUI.gui_utils.GUI_fields>`
+       For certain GUI elements not bound to one of the
+       :py:class:`GUI_fields <baecon.GUI.gui_utils.GUI_fields>`
 
     Args:
         gui_fields (GUI_fields): _description_
@@ -304,7 +307,29 @@ def update_everything(gui_fields: GUI_fields, meas_settings: bc.Measurement_Sett
     return
 
 
-def find_gui_element(element, element_tag):
+def find_gui_element(element: ui.element, element_tag: str) -> ui.element:
+    """Searchs `element` parents and children to find `element_tag`.
+
+       First searchse the parent elements of `element`, i.e. `ui.column`,
+       `ui.card`, etc, to find the element that has the `tag` attribute
+       `element_tag`.
+
+       This method is used to find the `ui.expansion` element of an device object
+       from looking parents of the provided sub-element `element`.
+
+       .. note::
+            Searching the elements children is not implemented, as its more
+            complicated. At the moment there is no need to search child.
+
+
+    Args:
+        element (ui.element): _description_
+        element_tag (str): The string that is the tag attribute for the element
+            of interest.
+
+    Returns:
+        _type_: _description_
+    """
     element = search_element_parents(element, element_tag)
     if element is None:
         ## place holder for search children elements
