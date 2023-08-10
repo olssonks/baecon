@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c860b57e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -38,7 +38,7 @@
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=8df938ec"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Devices/devices';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Devices/Devices';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -387,6 +387,55 @@ document.write(`
   <section id="devices">
 <h1>Devices<a class="headerlink" href="#devices" title="Permalink to this heading">#</a></h1>
 <p>This is the list of the currently available devices:</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="baecon.Devices.NIDAQ_Base">
+<span class="sig-prename descclassname"><span class="pre">baecon.Devices.</span></span><span class="sig-name descname"><span class="pre">NIDAQ_Base</span></span><a class="headerlink" href="#baecon.Devices.NIDAQ_Base" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of &lt;module ‘baecon.Devices.NIDAQ_Base.NIDAQ_Base’ from ‘C:\Users\walsworth1\Documents\Jupyter_Notebooks\baecon\src\baecon\Devices\NIDAQ_Base\NIDAQ_Base.py’&gt;</p>
+</dd></dl>
+
+<span class="target" id="module-baecon.Devices.Pulse_Sequence"></span><dl class="py class">
+<dt class="sig sig-object py" id="baecon.Devices.Pulse_Streamer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.Devices.</span></span><span class="sig-name descname"><span class="pre">Pulse_Streamer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.Devices.Pulse_Streamer" title="Permalink to this definition">#</a></dt>
+<dd><p>Class for the Swabian Instruments PulseStreamer device.
+This class handles communication to a PulseStreamer device using the
+<cite>pulsestreamer</cite> package.
+A <a class="reference internal" href="#module-baecon.Devices.Pulse_Sequence" title="baecon.Devices.Pulse_Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pulse_Sequence</span></code></a> should be provided as a <cite>dict</cite> and <code class="xref py py-func docutils literal notranslate"><span class="pre">convert_to_swabian()</span></code>
+will convert it into the PulseStreamer format with <code class="xref py py-attr docutils literal notranslate"><span class="pre">swabian_types</span></code>,
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">swabian_channels</span></code>, and <code class="xref py py-attr docutils literal notranslate"><span class="pre">swabian_patterns</span></code>.</p>
+<div class="admonition-todo admonition" id="id1">
+<p class="admonition-title">Todo</p>
+<p>Currently sequences are shift/updated all in pure Python. If this is
+too slow, we can use Numpy array and generate the all the sequences
+before the measurement, then just index them during the measurement.</p>
+</div>
+</dd></dl>
+
+<span class="target" id="module-baecon.Devices.SG380"></span><dl class="py class">
+<dt class="sig sig-object py" id="baecon.Devices.DeviceTemplate">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.Devices.</span></span><span class="sig-name descname"><span class="pre">DeviceTemplate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.Devices.DeviceTemplate" title="Permalink to this definition">#</a></dt>
+<dd><p>Template for starting a new Device class.</p>
+<ul class="simple">
+<li><p>First determine what properties of the device you would like to regularly change
+from measurement to measurement. Examples are output power, exposure time, voltage
+range, etc. These will be listed in the <code class="xref py py-attr docutils literal notranslate"><span class="pre">self.parameters</span></code> dictionary of the device.</p></li>
+<li><p>Next determine what properties of the device that will need to be specified, but do
+not change often. Examples are connection info (IPaddress, device name),
+communication formatting, input/output channel, etc. These will be in the
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">self.latent_parameters</span></code> dictionary.</p></li>
+<li><p><strong>Note</strong>: It may be good to look into what info is needed for the methods needed
+to <code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code> to the device in order to determine the above parameters.</p></li>
+<li><p>Create a method for connecting to the device <code class="xref py py-meth docutils literal notranslate"><span class="pre">connect_to_device()</span></code> which uses
+the necessary parameters and latent parameters, either by the default values
+defined in the class or a configuration ditionary/file. This method should return
+an Python object used to communicate with the device, and be stored in a class
+atrribute like <code class="xref py py-attr docutils literal notranslate"><span class="pre">self.connected_device</span></code>.</p></li>
+<li><p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code> methods must take on the arguements
+<cite>(self, parameter, value)</cite>. This is crucial for the interchangability of devices.</p></li>
+<li><p>The rest of the methods in the class will need to be used to allow the <code class="xref py py-meth docutils literal notranslate"><span class="pre">read()</span></code>
+and <code class="xref py py-meth docutils literal notranslate"><span class="pre">write()</span></code> methods to follow the restrictions mention above.</p></li>
+</ul>
+</dd></dl>
+
 </section>
 
 
@@ -413,8 +462,20 @@ document.write(`
                 <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
   <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.Devices.NIDAQ_Base"><code class="docutils literal notranslate"><span class="pre">NIDAQ_Base</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.Devices.Pulse_Streamer"><code class="docutils literal notranslate"><span class="pre">Pulse_Streamer</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.Devices.DeviceTemplate"><code class="docutils literal notranslate"><span class="pre">DeviceTemplate</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="../_sources/Devices/devices.rst.txt">
+    <a href="../_sources/Devices/Devices.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
