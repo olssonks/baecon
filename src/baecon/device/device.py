@@ -15,14 +15,14 @@ class Device(ABC):
     properties are changed from reading to reading. Acquisition devices
     perform the reading after a property has changed. Devices can be
     both scanning and aquisistion instruments, like a sourcemeter. The
-    distinction between the two happens when the :class:`Measurement_Settings`
+    distinction between the two happens when the :py:class:`Measurement_Settings<baecon.base.Measurement_Settings>`
     are defined.
 
      Note:
          In the user defined child classes (e.g, SG380),
-         users will need to override the :attr:`parameters` and
-         :attr:`latent_paramenters` atrributes, and the :py:func:`Device.read`
-         and :py:func:`write` methods. Additional methods in the child class
+         users will need to override the :py:attr:`Device.parameters<baecon.Device.parameters>` and
+         :py:attr:`.Device.latent_paramenters` atrributes, and the :py:func:`Device.read`
+         and :py:func:`Device.write` methods. Additional methods in the child class
          will needed to be defined to support these required attributes
          and methods.
      Attributes:
