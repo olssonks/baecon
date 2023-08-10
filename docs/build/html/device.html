@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=c860b57e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -388,6 +388,7 @@ document.write(`
                   
   <section id="device">
 <h1>Device<a class="headerlink" href="#device" title="Permalink to this heading">#</a></h1>
+<p>Available Devices can be found in <a class="reference internal" href="Devices/Devices.html"><span class="doc">Devices</span></a></p>
 <dl class="py class">
 <dt class="sig sig-object py" id="baecon.device.Device">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">baecon.device.</span></span><span class="sig-name descname"><span class="pre">Device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">configuration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.device.Device" title="Permalink to this definition">#</a></dt>
@@ -398,14 +399,14 @@ the base class for both. Scanning devices are the devices whose
 properties are changed from reading to reading. Acquisition devices
 perform the reading after a property has changed. Devices can be
 both scanning and aquisistion instruments, like a sourcemeter. The
-distinction between the two happens when the <code class="xref py py-class docutils literal notranslate"><span class="pre">Measurement_Settings</span></code>
+distinction between the two happens when the <a class="reference internal" href="base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><code class="xref py py-class docutils literal notranslate"><span class="pre">Measurement_Settings</span></code></a>
 are defined.</p>
 <blockquote>
 <div><dl class="simple">
 <dt>Note:</dt><dd><p>In the user defined child classes (e.g, SG380),
-users will need to override the <code class="xref py py-attr docutils literal notranslate"><span class="pre">parameters</span></code> and
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">latent_paramenters</span></code> atrributes, and the <a class="reference internal" href="#baecon.device.Device.read" title="baecon.device.Device.read"><code class="xref py py-func docutils literal notranslate"><span class="pre">Device.read()</span></code></a>
-and <a class="reference internal" href="#baecon.device.Device.write" title="baecon.device.Device.write"><code class="xref py py-func docutils literal notranslate"><span class="pre">write()</span></code></a> methods. Additional methods in the child class
+users will need to override the <code class="xref py py-attr docutils literal notranslate"><span class="pre">Device.parameters</span></code> and
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">Device.latent_paramenters</span></code> atrributes, and the <a class="reference internal" href="#baecon.device.Device.read" title="baecon.device.Device.read"><code class="xref py py-func docutils literal notranslate"><span class="pre">Device.read()</span></code></a>
+and <a class="reference internal" href="#baecon.device.Device.write" title="baecon.device.Device.write"><code class="xref py py-func docutils literal notranslate"><span class="pre">Device.write()</span></code></a> methods. Additional methods in the child class
 will needed to be defined to support these required attributes
 and methods.</p>
 </dd>

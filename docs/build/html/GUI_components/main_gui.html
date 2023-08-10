@@ -28,7 +28,7 @@
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b76e3c8a" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
     <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c860b57e" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
@@ -483,6 +483,39 @@ circumvent this issue, letting methods be defined without arguments.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="baecon.GUI.gui_utils.find_gui_element">
+<span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">find_gui_element</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Element</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_tag</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Element</span></span></span><a class="headerlink" href="#baecon.GUI.gui_utils.find_gui_element" title="Permalink to this definition">#</a></dt>
+<dd><p>Searchs <cite>element</cite> parents and children to find <cite>element_tag</cite>.</p>
+<blockquote>
+<div><p>First searchse the parent elements of <cite>element</cite>, i.e. <cite>ui.column</cite>,
+<cite>ui.card</cite>, etc, to find the element that has the <cite>tag</cite> attribute
+<cite>element_tag</cite>.</p>
+<p>This method is used to find the <cite>ui.expansion</cite> element of an device object
+from looking parents of the provided sub-element <cite>element</cite>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Searching the elements children is not implemented, as its more
+complicated. At the moment there is no need to search child.</p>
+</div>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>element</strong> (<em>ui.element</em>) – _description_</p></li>
+<li><p><strong>element_tag</strong> (<em>str</em>) – The string that is the tag attribute for the element
+of interest.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>_description_</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_type_</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="baecon.GUI.gui_utils.from_gui_fields_config">
 <span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">from_gui_fields_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#baecon.GUI.gui_utils.from_gui_fields_config" title="Permalink to this definition">#</a></dt>
 <dd><p>Fills a <a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><code class="xref py py-class docutils literal notranslate"><span class="pre">GUI_fields</span></code></a> from dictionary.</p>
@@ -593,7 +626,8 @@ saving is handled by <a class="reference internal" href="data_card.html#module-b
 <dt class="sig sig-object py" id="baecon.GUI.gui_utils.update_everything">
 <span class="sig-prename descclassname"><span class="pre">baecon.GUI.gui_utils.</span></span><span class="sig-name descname"><span class="pre">update_everything</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gui_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><span class="pre">GUI_fields</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_settings</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../base.html#baecon.base.Measurement_Settings" title="baecon.base.Measurement_Settings"><span class="pre">Measurement_Settings</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#baecon.GUI.gui_utils.update_everything" title="Permalink to this definition">#</a></dt>
 <dd><dl class="simple">
-<dt>Updates all the elements of the GUI.</dt><dd><p>For certain GUI elements not bound to one of the <a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><code class="xref py py-class docutils literal notranslate"><span class="pre">GUI_fields</span></code></a></p>
+<dt>Updates all the elements of the GUI.</dt><dd><p>For certain GUI elements not bound to one of the
+<a class="reference internal" href="#baecon.GUI.gui_utils.GUI_fields" title="baecon.GUI.gui_utils.GUI_fields"><code class="xref py py-class docutils literal notranslate"><span class="pre">GUI_fields</span></code></a></p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -681,6 +715,7 @@ saving is handled by <a class="reference internal" href="data_card.html#module-b
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.Holder"><code class="docutils literal notranslate"><span class="pre">Holder</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.Plot_Settings"><code class="docutils literal notranslate"><span class="pre">Plot_Settings</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.available_devices"><code class="docutils literal notranslate"><span class="pre">available_devices()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.find_gui_element"><code class="docutils literal notranslate"><span class="pre">find_gui_element()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.from_gui_fields_config"><code class="docutils literal notranslate"><span class="pre">from_gui_fields_config()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.name_from_path"><code class="docutils literal notranslate"><span class="pre">name_from_path()</span></code></a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon.GUI.gui_utils.pick_file"><code class="docutils literal notranslate"><span class="pre">pick_file()</span></code></a></li>
