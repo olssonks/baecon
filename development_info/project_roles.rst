@@ -1,8 +1,9 @@
 +++++++++++++
 Project Roles
 +++++++++++++
+To be determined
 
-Procject Manager
+Project Manager
 ================
 * Organize project plan
 * Assign tasks

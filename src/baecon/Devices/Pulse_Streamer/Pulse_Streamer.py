@@ -29,10 +29,9 @@ class Pulse_Streamer(Device):
     """Class for the Swabian Instruments PulseStreamer device.
     This class handles communication to a PulseStreamer device using the
     `pulsestreamer` package.
-
-    A :class:`Pulse_Sequence` should be provided as a `dict` and :method:`seq_sequence`
-    will convert it into the PulseStreamer format with :attr:`swabian_types`,
-    :attr:`swabian_channels`, and :attr:`swabian_patterns`.
+    A :py:class:`Pulse_Sequence` should be provided as a `dict` and :py:meth:`convert_to_swabian`
+    will convert it into the PulseStreamer format with :py:attr:`swabian_types`,
+    :py:attr:`swabian_channels`, and :py:attr:`swabian_patterns`.
 
     .. todo::
          Currently sequences are shift/updated all in pure Python. If this is

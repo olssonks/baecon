@@ -1,0 +1,24 @@
+name: baecon
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - sphinx
+  - ipykernel
+  - toml
+  - yaml
+  - numpy
+  - xarray
+  - spyder
+  - zarr
+  - cftime
+  - ipywidgets
+  - scipy
+  - black
+  - pynguin
+  - mypy
+  - python-lsp-server
+  - python-lsp-ruff
+  - spyder-terminal
+  - pyparsing

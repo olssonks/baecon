@@ -62,7 +62,7 @@ def props_dialog():
 
 ## engine provides plot data function for ui.timer to use
 ## ui.timer needs to be in the plot card or engine card
-def plot_data(the_plot: ui.plot, meas_data: bc.Measurement_Data, gui_fields) -> None:
+def plot_data(the_plot: ui.plotly, meas_data: bc.Measurement_Data, gui_fields) -> None:
     scan_parameters = meas_data.data_set.attrs.get("scan_parameters")
     acquire_methods: list = meas_data.data_set.attrs.get("acquire_methods")
     if (scan_parameters or acquire_methods) is None:
