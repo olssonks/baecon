@@ -7,6 +7,11 @@ from baecon import Device
 
 
 class NIDAQ_Base(Device):
+    """
+    _summary_
+
+    """
+
     def __init__(self, configuration: Optional[dict] = None) -> None:
         self.parameters = {
             "device_name": "",
