@@ -20,7 +20,7 @@ class Device(ABC):
 
      Note:
          In the user defined child classes (e.g, SG380),
-         users will need to override the :py:attr:`Device.parameters<baecon.Device.parameters>` and
+         users will need to override the :py:attr:`Device.parameters` and
          :py:attr:`.Device.latent_paramenters` atrributes, and the :py:func:`Device.read`
          and :py:func:`Device.write` methods. Additional methods in the child class
          will needed to be defined to support these required attributes

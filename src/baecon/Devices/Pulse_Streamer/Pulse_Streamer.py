@@ -29,9 +29,10 @@ class Pulse_Streamer(Device):
     """Class for the Swabian Instruments PulseStreamer device.
     This class handles communication to a PulseStreamer device using the
     `pulsestreamer` package.
-    A :py:class:`Pulse_Sequence` should be provided as a `dict` and :py:meth:`convert_to_swabian`
-    will convert it into the PulseStreamer format with :py:attr:`swabian_types`,
-    :py:attr:`swabian_channels`, and :py:attr:`swabian_patterns`.
+    A :py:class:`Pulse_Sequence` should be provided as a `dict` and
+    :py:meth:`convert_to_swabian` will convert it into the PulseStreamer format
+    with :py:attr:`swabian_types`, :py:attr:`swabian_channels`, and
+    :py:attr:`swabian_patterns`.
 
     .. todo::
          Currently sequences are shift/updated all in pure Python. If this is
@@ -597,7 +598,7 @@ class Pulse_Streamer(Device):
         )
 
     def convert_pattern(
-        self, pulse_pattern: List[Pulse], type: List[str]
+        self, pulse_pattern: List[Pulse], pulse_type: List[str]
     ) -> Tuple[List[Tuple], List[str]]:
         """Converts a pulse_pattern from `Pulse_Sequence` form to the
            Swabian form. Converts the types of the pulses as well. Adds
@@ -618,7 +619,7 @@ class Pulse_Streamer(Device):
             ## use extend instead of append to put p1, p2 in pattern not [p1,p2]
             new_pattern.extend([p1, p2])
             ## 'Zero" is the type when the pulse is off / low
-            names_holder.extend(("Zero", type[p_idx]))
+            names_holder.extend(("Zero", pulse_type[p_idx]))
         if not new_pattern[-1][1] == 0:
             ## capping all patterns with (0,0) will pad anything that is
             ## shorter than the longest pulse pattern with zeros in that
