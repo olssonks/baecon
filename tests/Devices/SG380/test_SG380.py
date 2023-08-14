@@ -1,11 +1,8 @@
 import pathlib
 
 import baecon as bc
-
-from baecon.Devices import SG380
-
 import pytest
-
+from baecon.Devices import SG380
 
 default_file = pathlib.Path(SG380.__file__).parent / "default.toml"
 
@@ -16,4 +13,5 @@ def test_init():
     ## make SG380
 
     assert default_config['parametergs'] == sg380
+
     return
