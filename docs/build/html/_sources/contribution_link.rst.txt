@@ -1,0 +1,3 @@
+.. _contribution_link:
+
+.. include:: ../../development_info/contribution_guide.rst

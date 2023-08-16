@@ -75,6 +75,7 @@ the `NiceGUI <https://nicegui.io/>`_ package.
    utils
    todo
 
+
 Indices and tables
 ==================
 
@@ -88,4 +89,8 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+Contribution Guide
+==================
+For instructions on how to contribute to the project see :ref:`contribution_guide`
 

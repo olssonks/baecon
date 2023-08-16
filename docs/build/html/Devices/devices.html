@@ -399,9 +399,10 @@ document.write(`
 <dd><p>Class for the Swabian Instruments PulseStreamer device.
 This class handles communication to a PulseStreamer device using the
 <cite>pulsestreamer</cite> package.
-A <a class="reference internal" href="#module-baecon.Devices.Pulse_Sequence" title="baecon.Devices.Pulse_Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pulse_Sequence</span></code></a> should be provided as a <cite>dict</cite> and <code class="xref py py-func docutils literal notranslate"><span class="pre">convert_to_swabian()</span></code>
-will convert it into the PulseStreamer format with <code class="xref py py-attr docutils literal notranslate"><span class="pre">swabian_types</span></code>,
-<code class="xref py py-attr docutils literal notranslate"><span class="pre">swabian_channels</span></code>, and <code class="xref py py-attr docutils literal notranslate"><span class="pre">swabian_patterns</span></code>.</p>
+A <a class="reference internal" href="#module-baecon.Devices.Pulse_Sequence" title="baecon.Devices.Pulse_Sequence"><code class="xref py py-class docutils literal notranslate"><span class="pre">Pulse_Sequence</span></code></a> should be provided as a <cite>dict</cite> and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">convert_to_swabian()</span></code> will convert it into the PulseStreamer format
+with <code class="xref py py-attr docutils literal notranslate"><span class="pre">swabian_types</span></code>, <code class="xref py py-attr docutils literal notranslate"><span class="pre">swabian_channels</span></code>, and
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">swabian_patterns</span></code>.</p>
 <div class="admonition-todo admonition" id="id1">
 <p class="admonition-title">Todo</p>
 <p>Currently sequences are shift/updated all in pure Python. If this is
