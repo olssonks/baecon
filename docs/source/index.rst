@@ -31,10 +31,10 @@ limited to any specific communication protocol. We have a few examples of
 device modules, and we hope to provide more modules we and others user 
 contribute there own.
 
-All the information for the measurement is stored in ``JSON`` parsible configuration
-files. A full measurement can be stored as a single file, or as individual 
-configurations for the scan settings and devices. The default configuration 
-file type is ``.toml``, but ``.yml`` and ``.json`` files are also compatible.
+All the information for the measurement is stored in ``JSON``-like parsible configuration
+files. The default configuration  file type is ``.toml``, but ``.yml`` and ``.json`` files are 
+also compatible. A full measurement can be stored as a single file, or as individual 
+configurations for the scan settings and devices.
 
 Baecon operates with a command line interface or with the GUI made with
 the `NiceGUI <https://nicegui.io/>`_ package. 
@@ -75,6 +75,7 @@ the `NiceGUI <https://nicegui.io/>`_ package.
    utils
    todo
 
+
 Indices and tables
 ==================
 
@@ -88,4 +89,8 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+Contribution Guide
+==================
+For instructions on how to contribute to the project see :ref:`contribution_guide`.
 

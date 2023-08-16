@@ -1,0 +1,57 @@
+.. _contribution_guide:
+
+Contributions Guide
++++++++++++++++++++
+
+Welcome to the contritutions guide. To begin, create a working environment 
+following the instructions below.
+
+
+Creating a working environment
+++++++++++++++++++++++++++++++
+
+If you haven't installed ``baecon``, first follow the installation instructions
+here: :ref:`readme_link`.
+
+``baecon`` uses packages from both ``conda`` and ``pip``. It is easiest to combine these
+is with a conda environment. To install ``conda`` follow the instructions here: 
+`miniconda <https://docs.conda.io/en/latest/miniconda.html>`_. 
+
+**Recommended**: alternitavely 
+you can use ``mamba``, a drop in replacement for `conda`, which is much faster for installing 
+packages. 
+
+With ``conda`` installed (or ``mamba``), move to the ``development\baecon_environment`` directiory and 
+use the following command to create the conda portion ``baecon`` environment
+
+.. code-block:: bash
+
+    conda create env -n baecon --file baecon_conda_env.yml
+    
+Next, activate the newly created conda environment ``baecon``:
+
+.. code-block:: bash
+
+    conda activate baecon
+    
+Then, install the `pip` requirements:
+
+.. code-block:: bash 
+
+    pip install -r baecon_pip_requirements.txt
+    
+**Important: You must create and activate the conda environment first, or there will
+be issues with using the pip requirements.**
+
+The environment files ``baecon_conda_env.yml`` and ``baecon_pip_requirements.txt`` only list
+the explicitly need Python packages. ``conda`` and ``pip`` will install the other necessary 
+packages. This allows for cross-platform combatibility, as some packages needed for the 
+explicitly list packages are platform specific.
+
+You are now ready to work on ``baecon``. Remember to activate your ``baecon`` environment 
+when working on this project.
+
+.. todo:: 
+    Create test to check environment is correctly installed.
+    
+

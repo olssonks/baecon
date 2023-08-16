@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Baecon Documentation &#8212; Baecon 0.0.1 documentation</title>
+    <title>Project Roles &#8212; Baecon 0.0.1 documentation</title>
   
   
   
@@ -38,10 +38,9 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js?v=8df938ec"></script>
     <script src="_static/doctools.js?v=888ff710"></script>
     <script src="_static/sphinx_highlight.js?v=4825356b"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'project_roles';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Base" href="base.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -97,7 +96,7 @@
       <div class="navbar-item">
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="index.html">
   
   
   
@@ -351,7 +350,33 @@ document.write(`
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article"></div>
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Project Roles</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
               
               
               
@@ -359,85 +384,42 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <style> .red {color:#aa0060; font-weight:bold; font-size:16px} </style><section id="baecon-documentation">
-<h1>Baecon Documentation<a class="headerlink" href="#baecon-documentation" title="Permalink to this heading">#</a></h1>
-<p><span class="red">Baecon</span> (/ˈbiːkən/), or <span class="red">Ba</span>sic <span class="red">E</span>xperiment <span class="red">Con</span>trol, is a Python library
-for controlling laboratory deivce to perform experiments.</p>
-<p>Measurement automation, in its most <em>basic</em> terms, consists of the computer
-sending a message to a device to change a parameter and/or get the value
-of that parameter or other parameters. Baecon is structed around the this idea
-by limiting the methods used to communicate with the devices. A device in
-Baecon can only a read command or a write command <em>during the measurement procedure</em>.
-Before or after the measurement procedure devices are free to communicate for
-preparing and configuring the device.</p>
-<p>The simplicity of Baecon is partially accomplished by shifting the heavy
-lifting to the user to build modules for devices that follow the Baecon
-communication standards. With users writing their own modules, Baecon isn’t
-limited to any specific communication protocol. We have a few examples of
-device modules, and we hope to provide more modules we and others user
-contribute there own.</p>
-<p>All the information for the measurement is stored in <code class="docutils literal notranslate"><span class="pre">JSON</span></code> parsible configuration
-files. A full measurement can be stored as a single file, or as individual
-configurations for the scan settings and devices. The default configuration
-file type is <code class="docutils literal notranslate"><span class="pre">.toml</span></code>, but <code class="docutils literal notranslate"><span class="pre">.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">.json</span></code> files are also compatible.</p>
-<p>Baecon operates with a command line interface or with the GUI made with
-the <a class="reference external" href="https://nicegui.io/">NiceGUI</a> package.</p>
-<table class="table">
-<thead>
-<tr class="row-odd"><th class="head"><p>Module</p></th>
-<th class="head"><p>Purpose</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p><span class="red">baecon.base</span></p></td>
-<td><p>Makes and organizes scans of instrument settings</p></td>
-</tr>
-<tr class="row-odd"><td><p><span class="red">baecon.device</span></p></td>
-<td><p>Base class for experimental instruments</p></td>
-</tr>
-<tr class="row-even"><td><p><span class="red">baecon.engine</span></p></td>
-<td><p>Performs and controls the measurement</p></td>
-</tr>
-<tr class="row-odd"><td><p><span class="red">baecon.data</span></p></td>
-<td><p>Data and analysis of measurements</p></td>
-</tr>
-<tr class="row-even"><td><p><span class="red">baecon.utils</span></p></td>
-<td><p>File I/O and other utility functions</p></td>
-</tr>
-<tr class="row-odd"><td><p><span class="red">baecon.GUI</span></p></td>
-<td><p>GUI for operating <code class="docutils literal notranslate"><span class="pre">baecon</span></code></p></td>
-</tr>
-</tbody>
-</table>
-<div class="toctree-wrapper compound">
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="base.html">Base</a></li>
-<li class="toctree-l1"><a class="reference internal" href="GUI.html">GUI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="device.html">Device</a></li>
-<li class="toctree-l1"><a class="reference internal" href="engine.html">Engine</a></li>
-<li class="toctree-l1"><a class="reference internal" href="data.html">Data</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">Utils</a></li>
-<li class="toctree-l1"><a class="reference internal" href="todo.html">To Dos</a></li>
-</ul>
-</div>
-<section id="indices-and-tables">
-<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this heading">#</a></h2>
+  <section id="project-roles">
+<h1>Project Roles<a class="headerlink" href="#project-roles" title="Permalink to this heading">#</a></h1>
+<p>To be determined</p>
+<section id="project-manager">
+<h2>Project Manager<a class="headerlink" href="#project-manager" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
-<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">base</span></code></p></li>
-<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">base.Device</span></code></p></li>
-<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">engine</span></code></p></li>
-<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">data</span></code></p></li>
-<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">utils</span></code></p></li>
-<li><p><code class="xref py py-mod docutils literal notranslate"><span class="pre">GUI</span></code></p></li>
-<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
-<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
-<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+<li><p>Organize project plan</p></li>
+<li><p>Assign tasks</p></li>
+<li><p>Manage schedule and timeline</p></li>
+<li><p>Determine/review methodology</p></li>
 </ul>
 </section>
-<section id="contribution-guide">
-<h2>Contribution Guide<a class="headerlink" href="#contribution-guide" title="Permalink to this heading">#</a></h2>
-<p>For instructions on how to contribute to the project see <a class="reference internal" href="contribution_guide.html#contribution-guide"><span class="std std-ref">Contributions Guide</span></a></p>
+<section id="operational-manager">
+<h2>Operational Manager<a class="headerlink" href="#operational-manager" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Create best practices</p></li>
+<li><p>Develop/help with automating workflow</p></li>
+<li><p>Maintain code and repo</p></li>
+<li><p>Maintain documentation</p></li>
+</ul>
+</section>
+<section id="testing-manager">
+<h2>Testing Manager<a class="headerlink" href="#testing-manager" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Developing unit tests</p></li>
+<li><p>Help contributers with unit tests</p></li>
+<li><p>Run test for merging into central branches</p></li>
+</ul>
+</section>
+<section id="contributers">
+<h2>Contributers<a class="headerlink" href="#contributers" title="Permalink to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Develop new devices, engines, etc.</p></li>
+<li><p>Add to documentation</p></li>
+<li><p>Create demos</p></li>
+</ul>
 </section>
 </section>
 
@@ -452,15 +434,6 @@ the <a class="reference external" href="https://nicegui.io/">NiceGUI</a> package
   
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-    <a class="right-next"
-       href="base.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Base</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div></div>
   
 </div>
@@ -479,14 +452,16 @@ the <a class="reference external" href="https://nicegui.io/">NiceGUI</a> package
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#indices-and-tables">Indices and tables</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contribution-guide">Contribution Guide</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#project-manager">Project Manager</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#operational-manager">Operational Manager</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-manager">Testing Manager</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contributers">Contributers</a></li>
 </ul>
   </nav></div>
 
   <div class="sidebar-secondary-item">
   <div class="tocsection sourcelink">
-    <a href="_sources/index.rst.txt">
+    <a href="_sources/project_roles.rst.txt">
       <i class="fa-solid fa-file-lines"></i> Show Source
     </a>
   </div>
