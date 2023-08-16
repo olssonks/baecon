@@ -1,3 +1,5 @@
+.. _README:
+
 .. image:: ./docs/source/_static/baecon.svg
 
 |docs|
@@ -71,10 +73,27 @@ Overview
 
 Installation
 ============
-Clone repo the repo and rom the repo directory run the following in the command line:
 
-::
-    > pip install .
+First clone the ``baecon`` repo and move into the directiory
+
+.. code-block:: shell
+
+    git clone https://github.com/olssonks/baecon.git
+    cd baecon
+
+Then create a ``conda`` environment with the environment ``.yml`` file
+
+.. code-block:: shell
+
+    conda create env -n baecon --file /development_info/baecon_conda_env.yml
+
+Finally, activate the new ``baecon`` environment and install the
+``baecon`` package with ``pip``.
+
+.. code-block:: shell
+
+    conda activate baecon
+    pip install .
 
 
 Getting Started
