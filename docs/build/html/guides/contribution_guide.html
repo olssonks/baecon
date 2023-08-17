@@ -422,17 +422,39 @@ document.write(`
 following the instructions below.</p>
 <section id="setup-baecon-development-environment">
 <h2>Setup <code class="docutils literal notranslate"><span class="pre">baecon</span></code> Development Environment<a class="headerlink" href="#setup-baecon-development-environment" title="Permalink to this heading">#</a></h2>
-<p>If you haven’t installed <code class="docutils literal notranslate"><span class="pre">baecon</span></code>, first follow the installation instructions
-here: <span class="xref std std-ref">readme_link</span>.</p>
+<p>Starting from scratch, install the <code class="docutils literal notranslate"><span class="pre">Python</span></code> package and environment manager <code class="docutils literal notranslate"><span class="pre">conda</span></code> (or  <code class="docutils literal notranslate"><span class="pre">mamba</span></code>).</p>
 <p><code class="docutils literal notranslate"><span class="pre">baecon</span></code> uses packages from both <code class="docutils literal notranslate"><span class="pre">conda</span></code> and <code class="docutils literal notranslate"><span class="pre">pip</span></code>. It is easiest to combine these
 is with a conda environment. To install <code class="docutils literal notranslate"><span class="pre">conda</span></code> follow the instructions here:
 <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a>.</p>
 <p><strong>Recommended</strong>: alternitavely
 you can use <code class="docutils literal notranslate"><span class="pre">mamba</span></code>, a drop in replacement for <cite>conda</cite>, which is much faster for installing
-packages. Installation instructions here: <cite>mamba &lt;https://mamba.readthedocs.io/en/latest/mamba-installation.html#mamba-install&gt;</cite>.
+packages. Installation instructions here: <a class="reference external" href="https://mamba.readthedocs.io/en/latest/mamba-installation.html#mamba-install">mamba</a>.
 <strong>Warning</strong>: Only use <code class="docutils literal notranslate"><span class="pre">mamba</span></code> is you have no existing <code class="docutils literal notranslate"><span class="pre">conda</span></code> installation. Otherwise,
 uninstall <code class="docutils literal notranslate"><span class="pre">conda</span></code> first.</p>
-<p>With <code class="docutils literal notranslate"><span class="pre">conda</span></code> installed (or <code class="docutils literal notranslate"><span class="pre">mamba</span></code>), move to the <code class="docutils literal notranslate"><span class="pre">development\baecon_environment</span></code> directiory and
+<p>Now move to your favorite working directiory grab the repo at <a class="github reference external" href="https://github.com/olssonks/baecon.git">olssonks/baecon.git</a>
+with the following commands:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/olssonks/baecon.git<span class="w"> </span>baecon
+<span class="nb">cd</span><span class="w"> </span>baecon
+</pre></div>
+</div>
+<p>This should look similar to this</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>walsworth1:.../users/walsworth1/documents$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/olssonks/baecon.git<span class="w"> </span>baecon
+Cloning<span class="w"> </span>into<span class="w"> </span><span class="s1">&#39;baecon&#39;</span>...
+remote:<span class="w"> </span>Enumerating<span class="w"> </span>objects:<span class="w"> </span><span class="m">1877</span>,<span class="w"> </span><span class="k">done</span>.
+remote:<span class="w"> </span>Counting<span class="w"> </span>objects:<span class="w"> </span><span class="m">100</span>%<span class="w"> </span><span class="o">(</span><span class="m">215</span>/215<span class="o">)</span>,<span class="w"> </span><span class="k">done</span>.
+remote:<span class="w"> </span>Compressing<span class="w"> </span>objects:<span class="w"> </span><span class="m">100</span>%<span class="w"> </span><span class="o">(</span><span class="m">145</span>/145<span class="o">)</span>,<span class="w"> </span><span class="k">done</span>.
+remote:<span class="w"> </span>Total<span class="w"> </span><span class="m">1877</span><span class="w"> </span><span class="o">(</span>delta<span class="w"> </span><span class="m">94</span><span class="o">)</span>,<span class="w"> </span>reused<span class="w"> </span><span class="m">138</span><span class="w"> </span><span class="o">(</span>delta<span class="w"> </span><span class="m">55</span><span class="o">)</span>,<span class="w"> </span>pack-reused<span class="w"> </span><span class="m">1662</span>
+Receiving<span class="w"> </span>objects:<span class="w"> </span><span class="m">100</span>%<span class="w"> </span><span class="o">(</span><span class="m">1877</span>/1877<span class="o">)</span>,<span class="w"> </span><span class="m">16</span>.49<span class="w"> </span>MiB<span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="m">19</span>.89<span class="w"> </span>MiB/s,<span class="w"> </span><span class="k">done</span>.
+Resolving<span class="w"> </span>deltas:<span class="w"> </span><span class="m">100</span>%<span class="w"> </span><span class="o">(</span><span class="m">1009</span>/1009<span class="o">)</span>,<span class="w"> </span><span class="k">done</span>.
+Updating<span class="w"> </span>files:<span class="w"> </span><span class="m">100</span>%<span class="w"> </span><span class="o">(</span><span class="m">262</span>/262<span class="o">)</span>,<span class="w"> </span><span class="k">done</span>.
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>walsworth1:.../users/walsworth1/documents$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>baecon
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>walsworth1:.../walsworth1/documents/baecon$<span class="w"> </span>ls
+LICENSE<span class="w">     </span>development_info<span class="w">  </span>docs<span class="w">         </span>pyproject.toml<span class="w">   </span>requirements-docs.txt<span class="w">  </span>src<span class="w">    </span>tools
+README.rst<span class="w">  </span>dist<span class="w">              </span>exp_configs<span class="w">  </span>readthedocs.yml<span class="w">  </span>requirements.txt<span class="w">       </span>tests
+<span class="o">(</span>base<span class="o">)</span><span class="w"> </span>walsworth1:.../walsworth1/documents/baecon$
+</pre></div>
+</div>
+<p>Move to the <code class="docutils literal notranslate"><span class="pre">development\baecon_environment</span></code> directiory and
 use the following command to create the conda portion <code class="docutils literal notranslate"><span class="pre">baecon</span></code> environment</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>env<span class="w"> </span>-n<span class="w"> </span>baecon<span class="w"> </span>--file<span class="w"> </span>baecon_conda_env.yml
 </pre></div>

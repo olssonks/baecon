@@ -10,8 +10,7 @@ following the instructions below.
 Setup ``baecon`` Development Environment
 ========================================
 
-If you haven't installed ``baecon``, first follow the installation instructions
-here: :ref:`readme_link`.
+Starting from scratch, install the ``Python`` package and environment manager ``conda`` (or  ``mamba``).
 
 ``baecon`` uses packages from both ``conda`` and ``pip``. It is easiest to combine these
 is with a conda environment. To install ``conda`` follow the instructions here: 
@@ -19,11 +18,39 @@ is with a conda environment. To install ``conda`` follow the instructions here:
 
 **Recommended**: alternitavely 
 you can use ``mamba``, a drop in replacement for `conda`, which is much faster for installing 
-packages. Installation instructions here: `mamba <https://mamba.readthedocs.io/en/latest/mamba-installation.html#mamba-install>`. 
+packages. Installation instructions here: `mamba <https://mamba.readthedocs.io/en/latest/mamba-installation.html#mamba-install>`_. 
 **Warning**: Only use ``mamba`` is you have no existing ``conda`` installation. Otherwise, 
 uninstall ``conda`` first.
 
-With ``conda`` installed (or ``mamba``), move to the ``development\baecon_environment`` directiory and 
+Now move to your favorite working directiory grab the repo at `<https://github.com/olssonks/baecon.git>`_
+with the following commands:
+
+.. code-block:: bash
+    
+    git clone https://github.com/olssonks/baecon.git baecon
+    cd baecon 
+
+This should look similar to this 
+
+.. code-block:: bash
+
+    (base) walsworth1:.../users/walsworth1/documents$ git clone https://github.com/olssonks/baecon.git baecon
+    Cloning into 'baecon'...
+    remote: Enumerating objects: 1877, done.
+    remote: Counting objects: 100% (215/215), done.
+    remote: Compressing objects: 100% (145/145), done.
+    remote: Total 1877 (delta 94), reused 138 (delta 55), pack-reused 1662
+    Receiving objects: 100% (1877/1877), 16.49 MiB | 19.89 MiB/s, done.
+    Resolving deltas: 100% (1009/1009), done.
+    Updating files: 100% (262/262), done.
+    (base) walsworth1:.../users/walsworth1/documents$ cd baecon
+    (base) walsworth1:.../walsworth1/documents/baecon$ ls
+    LICENSE     development_info  docs         pyproject.toml   requirements-docs.txt  src    tools
+    README.rst  dist              exp_configs  readthedocs.yml  requirements.txt       tests
+    (base) walsworth1:.../walsworth1/documents/baecon$
+
+
+Move to the ``development\baecon_environment`` directiory and 
 use the following command to create the conda portion ``baecon`` environment
 
 .. code-block:: bash
