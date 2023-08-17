@@ -1,1 +1,0 @@
-.. include:: ../../docs/source/contribution_guide.rstgitgit 
