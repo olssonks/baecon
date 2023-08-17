@@ -14,6 +14,7 @@ import sys
 
 sys.path.insert(0, os.path.abspath("../../src"))
 
+# from baecon import __version__
 # #from baecon import __version__
 
 # import pydata_sphinx_theme
@@ -28,7 +29,8 @@ sys.path.insert(0, os.path.abspath("../../src"))
 project = "Baecon"
 copyright = "2023, Kevin S. Olsson"
 author = "Kevin S. Olsson"
-release = __version__
+# release = 0.0.1
+
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
