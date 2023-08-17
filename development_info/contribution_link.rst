@@ -1,1 +1,1 @@
-.. include:: ../../docs/source/contribution_guide.rst
+.. include:: ../../docs/source/contribution_guide.rstgitgit 
