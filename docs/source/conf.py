@@ -12,11 +12,13 @@
 import os
 import sys
 
+sys.path.insert(0, os.path.abspath("../../src"))
+
 import baecon
 
 # import pydata_sphinx_theme
 
-sys.path.insert(0, os.path.abspath("../../src"))
+# sys.path.insert(0, os.path.abspath("../../src"))
 # sys.path.append('../../src')
 # sys.path.append('C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\docs')
 
