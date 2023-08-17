@@ -8,7 +8,7 @@ following the instructions below.
 
 
 Setup ``baecon`` Development Environment
-++++++++++++++++++++++++++++++++++++++++
+========================================
 
 If you haven't installed ``baecon``, first follow the installation instructions
 here: :ref:`readme_link`.
@@ -47,7 +47,7 @@ be issues with using the pip requirements.**
 
 Finally install ``baecon`` as an editable package:
 
-.. cond-block:: bash
+.. code-block:: bash
 
     pip install --editable .
 
@@ -64,7 +64,7 @@ when working on this project.
     
 
 Creating a Development Branch
-+++++++++++++++++++++++++++++
+=============================
 
 First, create an issue to describe the job you will be working on, such as adding
 a new device or fixing a bug. Then create a new branch, using ``dev`` as the source
@@ -75,23 +75,23 @@ Contributions are made through merging new branches into ``dev``. To begin worki
 ``dev_issue-##_<yourname>``. Make sure the ``dev`` is the source for the new branch
 you create. 
 
-Explict Steps
-=============
+Step by Step:
+-------------
     #. On the GitHub web interface, create a new issue describing what you will be working on.
     #. From the issue, click on the  "Create a branch" link on the 
-        right of the issue page, under "Development".
+       right of the issue page, under "Development".
     #. On the "Create a branch for this issue" window, enter a name for the branch 
-        ``dev_issue-##_<yourname>``.
+       ``dev_issue-##_<yourname>``.
     #. Click on "Change branch source" underneath the name entry, and make sure the
-        source is the ``dev`` branch.
+       source is the ``dev`` branch.
     #. The select "Checkout locally" and create the branch.
     #. On your local repo use the commands ``git fetch origin`` and the 
-        ``git pull origin <new branch>``.
+       ``git pull origin <new branch>``.
 
 
 Making Commits
-++++++++++++++
-Version control and change logs are managed with a `commitizen<https://commitizen-tools.github.io/commitizen/>`_.
+==============
+Version control and change logs are managed with a `commitizen <https://commitizen-tools.github.io/commitizen/>`_.
 The change necessary to the typeical work flow is that instead of ``git commit`` you use ``git-cz commit``. 
 All other ``git`` commands stay the same. When making a commit this way, a menu in the commandline 
 will walk you through the proper way to make commits.

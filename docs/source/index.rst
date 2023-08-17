@@ -66,7 +66,7 @@ the `NiceGUI <https://nicegui.io/>`_ package.
    :maxdepth: 1
    :caption: Contents:
 
-   guides/quickstart
+   get_started
    base
    GUI
    device
