@@ -5,6 +5,7 @@ pulsestreamer>=1.7.0
 PyDAQmx>=1.4.6
 pyserial>=3.5
 PyVISA>=1.13.0
+PyVISA-py>=0.6.0
 PyYAML>=6.0.1
 toml>=0.10.2
 xarray>=2023.5.0
