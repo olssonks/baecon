@@ -55,7 +55,7 @@ use the following command to create the conda portion ``baecon`` environment
 
 .. code-block:: bash
 
-    conda create env -n baecon --file baecon_conda_env.yml
+    conda env create -n baecon --file baecon_conda_env.yml
     
 Next, activate the newly created conda environment ``baecon``:
 
@@ -72,7 +72,7 @@ Then, install the `pip` requirements:
 **Important: You must create and activate the conda environment first, or there will
 be issues with using the pip requirements.**
 
-Finally, move back to the main ``baecon``directionary and  install ``baecon`` 
+Finally, move back to the main ``baecon`` directionary and  install ``baecon`` 
 as an editable package:
 
 .. code-block:: bash
@@ -86,6 +86,8 @@ During the installation, it may pause on the following line
     
     Successfully built baecon
     Installing collected packages: ...
+    
+but it should finish after a couple of minutes.
 
 The environment files ``baecon_conda_env.yml`` and ``baecon_pip_requirements.txt`` only list
 the explicitly need Python packages. ``conda`` and ``pip`` will install the other necessary 
