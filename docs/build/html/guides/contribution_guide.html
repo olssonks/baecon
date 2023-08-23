@@ -456,7 +456,7 @@ README.rst<span class="w">  </span>dist<span class="w">              </span>exp_
 </div>
 <p>Move to the <code class="docutils literal notranslate"><span class="pre">development\baecon_environment</span></code> directiory and
 use the following command to create the conda portion <code class="docutils literal notranslate"><span class="pre">baecon</span></code> environment</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>create<span class="w"> </span>env<span class="w"> </span>-n<span class="w"> </span>baecon<span class="w"> </span>--file<span class="w"> </span>baecon_conda_env.yml
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>baecon<span class="w"> </span>--file<span class="w"> </span>baecon_conda_env.yml
 </pre></div>
 </div>
 <p>Next, activate the newly created conda environment <code class="docutils literal notranslate"><span class="pre">baecon</span></code>:</p>
@@ -469,10 +469,18 @@ use the following command to create the conda portion <code class="docutils lite
 </div>
 <p><strong>Important: You must create and activate the conda environment first, or there will
 be issues with using the pip requirements.</strong></p>
-<p>Finally install <code class="docutils literal notranslate"><span class="pre">baecon</span></code> as an editable package:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>--editable<span class="w"> </span>.
+<p>Finally, move back to the main <code class="docutils literal notranslate"><span class="pre">baecon</span></code> directionary and  install <code class="docutils literal notranslate"><span class="pre">baecon</span></code>
+as an editable package:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>../..
+pip<span class="w"> </span>install<span class="w"> </span>--editable<span class="w"> </span>.
 </pre></div>
 </div>
+<p>During the installation, it may pause on the following line</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Successfully<span class="w"> </span>built<span class="w"> </span>baecon
+Installing<span class="w"> </span>collected<span class="w"> </span>packages:<span class="w"> </span>...
+</pre></div>
+</div>
+<p>but it should finish after a couple of minutes.</p>
 <p>The environment files <code class="docutils literal notranslate"><span class="pre">baecon_conda_env.yml</span></code> and <code class="docutils literal notranslate"><span class="pre">baecon_pip_requirements.txt</span></code> only list
 the explicitly need Python packages. <code class="docutils literal notranslate"><span class="pre">conda</span></code> and <code class="docutils literal notranslate"><span class="pre">pip</span></code> will install the other necessary
 packages. This allows for cross-platform combatibility, as some packages needed for the
