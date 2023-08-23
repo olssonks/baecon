@@ -72,11 +72,20 @@ Then, install the `pip` requirements:
 **Important: You must create and activate the conda environment first, or there will
 be issues with using the pip requirements.**
 
-Finally install ``baecon`` as an editable package:
+Finally, move back to the main ``baecon``directionary and  install ``baecon`` 
+as an editable package:
 
 .. code-block:: bash
 
+    cd ../..
     pip install --editable .
+    
+During the installation, it may pause on the following line
+
+.. code-block:: bash
+    
+    Successfully built baecon
+    Installing collected packages: ...
 
 The environment files ``baecon_conda_env.yml`` and ``baecon_pip_requirements.txt`` only list
 the explicitly need Python packages. ``conda`` and ``pip`` will install the other necessary 

@@ -25,14 +25,14 @@ uninstall ``conda`` first.
 Now move to your favorite working directiory grab the repo at `<https://github.com/olssonks/baecon.git>`_
 with the following commands:
 
-.. code-block:: shell
+.. code-block:: bash
     
     git clone https://github.com/olssonks/baecon.git baecon
     cd baecon 
 
 This should look similar to this 
 
-.. code-block:: shell
+.. code-block:: bash
 
     (base) walsworth1:.../users/walsworth1/documents$ git clone https://github.com/olssonks/baecon.git baecon
     Cloning into 'baecon'...
