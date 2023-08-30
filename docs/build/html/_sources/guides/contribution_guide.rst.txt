@@ -19,7 +19,7 @@ is with a conda environment. To install ``conda`` follow the instructions here:
 **Recommended**: alternitavely 
 you can use ``mamba``, a drop in replacement for `conda`, which is much faster for installing 
 packages. Installation instructions here: `mamba <https://mamba.readthedocs.io/en/latest/mamba-installation.html#mamba-install>`_. 
-**Warning**: Only use ``mamba`` is you have no existing ``conda`` installation. Otherwise, 
+**Warning**: Only use ``mamba`` if you have no existing ``conda`` installation. Otherwise, 
 uninstall ``conda`` first.
 
 Now move to your favorite working directiory grab the repo at `<https://github.com/olssonks/baecon.git>`_
@@ -99,19 +99,28 @@ when working on this project.
 
 .. todo:: 
     Create test to check environment is correctly installed.
-    
+
+VS Code Setup
+=============
+
+For those of you do not have a prefered interactive development environment (IDE),
+`VS Code <https://code.visualstudio.com>`_ is a good choice and works well with
+for developing ``baecon``. A VS Code profile is provided in the ``development_info``
+directiory, which can be imported into VS Code from under File->Share menu.
 
 Creating a Development Branch
 =============================
 
 First, create an issue to describe the job you will be working on, such as adding
 a new device or fixing a bug. Then create a new branch, using ``dev`` as the source
-for the new branch. The name of the branch should be ``dev_issue-##_<yourname>``.
+for the new branch. The name of the branch should be ``dev_issue-##_<yourname>``. Note
+that *<yourname>* should be replaced by your name, not just *yourname*. Follow this
+for the following code as well. 
 
 Contributions are made through merging new branches into ``dev``. To begin working on a job 
 (new feature, bug fix, etc.), create an issue and a branch with the name 
-``dev_issue-##_<yourname>``. Make sure the ``dev`` is the source for the new branch
-you create. 
+``dev_issue-##_<yourname>``. Make sure that ``dev`` is the source for creating the new 
+branch.
 
 Step by Step:
 -------------
@@ -125,6 +134,25 @@ Step by Step:
     #. The select "Checkout locally" and create the branch.
     #. On your local repo use the commands ``git fetch origin`` and the 
        ``git pull origin <new branch>``.
+    #. Make sure you are in the correct branch using ``git branch``. 
+        If you are not
+        in the correct development branch you created, use ``git checkout <new branch>``
+        to move to the correct branch.
+
+Troubleshooting ``git`` setup:
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    * If you clone the repo instead, you will need to run this command after cloning
+      ``git remote add origin https://github.com/olssonks/baecon.git``. You can check
+      that all the remote branches are accessible using ``git branch -r``. To move into
+      the branch you want, use ``git checkout <new branch>``. If this fails, try
+      ``git fetch origin <new branch>`` then the checkout command. In fetching/pulling
+      branches, do not put a */* between references. Example of incorrect usage
+      ``git fetch origin/<new branch>``. 
+    * You will need to log into your github account at some point, usually pushing to
+      the remove branch will trigger this. The prompt will as for you username and then
+      the password. *Note* This password is not your typicall login one, but instead
+      a github access token. See this page for information on how to create a token:
+      `personal access tokens <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>`_
 
 
 Making Commits
