@@ -429,7 +429,7 @@ is with a conda environment. To install <code class="docutils literal notranslat
 <p><strong>Recommended</strong>: alternitavely
 you can use <code class="docutils literal notranslate"><span class="pre">mamba</span></code>, a drop in replacement for <cite>conda</cite>, which is much faster for installing
 packages. Installation instructions here: <a class="reference external" href="https://mamba.readthedocs.io/en/latest/mamba-installation.html#mamba-install">mamba</a>.
-<strong>Warning</strong>: Only use <code class="docutils literal notranslate"><span class="pre">mamba</span></code> is you have no existing <code class="docutils literal notranslate"><span class="pre">conda</span></code> installation. Otherwise,
+<strong>Warning</strong>: Only use <code class="docutils literal notranslate"><span class="pre">mamba</span></code> if you have no existing <code class="docutils literal notranslate"><span class="pre">conda</span></code> installation. Otherwise,
 uninstall <code class="docutils literal notranslate"><span class="pre">conda</span></code> first.</p>
 <p>Now move to your favorite working directiory grab the repo at <a class="github reference external" href="https://github.com/olssonks/baecon.git">olssonks/baecon.git</a>
 with the following commands:</p>
@@ -492,15 +492,24 @@ when working on this project.</p>
 <p>Create test to check environment is correctly installed.</p>
 </div>
 </section>
+<section id="vs-code-setup">
+<h2>VS Code Setup<a class="headerlink" href="#vs-code-setup" title="Permalink to this heading">#</a></h2>
+<p>For those of you do not have a prefered interactive development environment (IDE),
+<a class="reference external" href="https://code.visualstudio.com">VS Code</a> is a good choice and works well with
+for developing <code class="docutils literal notranslate"><span class="pre">baecon</span></code>. A VS Code profile is provided in the <code class="docutils literal notranslate"><span class="pre">development_info</span></code>
+directiory, which can be imported into VS Code from under File-&gt;Share menu.</p>
+</section>
 <section id="creating-a-development-branch">
 <h2>Creating a Development Branch<a class="headerlink" href="#creating-a-development-branch" title="Permalink to this heading">#</a></h2>
 <p>First, create an issue to describe the job you will be working on, such as adding
 a new device or fixing a bug. Then create a new branch, using <code class="docutils literal notranslate"><span class="pre">dev</span></code> as the source
-for the new branch. The name of the branch should be <code class="docutils literal notranslate"><span class="pre">dev_issue-##_&lt;yourname&gt;</span></code>.</p>
+for the new branch. The name of the branch should be <code class="docutils literal notranslate"><span class="pre">dev_issue-##_&lt;yourname&gt;</span></code>. Note
+that <em>&lt;yourname&gt;</em> should be replaced by your name, not just <em>yourname</em>. Follow this
+for the following code as well.</p>
 <p>Contributions are made through merging new branches into <code class="docutils literal notranslate"><span class="pre">dev</span></code>. To begin working on a job
 (new feature, bug fix, etc.), create an issue and a branch with the name
-<code class="docutils literal notranslate"><span class="pre">dev_issue-##_&lt;yourname&gt;</span></code>. Make sure the <code class="docutils literal notranslate"><span class="pre">dev</span></code> is the source for the new branch
-you create.</p>
+<code class="docutils literal notranslate"><span class="pre">dev_issue-##_&lt;yourname&gt;</span></code>. Make sure that <code class="docutils literal notranslate"><span class="pre">dev</span></code> is the source for creating the new
+branch.</p>
 <section id="step-by-step">
 <h3>Step by Step:<a class="headerlink" href="#step-by-step" title="Permalink to this heading">#</a></h3>
 <blockquote>
@@ -515,8 +524,34 @@ source is the <code class="docutils literal notranslate"><span class="pre">dev</
 <li><p>The select “Checkout locally” and create the branch.</p></li>
 <li><p>On your local repo use the commands <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">origin</span></code> and the
 <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">pull</span> <span class="pre">origin</span> <span class="pre">&lt;new</span> <span class="pre">branch&gt;</span></code>.</p></li>
+<li><dl class="simple">
+<dt>Make sure you are in the correct branch using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span></code>.</dt><dd><p>If you are not
+in the correct development branch you created, use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">&lt;new</span> <span class="pre">branch&gt;</span></code>
+to move to the correct branch.</p>
+</dd>
+</dl>
+</li>
 </ol>
 </div></blockquote>
+<section id="troubleshooting-git-setup">
+<h4>Troubleshooting <code class="docutils literal notranslate"><span class="pre">git</span></code> setup:<a class="headerlink" href="#troubleshooting-git-setup" title="Permalink to this heading">#</a></h4>
+<blockquote>
+<div><ul class="simple">
+<li><p>If you clone the repo instead, you will need to run this command after cloning
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">remote</span> <span class="pre">add</span> <span class="pre">origin</span> <span class="pre">https://github.com/olssonks/baecon.git</span></code>. You can check
+that all the remote branches are accessible using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">branch</span> <span class="pre">-r</span></code>. To move into
+the branch you want, use <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">checkout</span> <span class="pre">&lt;new</span> <span class="pre">branch&gt;</span></code>. If this fails, try
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">origin</span> <span class="pre">&lt;new</span> <span class="pre">branch&gt;</span></code> then the checkout command. In fetching/pulling
+branches, do not put a <em>/</em> between references. Example of incorrect usage
+<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">fetch</span> <span class="pre">origin/&lt;new</span> <span class="pre">branch&gt;</span></code>.</p></li>
+<li><p>You will need to log into your github account at some point, usually pushing to
+the remove branch will trigger this. The prompt will as for you username and then
+the password. <em>Note</em> This password is not your typicall login one, but instead
+a github access token. See this page for information on how to create a token:
+<a class="reference external" href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">personal access tokens</a></p></li>
+</ul>
+</div></blockquote>
+</section>
 </section>
 </section>
 <section id="making-commits">
@@ -577,8 +612,12 @@ will walk you through the proper way to make commits.</p>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setup-baecon-development-environment">Setup <code class="docutils literal notranslate"><span class="pre">baecon</span></code> Development Environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#vs-code-setup">VS Code Setup</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-development-branch">Creating a Development Branch</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step">Step by Step:</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-by-step">Step by Step:</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#troubleshooting-git-setup">Troubleshooting <code class="docutils literal notranslate"><span class="pre">git</span></code> setup:</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#making-commits">Making Commits</a></li>
