@@ -4,7 +4,8 @@ Contributions Guide
 +++++++++++++++++++
 
 Welcome to the contritutions guide. To begin, create a working environment 
-following the instructions below.
+following the instructions below. These instructions are detailed to help people 
+that are completely new.
 
 
 Setup ``baecon`` Development Environment
@@ -22,6 +23,17 @@ packages. Installation instructions here: `mamba <https://mamba.readthedocs.io/e
 **Warning**: Only use ``mamba`` if you have no existing ``conda`` installation. Otherwise, 
 uninstall ``conda`` first.
 
+**Windows User**: After installing ``conda`` open Windows Powershell 
+`(install if it is not installed) <https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.3#msi>`_
+and run 
+
+.. code-block:: bash
+
+   conda init powershell
+
+This command will make Powershell load ``conda`` when the shell opens. If you're using
+``mamba``, use that instead of ``conda`` in the above command.
+
 Now move to your favorite working directiory grab the repo at `<https://github.com/olssonks/baecon.git>`_
 with the following commands:
 
@@ -30,7 +42,7 @@ with the following commands:
     git clone https://github.com/olssonks/baecon.git baecon
     cd baecon 
 
-This should look similar to this 
+This should look similar to this (I chose to install it in *documents*):
 
 .. code-block:: bash
 
@@ -106,7 +118,13 @@ VS Code Setup
 For those of you do not have a prefered interactive development environment (IDE),
 `VS Code <https://code.visualstudio.com>`_ is a good choice and works well with
 for developing ``baecon``. A VS Code profile is provided in the ``development_info``
-directiory, which can be imported into VS Code from under File->Share menu.
+directiory, which can be imported into VS Code from under *File->Share* menu. 
+
+In VS Code, open the setting menu using *File->Preferences->Settings* and search for
+``conda`` to find the ``Python: Conda Path`` setting. Ener the ``conda`` path here. 
+You can find the ``conda`` path using the command ``which conda`` in terminal on Mac/Linux.
+On Windows, first open the *Anaconda Powershell Prompt* from the Start Menu, located under
+Anaconda for miniconda. Then use the command ``where conda`` to find the path to use.
 
 Creating a Development Branch
 =============================
@@ -153,7 +171,10 @@ Troubleshooting ``git`` setup:
       the password. *Note* This password is not your typicall login one, but instead
       a github access token. See this page for information on how to create a token:
       `personal access tokens <https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens>`_
-
+    * If you get this error ``Permission to <repo name> denied to codexxxyyyy`` 
+      on Windows, open the `Credential Manager <https://stackoverflow.com/a/40907049>`_ 
+      and remove anything associated with "git". Currently unsure about the solution
+      for Mac and Linux, but this thread may help `stackoverflow <https://stackoverflow.com/questions/5335197>`_.
 
 Making Commits
 ==============

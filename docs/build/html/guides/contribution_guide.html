@@ -419,7 +419,8 @@ document.write(`
   <section id="contributions-guide">
 <span id="contribution-guide"></span><h1>Contributions Guide<a class="headerlink" href="#contributions-guide" title="Permalink to this heading">#</a></h1>
 <p>Welcome to the contritutions guide. To begin, create a working environment
-following the instructions below.</p>
+following the instructions below. These instructions are detailed to help people
+that are completely new.</p>
 <section id="setup-baecon-development-environment">
 <h2>Setup <code class="docutils literal notranslate"><span class="pre">baecon</span></code> Development Environment<a class="headerlink" href="#setup-baecon-development-environment" title="Permalink to this heading">#</a></h2>
 <p>Starting from scratch, install the <code class="docutils literal notranslate"><span class="pre">Python</span></code> package and environment manager <code class="docutils literal notranslate"><span class="pre">conda</span></code> (or  <code class="docutils literal notranslate"><span class="pre">mamba</span></code>).</p>
@@ -431,13 +432,21 @@ you can use <code class="docutils literal notranslate"><span class="pre">mamba</
 packages. Installation instructions here: <a class="reference external" href="https://mamba.readthedocs.io/en/latest/mamba-installation.html#mamba-install">mamba</a>.
 <strong>Warning</strong>: Only use <code class="docutils literal notranslate"><span class="pre">mamba</span></code> if you have no existing <code class="docutils literal notranslate"><span class="pre">conda</span></code> installation. Otherwise,
 uninstall <code class="docutils literal notranslate"><span class="pre">conda</span></code> first.</p>
+<p><strong>Windows User</strong>: After installing <code class="docutils literal notranslate"><span class="pre">conda</span></code> open Windows Powershell
+<a class="reference external" href="https://learn.microsoft.com/en-us/powershell/scripting/install/installing-powershell-on-windows?view=powershell-7.3#msi">(install if it is not installed)</a>
+and run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>init<span class="w"> </span>powershell
+</pre></div>
+</div>
+<p>This command will make Powershell load <code class="docutils literal notranslate"><span class="pre">conda</span></code> when the shell opens. If you’re using
+<code class="docutils literal notranslate"><span class="pre">mamba</span></code>, use that instead of <code class="docutils literal notranslate"><span class="pre">conda</span></code> in the above command.</p>
 <p>Now move to your favorite working directiory grab the repo at <a class="github reference external" href="https://github.com/olssonks/baecon.git">olssonks/baecon.git</a>
 with the following commands:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/olssonks/baecon.git<span class="w"> </span>baecon
 <span class="nb">cd</span><span class="w"> </span>baecon
 </pre></div>
 </div>
-<p>This should look similar to this</p>
+<p>This should look similar to this (I chose to install it in <em>documents</em>):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>base<span class="o">)</span><span class="w"> </span>walsworth1:.../users/walsworth1/documents$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/olssonks/baecon.git<span class="w"> </span>baecon
 Cloning<span class="w"> </span>into<span class="w"> </span><span class="s1">&#39;baecon&#39;</span>...
 remote:<span class="w"> </span>Enumerating<span class="w"> </span>objects:<span class="w"> </span><span class="m">1877</span>,<span class="w"> </span><span class="k">done</span>.
@@ -497,7 +506,12 @@ when working on this project.</p>
 <p>For those of you do not have a prefered interactive development environment (IDE),
 <a class="reference external" href="https://code.visualstudio.com">VS Code</a> is a good choice and works well with
 for developing <code class="docutils literal notranslate"><span class="pre">baecon</span></code>. A VS Code profile is provided in the <code class="docutils literal notranslate"><span class="pre">development_info</span></code>
-directiory, which can be imported into VS Code from under File-&gt;Share menu.</p>
+directiory, which can be imported into VS Code from under <em>File-&gt;Share</em> menu.</p>
+<p>In VS Code, open the setting menu using <em>File-&gt;Preferences-&gt;Settings</em> and search for
+<code class="docutils literal notranslate"><span class="pre">conda</span></code> to find the <code class="docutils literal notranslate"><span class="pre">Python:</span> <span class="pre">Conda</span> <span class="pre">Path</span></code> setting. Ener the <code class="docutils literal notranslate"><span class="pre">conda</span></code> path here.
+You can find the <code class="docutils literal notranslate"><span class="pre">conda</span></code> path using the command <code class="docutils literal notranslate"><span class="pre">which</span> <span class="pre">conda</span></code> in terminal on Mac/Linux.
+On Windows, first open the <em>Anaconda Powershell Prompt</em> from the Start Menu, located under
+Anaconda for miniconda. Then use the command <code class="docutils literal notranslate"><span class="pre">where</span> <span class="pre">conda</span></code> to find the path to use.</p>
 </section>
 <section id="creating-a-development-branch">
 <h2>Creating a Development Branch<a class="headerlink" href="#creating-a-development-branch" title="Permalink to this heading">#</a></h2>
@@ -549,6 +563,10 @@ the remove branch will trigger this. The prompt will as for you username and the
 the password. <em>Note</em> This password is not your typicall login one, but instead
 a github access token. See this page for information on how to create a token:
 <a class="reference external" href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens">personal access tokens</a></p></li>
+<li><p>If you get this error <code class="docutils literal notranslate"><span class="pre">Permission</span> <span class="pre">to</span> <span class="pre">&lt;repo</span> <span class="pre">name&gt;</span> <span class="pre">denied</span> <span class="pre">to</span> <span class="pre">codexxxyyyy</span></code>
+on Windows, open the <a class="reference external" href="https://stackoverflow.com/a/40907049">Credential Manager</a>
+and remove anything associated with “git”. Currently unsure about the solution
+for Mac and Linux, but this thread may help <a class="reference external" href="https://stackoverflow.com/questions/5335197">stackoverflow</a>.</p></li>
 </ul>
 </div></blockquote>
 </section>
@@ -561,6 +579,10 @@ The change necessary to the typeical work flow is that instead of <code class="d
 All other <code class="docutils literal notranslate"><span class="pre">git</span></code> commands stay the same. When making a commit this way, a menu in the commandline
 will walk you through the proper way to make commits.</p>
 <p>Version control and change logs follow the <a class="reference external" href="https://www.conventionalcommits.org/en/v1.0.0/">Conventional Commits</a>.</p>
+<div class="admonition-todo admonition" id="id2">
+<p class="admonition-title">Todo</p>
+<p>Add example of commit.</p>
+</div>
 </section>
 </section>
 
