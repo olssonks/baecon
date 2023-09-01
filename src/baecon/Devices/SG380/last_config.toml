@@ -2,9 +2,9 @@ name = "SG1"
 device = "SG380"
 
 [parameters]
-frequency = "2700.0"
+frequency = "2592.5"
 phase = 0
-amplitude = -3.0
+amplitude = 0.0
 enabled = false
 modulation_enabled = false
 modulation_type = "IQ"
@@ -13,6 +13,6 @@ modulation_dev = 0
 modulation_rate = 0
 
 [latent_parameters]
-IPaddress = "10.229.42.86"
+IPaddress = "10.229.42.67"
 port = "5025"
 read_termination = "r\n"

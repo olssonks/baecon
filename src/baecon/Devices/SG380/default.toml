@@ -11,7 +11,7 @@ modulation_type = 'IQ'
 modulation_function = 'External'
 
 [latent_parameters]
-IPaddress = '10.229.42.86'
+IPaddress = '10.229.42.67'
 port = '5025'
 
 ## Alternatively use GPIB

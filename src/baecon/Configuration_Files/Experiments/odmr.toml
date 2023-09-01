@@ -1,8 +1,8 @@
 averages = 1
 
 [GUI_Fields]
-exp_name = ""
-exp_file = ""
+exp_name = "odmr"
+exp_file = "C:\\Users\\walsworth1\\Documents\\Kevin\\baecon\\src\\baecon\\Configuration_Files\\Experiments\\odmr"
 engine_name = "default_engine_GUI.py"
 engine_file = "C:\\Users\\walsworth1\\Documents\\Kevin\\baecon\\src\\baecon\\Configuration_Files\\Engines\\default_engine_GUI.py"
 scan_file = ""
@@ -11,9 +11,9 @@ data_auto_save = ""
 data_folder = ""
 data_file = "2023_08_23_0_"
 data_analysis = ""
-plot_active = true
-abort_measurement = false
-measurement_threads = [ "<Thread(thr_92633362, started 33912)>", "<Thread(thr_86111106, started 34408)>",]
+plot_active = false
+abort_measurement = true
+measurement_threads = [ "<Thread(thr_44819593, stopped 3296)>", "<Thread(thr_51485331, stopped 29960)>",]
 
 [acquisition_devices.Daq1]
 name = "Daq1"
@@ -32,7 +32,7 @@ name = "SG1"
 device = "SG380"
 parameter = "frequency"
 min = 2500.0
-max = 3000.0
+max = 2000.0
 points = 201.0
 repetitions = 1.0
 scale = "linear"
@@ -50,10 +50,10 @@ Daq1 = ""
 
 [acquisition_devices.Daq1.parameters]
 device_name = "Dev1"
-read_sample_rate = 50000.0
-read_samples_per_chan = 10000.0
-reads_per_sample = 1
-read_samples_total = 10000
+read_sample_rate = "1000000"
+read_samples_per_chan = "500"
+reads_per_sample = "1"
+read_samples_total = "500"
 read_channels = [ "ai1",]
 read_sample_rate_out = 1000.0
 
@@ -73,20 +73,16 @@ read = [ "analog_input",]
 read_method = "analog_input"
 
 [scan_devices.SG1.parameters]
-frequency = "2592.5"
+frequency = "2700"
 phase = 0
 amplitude = 0.0
-enabled = false
 modulation_enabled = false
 modulation_type = "IQ"
 modulation_function = "External"
-modulation_dev = 0
-modulation_rate = 0
 
 [scan_devices.SG1.latent_parameters]
 IPaddress = "10.229.42.67"
 port = "5025"
-read_termination = "r\n"
 
 [scan_devices.PS1.parameters]
 type_to_scan = "pi/2"
