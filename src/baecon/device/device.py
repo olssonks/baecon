@@ -58,6 +58,12 @@ class Device(ABC):
             configuration (dict): Full configuration of the device: name,
                 parameters, and latent_parameters. Passing this dictionary
                 when creating the device object fully defines the device.
+
+        .. todo::
+            May want to have a required `set_acquisition_data_size` for
+            devices to call when used for acquisition. Otherwise setting this
+            get buried in another function and not obvious where it's getting
+            set.
         """
 
         if configuration is None:
@@ -69,7 +75,7 @@ class Device(ABC):
             self.parameters: dict = {}
         if not hasattr(self, "latent_parameters"):
             self.latent_parameters: dict = {}
-        self.acq_data_size = 1
+        self.acquisition_data_size = 1
         self.intitalize_parameters(configuration)
         self.configuration = configuration
         self.gui_router = None

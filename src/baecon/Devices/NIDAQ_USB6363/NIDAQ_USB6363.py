@@ -1,59 +1,124 @@
 """
 .. todo::
-    Needs to be implemented. Can mostely be a copy of :py:class:`NIDAQ_BASE`.
-    Analog output functionality needs to be added.
+   Needs to be tested. 
 """
 
 from baecon.Devices.NIDAQ_Base import NIDAQ_Base
+from baecon.Devices.NIDAQ_Base.PyDAQmx_ref_values import PyDAQmx_lookup_value
 
 
 class NIDAQ_USB6363(NIDAQ_Base):
+    """
+    Device class for NI DAQ model USB 6363.
+
+    Only extra feature used over the base class is analog start trigger.
+    Other functionality can be implemented if usedful.
+
+    Args:
+        NIDAQ_Base (class): Parent class and base class for NI DAQ Devices.
+    """
+
     def __init__(self, configuration: dict) -> None:
-        super().__init__(self, configuration)
+        ## additional 6363 parameters
 
-        if not len(configuration):
-            self.properties = self.intialize_properties(self, configuration)
-        else:
-            self.properties = {
-                'device_name': '',
-                'sample_rate_in': 2e3,
-                'sample_rate_out': 5e3,
-                'analog_in_tasks': [],
-                'analog_in_sample_number': 0,
-                'analog_in_channels': [],
-                'analog_in_clock_source': 'OnBoardClock',
-                'analog_out_tasks': [],
-                'analog_out_sample_number': 0,
-                'analog_out_channels': [],
-                'analog_out_clock_source': 'OnBoardClock',
-            }
+        self.latent_parameters = {
+            "input_start_trigger_channel": "",
+            "input_start_trigger_active_edge": "rising_edge",
+            "output_start_trigger_channel": "",
+            "output_start_trigger_active_edge": "rising_edge",
+            "analog_trigger_level": 0.5,
+        }
+        super().__init__(
+            self,
+            ## ** on dicts appends them together
+            ## want configuration last, so that it overwrites default values.
+            {**self.parameters, **self.latent_parameters, **configuration},
+        )
 
         return
 
-    def prep_analog_start_trigger(
-        self, task, trig_channel, trigger_edge='rising', trigger_level=0.0
-    ) -> None:
-        """Prepares task to start based on the signal from an analogy channel.
+    def prepare_input_start_trigger(self) -> None:
+        """Prepares task to start based on a trigger from the specified channel.
 
-        Args:
-            task (`task`): _description_
-            trig_channel (str): Channel to trigger from. Must be an analog
-            channel, e.g., `apfi0` or `ai0`
-            trigger_edge (str, optional): Trigger on rising edge or falling edge
-            of the signal. Defaults to 'rising'.
-            trigger_level (float or int, optional): Signal value when trigger
-            will occur. Defaults to 0.0.
+        Configures both analog or digital start triggers, depending on
+        the name of the channel: PFI or APFI.
         """
-        chan_name = self.device_name + '/' + trig_channel
+        try:
+            trigger_edge = PyDAQmx_lookup_value(
+                self.latent_parameters["output_start_trigger_active_edge"]
+            )
+            chan_name = (
+                "/"
+                + self.parameters["device_name"]
+                + "/"
+                + self.latent_parameters["output_trigger_channel"]
+            )
 
-        trig_edge = self.get_feature('trigger_edge')
-        if not trig_edge == None:
-            trigger_edge = trig_edge
+            if "A" in self.parameters["output_trigger_channel"]:
+                self.prepared_input_task.CfgAnlgEdgeStartTrig(
+                    chan_name, trigger_edge, self.latent_parameters["analog_trigger_level"]
+                )
+            else:
+                self.prepared_input_task.CfgDigEdgeStartTrig(chan_name, trigger_edge)
 
-        trig_level = self.get_feature('trigger_level')
-        if not trig_level == None:
-            trigger_level = trig_level
+        except KeyError as e:
+            print(
+                f"{e} not found in read preparations or \
+                  method listed, check preparations"
+            )
 
-        task.CfgAnlgEdgeStartTrig(chan_name, PyDAQmx_lookup[trig_edge], trigger_level)
+    def prepare_output_start_trigger(self) -> None:
+        """Prepares task to start based on a trigger from the specified channel.
+
+        Configures both analog or digital start triggers, depending on
+        the name of the channel: PFI or APFI.
+
+        """
+        try:
+            trigger_edge = PyDAQmx_lookup_value(
+                self.latent_parameters["input_start_trigger_active_edge"]
+            )
+            chan_name = (
+                "/"
+                + self.parameters["device_name"]
+                + "/"
+                + self.latent_parameters["input_trigger_channel"]
+            )
+
+            if "A" in self.parameters["input_trigger_channel"]:
+                self.prepared_output_task.CfgAnlgEdgeStartTrig(
+                    chan_name, trigger_edge, self.latent_parameters["analog_trigger_level"]
+                )
+            else:
+                self.prepared_output_task.CfgDigEdgeStartTrig(chan_name, trigger_edge)
+
+        except KeyError as e:
+            print(
+                f"{e} not found in read preparations or \
+                  method listed, check preparations"
+            )
 
         return
+
+    def preparation_options(self) -> tuple[dict, dict, dict]:
+        """
+        Defines available preparation options.
+
+        Overrides the method found in the child class, but copies all available
+        Base options and methods, and adds those specific to the USB 6363.
+
+        Returns:
+            tuple[dict, dict, dict]: Tuple of dictionarys corresponding to the
+                available options for preparing a input or ouput methd,
+                available input methods, and available output methods.
+        """
+        preparation_types = {
+            "analog_input": self.prepare_analog_input,
+            "digital_trigger": self.prepare_digital_trigger,
+            "input_start_triger": self.prepare_input_start_trigger,
+            "output_start_triger": self.prepare_output_start_trigger,
+        }
+        input_methods = {"analog_input": self.read_analog_input}
+        output_methods = {"analog_output": self.write_analog_output}
+
+        return preparation_types, input_methods, output_methods

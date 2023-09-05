@@ -5,6 +5,11 @@ from baecon import Device
 
 
 class SG380(Device):
+    """
+    The 380 series of signal generators from SRS. There are thre
+
+    """
+
     def __init__(self, configuration: dict):
         self.parameters = {
             "frequency": 0,

@@ -85,6 +85,14 @@ def main():
     gui_utils.update_everything(gui_fields, meas_settings)
 
 
+async def run_main():
+    main()
+    app.on_disconnect(app.shutdown)
+    # ui.run(port=gui_utils.GUI_PORT, reload=False)
+    ui.run(port=8666, reload=False)
+    return
+
+
 if __name__ in {"__main__", "__mp_main__"}:
     ## Try different port if usual one is blocked
     ## This usually occurs if GUI page, other than main one, uses ui.run()
@@ -100,4 +108,5 @@ if __name__ in {"__main__", "__mp_main__"}:
     #         break
     main()
     app.on_disconnect(app.shutdown)
-    ui.run(port=gui_utils.GUI_PORT, reload=False)
+    # ui.run(port=gui_utils.GUI_PORT, reload=False)
+    ui.run(port=8666, reload=False)

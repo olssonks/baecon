@@ -2,7 +2,7 @@ name = "SG1"
 device = "SG380"
 
 [parameters]
-frequency = "2592.5"
+frequency = "2738.0"
 phase = 0
 amplitude = 0.0
 enabled = false

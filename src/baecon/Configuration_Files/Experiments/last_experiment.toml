@@ -4,16 +4,17 @@ averages = 1
 exp_name = ""
 exp_file = ""
 engine_name = "default_engine_GUI.py"
-engine_file = "C:\\Users\\walsworth1\\Documents\\Kevin\\baecon\\src\\baecon\\Configuration_Files\\Engines\\default_engine_GUI.py"
-scan_file = ""
+engine_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Engines\\default_engine_GUI.py"
+scan_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml"
 averages = 1
 data_auto_save = ""
 data_folder = ""
-data_file = "2023_08_23_0_"
+data_file = "2023_09_05_0_"
+data_file_format = ""
 data_analysis = ""
-plot_active = true
-abort_measurement = false
-measurement_threads = [ "<Thread(thr_92633362, started 33912)>", "<Thread(thr_86111106, started 34408)>",]
+plot_active = false
+abort_measurement = true
+measurement_threads = [ "<Thread(thr_72596797, stopped 5972)>", "<Thread(thr_75352247, stopped 8896)>",]
 
 [acquisition_devices.Daq1]
 name = "Daq1"
@@ -23,17 +24,13 @@ device = "NIDAQ_Base"
 name = "SG1"
 device = "SG380"
 
-[scan_devices.PS1]
-name = "PS1"
-device = "Pulse_Streamer"
-
 [scan_collection.SG1-frequency]
 name = "SG1"
 device = "SG380"
 parameter = "frequency"
-min = 2500.0
-max = 3000.0
-points = 201.0
+min = 2700.0
+max = 2900.0
+points = 101.0
 repetitions = 1.0
 scale = "linear"
 randomize = false
@@ -43,7 +40,6 @@ note = ""
 
 [GUI_Fields.scan_dev_files]
 SG1 = ""
-PS1 = ""
 
 [GUI_Fields.acq_dev_files]
 Daq1 = ""
@@ -55,6 +51,11 @@ read_samples_per_chan = 10000.0
 reads_per_sample = 1
 read_samples_total = 10000
 read_channels = [ "ai1",]
+write_sample_rate = 5000.0
+write_samples_per_chan = 1000.0
+writes_per_sample = 1
+write_samples_total = 1000.0
+write_channels = []
 read_sample_rate_out = 1000.0
 
 [acquisition_devices.Daq1.latent_parameters]
@@ -67,13 +68,19 @@ read_sample_mode = "finite_samples"
 read_fill_mode = "by_channel"
 read_timeout = "infinite_timeout"
 read_trigger_channel = "PFI0"
+write_units = "volts"
+write_voltage_limits = "10"
+write_sample_mode = "finite_samples"
+write_clock_source = "OnBoardClock"
+write_trigger_edge = "rising_edge"
+write_fill_mode = "by_scan"
 
 [acquisition_devices.Daq1.preparations]
-read = [ "analog_input",]
-read_method = "analog_input"
+input = [ "analog_input",]
+input_method = "analog_input"
 
 [scan_devices.SG1.parameters]
-frequency = "2592.5"
+frequency = "2738.0"
 phase = 0
 amplitude = 0.0
 enabled = false
@@ -87,15 +94,3 @@ modulation_rate = 0
 IPaddress = "10.229.42.67"
 port = "5025"
 read_termination = "r\n"
-
-[scan_devices.PS1.parameters]
-type_to_scan = "pi/2"
-scan_catagory = "start"
-scan_shift = "no_shift"
-add_time = true
-loop_number = -1
-
-[scan_devices.PS1.latent_parameters]
-IPaddress = "10.229.42.94"
-
-[scan_devices.PS1.parameters.pulse_sequence]

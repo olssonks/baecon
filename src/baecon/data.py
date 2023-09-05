@@ -90,7 +90,7 @@ def create_data_template(Measurement_Setings: bc.Measurement_Settings) -> xr.Dat
 
     for acq_key in list(acquisitions.keys()):
         coords = {}
-        sample_array = np.arange(acquisitions[acq_key].acq_data_size)
+        sample_array = np.arange(acquisitions[acq_key].acquisition_data_size)
         for scan_key in list(scans.keys()):
             coords.update(
                 {scans[scan_key]["scan"]["parameter"]: scans[scan_key]["scan"]["schedule"]}
