@@ -160,7 +160,7 @@ def data_thread(md: bc.Measurement_Data, data_queue, abort: abort):
             break
         if "scan_done" in data_done:
             for acq_key in list(data_arrays.keys()):
-                md.data_set[f"{acq_key}_{idx}"] = data_arrays[acq_key]
+                md.raw_data_set[f"{acq_key}_{idx}"] = data_arrays[acq_key]
             data_done = ""
             idx += 1
     abort.flag = True

@@ -2,18 +2,19 @@ averages = 1
 
 [GUI_Fields]
 exp_name = "odmr"
-exp_file = "C:\\Users\\walsworth1\\Documents\\Kevin\\baecon\\src\\baecon\\Configuration_Files\\Experiments\\odmr"
+exp_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Experiments\\odmr.toml"
 engine_name = "default_engine_GUI.py"
-engine_file = "C:\\Users\\walsworth1\\Documents\\Kevin\\baecon\\src\\baecon\\Configuration_Files\\Engines\\default_engine_GUI.py"
-scan_file = ""
-averages = 1
+engine_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Engines\\default_engine_GUI.py"
+scan_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml"
+averages = 4.0
 data_auto_save = ""
 data_folder = ""
-data_file = "2023_08_23_0_"
+data_file = "2023_09_12_0_odmr"
+data_file_format = ""
 data_analysis = ""
 plot_active = false
-abort_measurement = true
-measurement_threads = [ "<Thread(thr_44819593, stopped 3296)>", "<Thread(thr_51485331, stopped 29960)>",]
+abort_measurement = false
+measurement_threads = []
 
 [acquisition_devices.Daq1]
 name = "Daq1"
@@ -23,17 +24,13 @@ device = "NIDAQ_Base"
 name = "SG1"
 device = "SG380"
 
-[scan_devices.PS1]
-name = "PS1"
-device = "Pulse_Streamer"
-
 [scan_collection.SG1-frequency]
 name = "SG1"
 device = "SG380"
 parameter = "frequency"
-min = 2500.0
-max = 2000.0
-points = 201.0
+min = 2700.0
+max = 2900.0
+points = 101.0
 repetitions = 1.0
 scale = "linear"
 randomize = false
@@ -43,55 +40,57 @@ note = ""
 
 [GUI_Fields.scan_dev_files]
 SG1 = ""
-PS1 = ""
 
 [GUI_Fields.acq_dev_files]
-Daq1 = ""
+Daq1 = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Devices\\NIDAQ_Base\\DAQ_123.toml"
 
 [acquisition_devices.Daq1.parameters]
 device_name = "Dev1"
-read_sample_rate = "1000000"
-read_samples_per_chan = "500"
-reads_per_sample = "1"
-read_samples_total = "500"
-read_channels = [ "ai1",]
-read_sample_rate_out = 1000.0
+input_sample_rate = 50000.0
+input_samples_per_chan = 10000.0
+inputs_per_sample = 1
+input_samples_total = 10000
+input_channels = [ "ai1",]
+output_sample_rate = 5000.0
+output_samples_per_chan = 1000.0
+outputs_per_sample = 1
+output_samples_total = 1000.0
+output_channels = []
+input_sample_rate_out = 1000.0
 
 [acquisition_devices.Daq1.latent_parameters]
 units = "volts"
 voltage_limits = 2
 terminal_type = "RSE"
-read_clock_source = "OnboardClock"
-read_active_edge = "rising_edge"
-read_sample_mode = "finite_samples"
-read_fill_mode = "by_channel"
-read_timeout = "infinite_timeout"
-read_trigger_channel = "PFI0"
+input_clock_source = "OnboardClock"
+input_active_edge = "rising_edge"
+input_sample_mode = "finite_samples"
+input_fill_mode = "by_channel"
+input_timeout = "infinite_timeout"
+input_trigger_channel = "PFI0"
+output_units = "volts"
+output_voltage_limits = "10"
+output_sample_mode = "finite_samples"
+output_clock_source = "OnBoardClock"
+output_trigger_edge = "rising_edge"
+output_fill_mode = "by_scan"
 
 [acquisition_devices.Daq1.preparations]
-read = [ "analog_input",]
-read_method = "analog_input"
+input = [ "analog_input",]
+input_method = "analog_input"
 
 [scan_devices.SG1.parameters]
-frequency = "2700"
+frequency = "2900.0"
 phase = 0
 amplitude = 0.0
+enabled = false
 modulation_enabled = false
 modulation_type = "IQ"
 modulation_function = "External"
+modulation_dev = 0
+modulation_rate = 0
 
 [scan_devices.SG1.latent_parameters]
-IPaddress = "10.229.42.67"
+IPaddress = "10.229.42.86"
 port = "5025"
-
-[scan_devices.PS1.parameters]
-type_to_scan = "pi/2"
-scan_catagory = "start"
-scan_shift = "no_shift"
-add_time = true
-loop_number = -1
-
-[scan_devices.PS1.latent_parameters]
-IPaddress = "10.229.42.94"
-
-[scan_devices.PS1.parameters.pulse_sequence]
+read_termination = "r\n"

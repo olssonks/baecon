@@ -94,7 +94,7 @@ async def save_collection(
     file = gui_fields.scan_file
     if file:
         gui_fields.scan_file = file
-        scan_name.value = name_from_file(file)
+        scan_name.value = gui_utils.name_from_path(file)
         ## settings is a dict of the settings defining the scan, this dict is saved
         scan_dict = {}
         for key in meas_settings.scan_collection.keys():
@@ -115,7 +115,7 @@ async def save_as_collection(
     file = await gui_utils.pick_file(gui_utils.SCANS_DIRECTORY)
     if file:
         gui_fields.scan_file = file
-        scan_name.value = name_from_file(file)
+        scan_name.value = gui_utils.name_from_path(file)
         ## settings is a dict of the settings defining the scan, this dict is saved
         scan_dict = {}
         for key in meas_settings.scan_collection.keys():
@@ -136,15 +136,15 @@ async def load_collection(
     file = await gui_utils.pick_file(gui_utils.SCANS_DIRECTORY)
     if file:
         gui_fields.scan_file = file
-        scan_name.value = name_from_file(file)
+        scan_name.value = gui_utils.name_from_path(file)
         scan_config = bc.utils.load_config(gui_fields.scan_file)
         scan_from_settings(scan_config, gui_fields, meas_settings)
     return
 
 
-def name_from_file(file: str):
-    name = file.split("\\")[-1]
-    return name
+# def name_from_file(file: str):
+#     name = file.split("\\")[-1]
+#     return name
 
 
 def primary_buttons(
@@ -157,7 +157,7 @@ def primary_buttons(
         meas_settings (bc.Measurement_Settings): _description_
     """
     with ui.column():
-        avgs = ui.number("Averages").bind_value(gui_fields, "averages")
+        avgs = ui.number("Averages", format="%d").bind_value(gui_fields, "averages")
         avgs.on("update:model-value", avgs.update)
         ## without lambda the add_scan_dialog opens on start up (don't know why ???)
         ui.button(

@@ -1,23 +1,37 @@
 name = "Daq1"
 device = "NIDAQ_Base"
-preparations = ""
 
 [parameters]
 device_name = "Dev1"
-read_sample_rate = 50000.0
-read_samples_per_chan = 500.0
-reads_per_sample = 1
-read_samples_total = 500
-read_channels = [ "ai1",]
-read_sample_rate_out = 1000.0
+input_sample_rate = 50000.0
+input_samples_per_chan = 10000.0
+inputs_per_sample = 1
+input_samples_total = 10000
+input_channels = [ "ai1",]
+output_sample_rate = 5000.0
+output_samples_per_chan = 1000.0
+outputs_per_sample = 1
+output_samples_total = 1000.0
+output_channels = []
+input_sample_rate_out = 1000.0
 
 [latent_parameters]
 units = "volts"
 voltage_limits = 2
 terminal_type = "RSE"
-read_clock_source = "OnboardClock"
-read_active_edge = "rising_edge"
-read_sample_mode = "finite_samples"
-read_fill_mode = "by_channel"
-read_timeout = "infinite_timeout"
-read_trigger_channel = "PFI0"
+input_clock_source = "OnboardClock"
+input_active_edge = "rising_edge"
+input_sample_mode = "finite_samples"
+input_fill_mode = "by_channel"
+input_timeout = "infinite_timeout"
+input_trigger_channel = "PFI0"
+output_units = "volts"
+output_voltage_limits = "10"
+output_sample_mode = "finite_samples"
+output_clock_source = "OnBoardClock"
+output_trigger_edge = "rising_edge"
+output_fill_mode = "by_scan"
+
+[preparations]
+input = [ "analog_input",]
+input_method = "analog_input"

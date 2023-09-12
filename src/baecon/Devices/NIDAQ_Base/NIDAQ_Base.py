@@ -36,33 +36,33 @@ class NIDAQ_Base(Device):
     def __init__(self, configuration: Optional[dict] = None) -> None:
         self.parameters = {
             "device_name": "",
-            "read_sample_rate": 50e3,
-            "read_samples_per_chan": 10e3,
-            "reads_per_sample": 1,
-            "read_samples_total": 10e3,
-            "read_channels": [],
-            "write_sample_rate": 5e3,
-            "write_samples_per_chan": 1e3,
-            "writes_per_sample": 1,
-            "write_samples_total": 1e3,
-            "write_channels": [],
+            "input_sample_rate": 50e3,
+            "input_samples_per_chan": 10e3,
+            "inputs_per_sample": 1,
+            "input_samples_total": 10e3,
+            "input_channels": [],
+            "output_sample_rate": 5e3,
+            "output_samples_per_chan": 1e3,
+            "outputs_per_sample": 1,
+            "output_samples_total": 1e3,
+            "output_channels": [],
         }
         self.latent_parameters = {
             "units": "volts",
             "voltage_limits": 2,
             "terminal_type": "RSE",
-            "read_clock_source": "OnboardClock",
-            "read_active_edge": "rising_edge",
-            "read_sample_mode": "finite_samples",
-            "read_fill_mode": "by_channel",
-            "read_timeout": "infinite_timeout",
-            "read_trigger_channel": "",
-            "write_units": "volts",
-            "write_voltage_limits": "10",
-            "write_sample_mode": "finite_samples",
-            "write_clock_source": "OnBoardClock",
-            "write_trigger_edge": "rising_edge",
-            "write_fill_mode": "by_scan",
+            "input_clock_source": "OnboardClock",
+            "input_active_edge": "rising_edge",
+            "input_sample_mode": "finite_samples",
+            "input_fill_mode": "by_channel",
+            "input_timeout": "infinite_timeout",
+            "input_trigger_channel": "",
+            "output_units": "volts",
+            "output_voltage_limits": "10",
+            "output_sample_mode": "finite_samples",
+            "output_clock_source": "OnBoardClock",
+            "output_trigger_edge": "rising_edge",
+            "output_fill_mode": "by_scan",
         }
 
         super().__init__(configuration)
@@ -104,12 +104,12 @@ class NIDAQ_Base(Device):
         return
 
     def read(self, parameter=None, value=None) -> np.ndarray:
-        # self.start_task(self.prepared_read_task)
+        # self.start_task(self.prepared_input_task)
         self.prepared_input_method()
         return self.input_data
 
     def set_acquisition_data_size(self):
-        self.acquisition_data_size = self.parameters["read_samples_total"]
+        self.acquisition_data_size = self.parameters["input_samples_total"]
         return
 
     def update_device(self):
@@ -140,7 +140,7 @@ class NIDAQ_Base(Device):
         return
 
     def prepare_analog_input(self):
-        number_of_channels = len(self.parameters["read_channels"])
+        number_of_channels = len(self.parameters["input_channels"])
         if number_of_channels == 0:
             msg = "No analog channels defined in device parameters."
             raise LookupError(msg)
@@ -148,7 +148,7 @@ class NIDAQ_Base(Device):
         task = PyDAQmx.Task()  # 'ai_task-'+f'{(time.time() % 1):.8f}'[2:]
 
         channels = ""
-        for ch in self.parameters["read_channels"]:
+        for ch in self.parameters["input_channels"]:
             channels = channels + "/" + self.parameters["device_name"] + "/" + ch + ","
 
         task.CreateAIVoltageChan(
@@ -161,52 +161,52 @@ class NIDAQ_Base(Device):
             None,
         )
 
-        time_source = str(self.latent_parameters["read_clock_source"])
+        time_source = str(self.latent_parameters["input_clock_source"])
 
         if time_source.upper()[0:3].find("PFI") >= 0:
             time_source = ("/" + self.parameters["device_name"] + "/" + time_source.upper(),)
 
         total_samples = int(
             number_of_channels
-            * self.parameters["read_samples_per_chan"]
-            * self.parameters["reads_per_sample"]
+            * self.parameters["input_samples_per_chan"]
+            * self.parameters["inputs_per_sample"]
         )
 
         task.CfgSampClkTiming(
             time_source,
-            self.parameters["read_sample_rate"],
-            PyDAQmx_lookup_value(self.latent_parameters["read_active_edge"]),
-            PyDAQmx_lookup_value(self.latent_parameters["read_sample_mode"]),
+            self.parameters["input_sample_rate"],
+            PyDAQmx_lookup_value(self.latent_parameters["input_active_edge"]),
+            PyDAQmx_lookup_value(self.latent_parameters["input_sample_mode"]),
             total_samples,
         )
 
         self.prepared_input_task = task
         self.input_data = np.zeros(total_samples)
-        self.parameters["read_samples_total"] = total_samples
+        self.parameters["input_samples_total"] = total_samples
         return
 
     def prepare_input_digital_trigger(self):
-        trigger_edge = PyDAQmx_lookup_value(self.latent_parameters["read_active_edge"])
+        trigger_edge = PyDAQmx_lookup_value(self.latent_parameters["input_active_edge"])
         chan_name = (
             "/"
             + self.parameters["device_name"]
             + "/"
-            + self.latent_parameters["read_trigger_channel"]
+            + self.latent_parameters["input_trigger_channel"]
         )
         self.prepared_input_task.CfgDigEdgeStartTrig(chan_name, trigger_edge)
         return
 
     def read_analog_input(self):
         samps_per_chan = int(
-            self.parameters["read_samples_total"] / len(self.parameters["read_channels"])
+            self.parameters["input_samples_total"] / len(self.parameters["input_channels"])
         )
 
         self.prepared_input_task.ReadAnalogF64(
             samps_per_chan,
-            PyDAQmx_lookup_value(self.latent_parameters["read_timeout"]),
-            PyDAQmx_lookup_value(self.latent_parameters["read_fill_mode"]),
+            PyDAQmx_lookup_value(self.latent_parameters["input_timeout"]),
+            PyDAQmx_lookup_value(self.latent_parameters["input_fill_mode"]),
             self.input_data,
-            int(self.parameters["read_samples_total"]),
+            int(self.parameters["input_samples_total"]),
             PyDAQmx.byref(PyDAQmx.int32()),
             None,
         )
@@ -214,7 +214,7 @@ class NIDAQ_Base(Device):
         return
 
     def prepare_analog_output(self):
-        number_of_channels = len(self.parameters["write_channels"])
+        number_of_channels = len(self.parameters["output_channels"])
         if number_of_channels == 0:
             msg = "No analog channels defined in device parameters."
             raise LookupError(msg)
@@ -222,7 +222,7 @@ class NIDAQ_Base(Device):
         task = PyDAQmx.Task()  # 'ai_task-'+f'{(time.time() % 1):.8f}'[2:]
 
         channels = ""
-        for ch in self.parameters["write_channels"]:
+        for ch in self.parameters["output_channels"]:
             channels = channels + "/" + self.parameters["device_name"] + "/" + ch + ","
 
         task.CreateAOVoltageChan(
@@ -235,38 +235,38 @@ class NIDAQ_Base(Device):
             None,
         )
 
-        time_source = str(self.latent_parameters["write_clock_source"])
+        time_source = str(self.latent_parameters["output_clock_source"])
 
         if time_source.upper()[0:3].find("PFI") >= 0:
             time_source = ("/" + self.parameters["device_name"] + "/" + time_source.upper(),)
 
         total_samples = int(
             number_of_channels
-            * self.parameters["write_samples_per_chan"]
-            * self.parameters["writes_per_sample"]
+            * self.parameters["output_samples_per_chan"]
+            * self.parameters["outputs_per_sample"]
         )
 
         task.CfgSampClkTiming(
             time_source,
-            self.parameters["write_sample_rate"],
-            PyDAQmx_lookup_value(self.latent_parameters["write_active_edge"]),
-            PyDAQmx_lookup_value(self.latent_parameters["write_sample_mode"]),
+            self.parameters["output_sample_rate"],
+            PyDAQmx_lookup_value(self.latent_parameters["output_active_edge"]),
+            PyDAQmx_lookup_value(self.latent_parameters["output_sample_mode"]),
             total_samples,
         )
 
         self.prepared_output_task = task
         self.output_data = np.zeros(total_samples)
-        self.parameters["write_samples_total"] = total_samples
+        self.parameters["output_samples_total"] = total_samples
         self.ouput_data_size = total_samples
         return
 
     def prepare_output_digital_trigger(self):
-        trigger_edge = PyDAQmx_lookup_value(self.latent_parameters["write_active_edge"])
+        trigger_edge = PyDAQmx_lookup_value(self.latent_parameters["output_active_edge"])
         chan_name = (
             "/"
             + self.parameters["device_name"]
             + "/"
-            + self.latent_parameters["write_trigger_channel"]
+            + self.latent_parameters["output_trigger_channel"]
         )
         self.prepared_output_task.CfgDigEdgeStartTrig(chan_name, trigger_edge)
         return
@@ -278,10 +278,10 @@ class NIDAQ_Base(Device):
 
         self.prepared_output_task.WriteAnalogF64(
             samps_per_chan,
-            PyDAQmx_lookup_value(self.latent_parameters["write_timeout"]),
-            PyDAQmx_lookup_value(self.latent_parameters["write_fill_mode"]),
+            PyDAQmx_lookup_value(self.latent_parameters["output_timeout"]),
+            PyDAQmx_lookup_value(self.latent_parameters["output_fill_mode"]),
             self.input_data,
-            int(self.parameters["write_samples_total"]),
+            int(self.parameters["output_samples_total"]),
             PyDAQmx.byref(PyDAQmx.int32()),
             None,
         )
@@ -326,7 +326,9 @@ class NIDAQ_Base(Device):
         except TypeError:
             return  ## happends when preparations is empty
         except KeyError as e:
-            print(f"{e} not found in read preparations or method listed, check preparations")
+            print(
+                f"{e} not found in input preparations or method listed, check preparations"
+            )
         return
 
 

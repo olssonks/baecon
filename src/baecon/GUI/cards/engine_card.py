@@ -74,11 +74,31 @@ def abort_measurement(gui_fields: gui_utils.GUI_fields) -> None:
     return
 
 
+def check_engine_is_loaded(gui_fields: gui_utils.GUI_fields) -> bool:
+    if callable(engine_holder.value):  ## simple check if it's a function
+        return True
+
+    engine_name_from_file = gui_utils.name_from_path(gui_fields.engine_file)
+    if gui_fields.engine_name == engine_name_from_file:
+        load_engine(gui_fields.engine_file, gui_fields)
+        return True
+
+    ui.notify(
+        "Engine failed to load. Try loading it again.",
+        position="center",
+        type="negative",
+        timeout=1000,
+    )
+    return False
+
+
 async def run_measurement(
     gui_fields: gui_utils.GUI_fields,
     meas_settings: bc.Measurement_Settings,
     meas_data: bc.Measurement_Data,
 ):
+    if not check_engine_is_loaded(gui_fields):
+        return
     ## need to update any measurement settings from the GUI_fields
     meas_data.data_template = bc.create_data_template(meas_settings)
     meas_data.assign_measurement_settings(meas_settings)

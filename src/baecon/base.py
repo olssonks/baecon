@@ -11,7 +11,7 @@ from baecon.device import DEVICES_DIRECTORY, Device
 
 
 @dataclass
-class Measurement_Settings:
+class Measurement_Settings:  ## experiment_container
     """Data structure for holding measurement settings.
        The four measurement settings are acquisition devices, scan devices,
        scan collection, and averages (repeats) of the scan to perform. These
@@ -42,7 +42,7 @@ class Measurement_Settings:
 
     acquisition_devices: dict = field(default_factory=dict)
     scan_devices: dict = field(default_factory=dict)
-    scan_collection: dict = field(default_factory=dict)
+    scan_collection: dict = field(default_factory=dict)  ## measurement_settings
     averages: int = 1
 
 

@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from functools import partial
 
 import numpy as np
@@ -9,6 +10,8 @@ import baecon as bc
 from baecon.GUI import gui_utils
 
 head_style = "color: #37474f; font-size: 200%; font-weight: 300"
+
+analyzer_name_holder = gui_utils.Holder('default_analyzer')
 
 
 def main(
@@ -34,6 +37,11 @@ def main(
             ui.checkbox("Plot Active", on_change=toggle_active).bind_value(
                 gui_fields, "plot_active"
             )
+            ui.button(
+                "Load Analysis",
+                on_click=partial(load_analyzer_button, gui_fields),
+            ).classes("w-1/9")
+            ui.label().bind_text(analyzer_name_holder, "value")
     return
 
 
@@ -46,6 +54,21 @@ def props_dialog():
                 ui.label("x:")
                 ui.input(placeholder="min")
                 ui.input(placeholder="max")
+    return
+
+
+async def load_analyzer_button(gui_fields: gui_utils.GUI_fields):
+    analyzer_file = await gui_utils.pick_file(gui_utils.DATA_DIRECTORY / "Analysis")
+    load_analyzer(analyzer_file, gui_fields)
+    return
+
+
+def load_analyzer(file: str, gui_fields: gui_utils.GUI_fields):
+    analyzer_module = bc.utils.load_module_from_path(file)
+    analyzer_holder.update(analyzer_module)
+    analyzer_name_holder.update(analyzer_module.__name__)
+    ##gui_fields.engine_file = file
+    ##gui_fields.engine_name = gui_utils.name_from_path(file)
     return
 
 
@@ -62,18 +85,23 @@ def props_dialog():
 
 ## engine provides plot data function for ui.timer to use
 ## ui.timer needs to be in the plot card or engine card
-def plot_data(the_plot: ui.plotly, meas_data: bc.Measurement_Data, gui_fields) -> None:
-    scan_parameters = meas_data.data_set.attrs.get("scan_parameters")
-    acquire_methods: list = meas_data.data_set.attrs.get("acquire_methods")
-    if (scan_parameters or acquire_methods) is None:
+def plot_data(
+    the_plot: ui.plotly, meas_data: bc.Measurement_Data, gui_fields: gui_utils.GUI_fields
+) -> None:
+    analyzer = analyzer_holder.value
+    if analyzer is None:
+        analyzer = default_analyzer
+    scan_parameters: list = meas_data.raw_data_set.attrs.get("scan_parameters")
+    acquisition_methods: list = meas_data.raw_data_set.attrs.get("acquire_methods")
+    if (scan_parameters or acquisition_methods) is None:
         return  ## No plotting if measurement settings not defined
-    current_data = get_current_data(
-        meas_data.data_current_scan[acquire_methods[0]], scan_parameters
-    )  ## returns dict {name: (x,y)}
-    completed_data = get_completed_data(
-        meas_data.data_set, scan_parameters
-    )  ## returns dict {name: (x,y)} for completed data
-    average_data = get_avg_data(meas_data.data_set, scan_parameters)
+
+    (
+        current_data,
+        completed_data,
+        average_data,
+    ) = default_analyzer.process_data(meas_data, acquisition_methods, scan_parameters)
+
     fig = {
         "data": [],
         "layout": {
@@ -82,22 +110,45 @@ def plot_data(the_plot: ui.plotly, meas_data: bc.Measurement_Data, gui_fields) -
             "xaxis": {"title": scan_parameters[0], "gridcolor": "white"},
             "yaxis": {"gridcolor": "white"},
         },
+        "config": {
+            "showLink": "true",
+            "plotlyServerURL": "https://chart-studio.plotly.com",
+        },
     }
     if current_data is not None:
         try:
             fig = main_trace_style(fig, {**current_data, **average_data})
-        except TypeError as e:
+        except TypeError:
             pass
     if completed_data is not None:
         fig = secondary_trace_style(fig, completed_data)
     the_plot.update_figure(fig)
-    if not any([thread.is_alive() for thread in gui_fields.measurement_threads]):
+    if not any(thread.is_alive() for thread in gui_fields.measurement_threads):
         gui_fields.plot_active = False
 
     return
 
 
-def get_current_data(data_array: xr.DataArray, scan_parameters: list) -> dict:
+def process_data(
+    meas_data: bc.Measurement_Data, acquire_methods: list, scan_parameters: list
+) -> tuple[dict, dict, dict]:
+    current_data = process_current_data(
+        meas_data.data_current_scan[acquire_methods[0]], scan_parameters
+    )
+    completed_data = completed_processed_data(
+        meas_data.raw_data_set, scan_parameters
+    )  ## returns dict {name: (x,y)} for completed data
+    average_data = average_processed_data(meas_data.raw_data_set, scan_parameters)
+
+    return current_data, completed_data, average_data
+
+
+@dataclass
+class default_analyzer:
+    process_data = process_data
+
+
+def process_current_data(data_array: xr.DataArray, scan_parameters: list) -> dict:
     ## data_array should be measurement_data_holder in Measurement_Data object
     ## need to update for handling 2-d and N-d scans
 
@@ -113,28 +164,28 @@ def get_current_data(data_array: xr.DataArray, scan_parameters: list) -> dict:
     return {"current": (x, y)}
 
 
-def get_completed_data(data_set: xr.Dataset, scan_parameters: list) -> dict:
+def completed_processed_data(processed_data_set: xr.Dataset, scan_parameters: list) -> dict:
     ## need to update for handling 2-d and N-d scans
     complete_data = {}
     parameter = scan_parameters[0]
-    if data_set.nbytes == 0:
+    if processed_data_set.nbytes == 0:
         return
     else:
-        for scan_key in list(data_set.keys()):
-            vals = data_set.get(scan_key).values
-            x = data_set.get(scan_key).coords.get(parameter).values
+        for scan_key in list(processed_data_set.keys()):
+            vals = processed_data_set.get(scan_key).values
+            x = processed_data_set.get(scan_key).coords.get(parameter).values
             y = np.mean(vals, axis=vals.ndim - 1)
             complete_data.update({scan_key: (x, y)})
     return complete_data
 
 
-def get_avg_data(data_set: xr.Dataset, scan_parameters: list) -> dict:
+def average_processed_data(processed_data_set: xr.Dataset, scan_parameters: list) -> dict:
     ## need to update for handling multi dimensional scans
-    if data_set.nbytes == 0:
+    if processed_data_set.nbytes == 0:
         return {}
     else:
         parameter = scan_parameters[0]
-        data_array = data_set.to_array()
+        data_array = processed_data_set.to_array()
         x = data_array.coords.get(parameter).values
         vals = data_array.values
         mean_samps = np.mean(vals, axis=vals.ndim - 1)
@@ -179,6 +230,8 @@ def clear_plot(fig):
     ## Need method and button for clearing plot
     return
 
+
+analyzer_holder = gui_utils.Holder(default_analyzer)
 
 if __name__ in {"__main__", "__mp_main__"}:
     gui_fields = gui_utils.GUI_fields()

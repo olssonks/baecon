@@ -1,20 +1,20 @@
 averages = 1
 
 [GUI_Fields]
-exp_name = ""
-exp_file = ""
+exp_name = "odmr"
+exp_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Experiments\\odmr.toml"
 engine_name = "default_engine_GUI.py"
 engine_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Engines\\default_engine_GUI.py"
 scan_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml"
-averages = 1
+averages = 4.0
 data_auto_save = ""
 data_folder = ""
-data_file = "2023_09_05_0_"
+data_file = "2023_09_12_0_odmr"
 data_file_format = ""
 data_analysis = ""
 plot_active = false
-abort_measurement = true
-measurement_threads = [ "<Thread(thr_72596797, stopped 5972)>", "<Thread(thr_75352247, stopped 8896)>",]
+abort_measurement = false
+measurement_threads = []
 
 [acquisition_devices.Daq1]
 name = "Daq1"
@@ -46,41 +46,41 @@ Daq1 = ""
 
 [acquisition_devices.Daq1.parameters]
 device_name = "Dev1"
-read_sample_rate = 50000.0
-read_samples_per_chan = 10000.0
-reads_per_sample = 1
-read_samples_total = 10000
-read_channels = [ "ai1",]
-write_sample_rate = 5000.0
-write_samples_per_chan = 1000.0
-writes_per_sample = 1
-write_samples_total = 1000.0
-write_channels = []
-read_sample_rate_out = 1000.0
+input_sample_rate = 50000.0
+input_samples_per_chan = 10000.0
+inputs_per_sample = 1
+input_samples_total = 10000
+input_channels = [ "ai1",]
+output_sample_rate = 5000.0
+output_samples_per_chan = 1000.0
+outputs_per_sample = 1
+output_samples_total = 1000.0
+output_channels = []
+input_sample_rate_out = 1000.0
 
 [acquisition_devices.Daq1.latent_parameters]
 units = "volts"
 voltage_limits = 2
 terminal_type = "RSE"
-read_clock_source = "OnboardClock"
-read_active_edge = "rising_edge"
-read_sample_mode = "finite_samples"
-read_fill_mode = "by_channel"
-read_timeout = "infinite_timeout"
-read_trigger_channel = "PFI0"
-write_units = "volts"
-write_voltage_limits = "10"
-write_sample_mode = "finite_samples"
-write_clock_source = "OnBoardClock"
-write_trigger_edge = "rising_edge"
-write_fill_mode = "by_scan"
+input_clock_source = "OnboardClock"
+input_active_edge = "rising_edge"
+input_sample_mode = "finite_samples"
+input_fill_mode = "by_channel"
+input_timeout = "infinite_timeout"
+input_trigger_channel = "PFI0"
+output_units = "volts"
+output_voltage_limits = "10"
+output_sample_mode = "finite_samples"
+output_clock_source = "OnBoardClock"
+output_trigger_edge = "rising_edge"
+output_fill_mode = "by_scan"
 
 [acquisition_devices.Daq1.preparations]
 input = [ "analog_input",]
 input_method = "analog_input"
 
 [scan_devices.SG1.parameters]
-frequency = "2738.0"
+frequency = "2900.0"
 phase = 0
 amplitude = 0.0
 enabled = false
@@ -91,6 +91,6 @@ modulation_dev = 0
 modulation_rate = 0
 
 [scan_devices.SG1.latent_parameters]
-IPaddress = "10.229.42.67"
+IPaddress = "10.229.42.86"
 port = "5025"
 read_termination = "r\n"

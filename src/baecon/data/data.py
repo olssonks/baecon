@@ -53,18 +53,18 @@ class Measurement_Data:
 
     data_template: xr.DataArray = field(default_factory=xr.DataArray)
     data_current_scan: xr.DataArray = field(default_factory=xr.DataArray)
-    data_set: xr.Dataset = field(default_factory=xr.Dataset)
-    processed_data: xr.Dataset = field(default_factory=xr.Dataset)
+    raw_data_set: xr.Dataset = field(default_factory=xr.Dataset)
+    processed_data_set: xr.Dataset = field(default_factory=xr.Dataset)
 
     def assign_measurement_settings(self, ms: bc.Measurement_Settings) -> None:
         self.data_template = bc.create_data_template(ms)
         measurement_config = bc.generate_measurement_config(ms)
-        self.data_set.attrs["measurement_config"] = measurement_config
-        self.data_set.attrs["scan_parameters"] = [
+        self.raw_data_set.attrs["measurement_config"] = measurement_config
+        self.raw_data_set.attrs["scan_parameters"] = [
             scan_setting["parameter"]
             for scan_setting in measurement_config["scan_collection"].values()
         ]
-        self.data_set.attrs["acquire_methods"] = list(
+        self.raw_data_set.attrs["acquire_methods"] = list(
             measurement_config["acquisition_devices"].keys()
         )
 
@@ -127,9 +127,9 @@ def data_from_module(data: Measurement_Data, file_name: str):
 
     analysis_module = bc.utils.load_module_from_path(file_name)
 
-    reduced_data = analysis_module.analyze_data(data)
+    processed_data = analysis_module.process_data(data)
 
-    return reduced_data
+    return processed_data
 
 
 def save_baecon_data(
@@ -157,20 +157,20 @@ def save_baecon_data(
 
     def use_zarr():
         if options:
-            md.data_set.to_zarr(file_name, **options)
+            md.raw_data_set.to_zarr(file_name, **options)
         else:
-            md.data_set.to_zarr(file_name, mode="w")
+            md.raw_data_set.to_zarr(file_name, mode="w")
         return
 
     def use_netcdf():
         if options:
-            md.data_set.to_netcdf(file_name, **options)
+            md.raw_data_set.to_netcdf(file_name, **options)
         else:
-            md.data_set.to_netcdf(file_name)
+            md.raw_data_set.to_netcdf(file_name)
         return
 
     def use_hdf5():
-        df = md.data_set.to_pandas()
+        df = md.raw_data_set.to_pandas()
         if options:
             df.to_hdf(file_name, **options)
         else:
@@ -178,7 +178,7 @@ def save_baecon_data(
         return
 
     def use_csv():
-        df = md.data_set.to_dataframe()
+        df = md.raw_data_set.to_dataframe()
         df.to_csv(file_name)
         return
 

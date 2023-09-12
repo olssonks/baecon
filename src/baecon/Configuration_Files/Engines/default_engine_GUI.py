@@ -197,7 +197,9 @@ def data_thread_function(
             break
         if "scan_done" in data_done:
             for acq_key in list(meas_data.data_current_scan.keys()):
-                meas_data.data_set[f"{acq_key}-{idx}"] = meas_data.data_current_scan[acq_key]
+                meas_data.raw_data_set[f"{acq_key}-{idx}"] = meas_data.data_current_scan[
+                    acq_key
+                ]
             data_done = ""
             idx += 1
     abort.abort_measurement = True

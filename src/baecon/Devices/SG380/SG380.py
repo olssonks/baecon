@@ -36,7 +36,6 @@ class SG380(Device):
         for param, value in list(self.parameters.items()):
             if param or value is None:
                 return
-
             self.write(param, value)
         return
 
