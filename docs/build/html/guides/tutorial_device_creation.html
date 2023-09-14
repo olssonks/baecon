@@ -1,0 +1,737 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Tutorial: Device Creation &#8212; Baecon  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/css/custom.css?v=c860b57e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ccbe24c1"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'guides/tutorial_device_creation';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  <div class="navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">Baecon  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../get_started.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../base.html">
+                        Base
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../GUI.html">
+                        GUI
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../device.html">
+                        Device
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../engine.html">
+                        Engine
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../data.html">
+                        Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../utils.html">
+                        Utils
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../get_started.html">
+                        Guides
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../base.html">
+                        Base
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../GUI.html">
+                        GUI
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../device.html">
+                        Device
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../engine.html">
+                        Engine
+                      </a>
+                    </li>
+                
+            <div class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </button>
+                <div class="dropdown-menu">
+                    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../data.html">
+                        Data
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../utils.html">
+                        Utils
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../todo.html">
+                        To Dos
+                      </a>
+                    </li>
+                
+                </div>
+            </div>
+            
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumbs">
+  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">Tutorial: Device Creation</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="tutorial-device-creation">
+<span id="id1"></span><h1>Tutorial: Device Creation<a class="headerlink" href="#tutorial-device-creation" title="Permalink to this heading">#</a></h1>
+<p>This tutorial will go through the process of creating a device from scratch
+<a class="reference external" href="https://www.dsinstruments.com/product/rf-signal-generators/4400mhz-portable-mini-rf-signal-generator-usb">using the DSInstruments SG4400L</a>
+signal generator as an example. The typical use case for this device is for
+applying a microwave signal for driving an acousto-optic modulator.</p>
+<p>This tutorial assumes some basic knowledge of Python and programming in general.
+More advanced techniques
+are explained in detail. We welcome feedback if portions of the tutorial are
+still unfriendly to Python beginners.</p>
+<section id="baecon-devices">
+<h2>Baecon Devices<a class="headerlink" href="#baecon-devices" title="Permalink to this heading">#</a></h2>
+<p>Experimental instruments in <cite>baecon</cite> are children of the base class <a class="reference internal" href="../device.html#baecon.device.Device" title="baecon.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">baecon.device.Device</span></code></a>.
+This structure forces all equipment to share a few similar attributes and methods.
+The rest of a child device class is constructed to support these shared properties. (<em>Nomenclature Note:
+“methods” are functions in a class, define using</em> <code class="docutils literal notranslate"><span class="pre">def</span></code>, <em>and “attributes” are everything
+else in the class, referenced by</em> <code class="docutils literal notranslate"><span class="pre">self</span></code>. <em>This is an major over-simplification, but suits
+the needs of this tutorial.</em>)</p>
+<p>The shared attributes are</p>
+<ul class="simple">
+<li><p>parameters</p></li>
+<li><p>latent_parameters</p></li>
+<li><p>configuration</p></li>
+</ul>
+<p>and the shared methods are</p>
+<ul class="simple">
+<li><p>write</p></li>
+<li><p>read</p></li>
+<li><p>enable_output</p></li>
+</ul>
+<p>We will address what these do later in the tutorial.</p>
+<p>The shared methods are enforced using <a class="reference external" href="https://docs.python.org/3/library/abc.html">Abstract Base Classes (abc)</a>
+module and its method <cite>abstractmethod</cite>. The decorator <cite>&#64;abstractmethod</cite> in
+<a class="reference internal" href="../device.html#baecon.device.Device" title="baecon.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">baecon.device.Device</span></code></a> denotes which methods must be defined in
+the child device class.</p>
+</section>
+<section id="first-steps-determine-device-communication">
+<h2>First Steps: Determine Device Communication<a class="headerlink" href="#first-steps-determine-device-communication" title="Permalink to this heading">#</a></h2>
+<p>The first thing to do is figure out how to communicate with the device through
+the computer. Many newer and more complex devices, like the
+<a class="reference internal" href="../Devices/devices.html#baecon.Devices.Pulse_Streamer" title="baecon.Devices.Pulse_Streamer"><code class="xref py py-class docutils literal notranslate"><span class="pre">baecon.Devices.Pulse_Streamer</span></code></a> or the Balser cameras, the manufacturer
+will provide a Python API (application programming interface). Though for
+less complex and older devices you may need to use a third-party library
+to communicate with the device. Devices using serial, RS-232, GPIB, and TCPIP
+can most often be controlled by <a class="reference external" href="https://pyvisa.readthedocs.io">PyVISA</a>. And
+in most cases the devices will use commands in the form of strings, IEEE-488.2
+and SCPI being two common structures.</p>
+<p><strong>Note</strong>: Not all USB devices use string commands for communciation. For example,
+the <a class="reference external" href="https://rf-consultant.com">TPI</a> signal generators use byte packets. <cite>PyVISA</cite>
+can still be used in this case, though working with byte packets is not as nice
+as simple string commands.</p>
+<p>For the SG4400L, as stated in the manual, it uses SCPI commands and can communicate with serial over
+USB or TCPIP (ethernet).</p>
+<img alt="../_images/SG440L_manual_page.png" src="../_images/SG440L_manual_page.png" />
+</section>
+<section id="what-are-device-parameters">
+<h2>What Are Device Parameters?<a class="headerlink" href="#what-are-device-parameters" title="Permalink to this heading">#</a></h2>
+<p>The <a class="reference internal" href="../device.html#baecon.device.Device" title="baecon.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">baecon.device.Device</span></code></a> class has two parameters attributes:
+<code class="docutils literal notranslate"><span class="pre">parameters</span></code> and <code class="docutils literal notranslate"><span class="pre">latent_parameters</span></code>. Additional attributes can be implemented
+in a device as need, for example <code class="docutils literal notranslate"><span class="pre">preparations</span></code> in the <code class="xref py py-class docutils literal notranslate"><span class="pre">baecon.Device.NIDAQ_Base</span></code>.
+Now these attributes are up to use to decide. The idea behind separating the parameters
+is that <code class="docutils literal notranslate"><span class="pre">latent_parameters</span></code> are for properties of the device are set and not changed often,
+such as communication settings (IPaddress, baud rate, etc.) and units for the property
+(volts, MHz, etc.). Then, <cite>parameters</cite> are the properties of the device that change often
+like frequency, gain, duration, etc.</p>
+<p>The is not a specific method for determining the parameters as all devices are
+quite different. A good place to start would be listing what properties of the
+device we would like to change during measurements. For the <code class="docutils literal notranslate"><span class="pre">SG4400L</span></code>,
+a start for the <code class="docutils literal notranslate"><span class="pre">parameters</span></code> would be:</p>
+<ul class="simple">
+<li><p>frequency</p></li>
+<li><p>amplitude/power</p></li>
+<li><p>on/off</p></li>
+</ul>
+<p>Next, we determine what is need to make a connection to the device. For the
+<cite>SG4400L</cite>, we will implement both serial over USB and TCPIP, which is quite
+easy with <code class="docutils literal notranslate"><span class="pre">PyVISA</span></code>. For these two communication types, at least the following
+are required:</p>
+<ul class="simple">
+<li><p>IP address (TCPIP)</p></li>
+<li><p>port number (TCPIP)</p></li>
+<li><p>port number (serial)</p></li>
+<li><p>baud rate (serial)</p></li>
+</ul>
+<p>With an idea of what the parameters should be, we can start building the class.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="kn">import</span> <span class="nn">pyvisa</span>
+<span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">baecon</span> <span class="kn">import</span> <span class="n">Device</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span><span class="k">class</span> <span class="nc">SG4400L</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span><span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos"> 7</span>        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos"> 8</span>            <span class="s1">&#39;output_status&#39;</span><span class="p">:</span> <span class="s2">&quot;off&quot;</span><span class="p">,</span>
+<span class="linenos"> 9</span>            <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="mi">250</span><span class="p">,</span>
+<span class="linenos">10</span>            <span class="s1">&#39;amplitude&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span>
+<span class="linenos">11</span>        <span class="p">}</span>
+<span class="linenos">12</span>        <span class="bp">self</span><span class="o">.</span><span class="n">latent_parameters</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos">13</span>            <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="linenos">14</span>            <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="linenos">15</span>            <span class="s1">&#39;baud&#39;</span><span class="p">:</span> <span class="mi">115200</span><span class="p">,</span>
+<span class="linenos">16</span>        <span class="p">}</span>
+<span class="linenos">17</span>
+<span class="linenos">18</span>        <span class="k">return</span>
+</pre></div>
+</div>
+<p>The values specified in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method will be the default for the
+class. For <code class="docutils literal notranslate"><span class="pre">parameters</span></code>, the values are smart start values: start with output
+off and low amplitude, with a frequency we typically use in experiments. For
+<code class="docutils literal notranslate"><span class="pre">latent_parameters</span></code>, the default address and port are not important as these
+need to be retrieved upon connecting the device to the computer. The default
+baud rate is important, as it is the rate specified in the manual.</p>
+</section>
+<section id="device-configuration-and-initialization">
+<h2>Device Configuration and Initialization<a class="headerlink" href="#device-configuration-and-initialization" title="Permalink to this heading">#</a></h2>
+<p>The device <code class="docutils literal notranslate"><span class="pre">configuration</span></code> contains all the information needed to create a device.
+The <code class="docutils literal notranslate"><span class="pre">configuration</span></code> is a <code class="docutils literal notranslate"><span class="pre">dict</span></code> where each key is an attribute of the device,
+looking something like</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">configuration</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span>
+    <span class="s2">&quot;latent_parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span>
+    <span class="s2">&quot;...&quot;</span><span class="p">:{</span><span class="o">...</span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>The initialization method of the base <a class="reference internal" href="../device.html#baecon.device.Device" title="baecon.device.Device"><code class="xref py py-class docutils literal notranslate"><span class="pre">baecon.device.Device</span></code></a> class
+will set the attributes of the <code class="docutils literal notranslate"><span class="pre">Device</span></code> instance to the values in the
+configuration dictionary. Child class can access the initialization
+method of the parent class by using the <code class="docutils literal notranslate"><span class="pre">super().__init__</span></code> method. And more generally
+children can access attributes and methods of the base class using <code class="docutils literal notranslate"><span class="pre">super()</span></code>.
+However, <cite>baecon</cite> Devices only use <cite>super()</cite>.</p>
+<p>So in the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> method of our SG4400L class, we will call
+<code class="docutils literal notranslate"><span class="pre">super().__init(configuration)</span></code> to instantiate the class instance with the
+values in the configuration dictionary. Also in this method, the <code class="docutils literal notranslate"><span class="pre">self.configuration</span></code>
+attribute will be defined, which stores the supplied configuration <code class="docutils literal notranslate"><span class="pre">dict</span></code>.
+This attribute is used to easily save the configuration of the device, without
+looking through all the other attributes.</p>
+</section>
+<section id="device-connection">
+<h2>Device Connection<a class="headerlink" href="#device-connection" title="Permalink to this heading">#</a></h2>
+<p>A typical way to manage the connection to a device is to have a method to
+connect which returns the object which handles the communication, which in turn
+is held as an attribute of the class. Here is the connection method
+for the <code class="docutils literal notranslate"><span class="pre">SG4400L</span></code></p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">def</span> <span class="nf">connect_to_SG4400L</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos"> 2</span>    <span class="n">rm</span> <span class="o">=</span> <span class="n">pyvisa</span><span class="o">.</span><span class="n">ResourceManager</span><span class="p">(</span><span class="s2">&quot;@py&quot;</span><span class="p">)</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">latent_parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;address&quot;</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span>
+<span class="linenos"> 5</span>        <span class="bp">self</span><span class="o">.</span><span class="n">latent_parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">),</span> <span class="nb">str</span>
+<span class="linenos"> 6</span>    <span class="p">):</span>
+<span class="linenos"> 7</span>        <span class="n">device_connection</span> <span class="o">=</span> <span class="n">rm</span><span class="o">.</span><span class="n">open_resource</span><span class="p">(</span>
+<span class="linenos"> 8</span>            <span class="s2">&quot;TCPIP0::&quot;</span>
+<span class="linenos"> 9</span>            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">latent_parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">)</span>
+<span class="linenos">10</span>            <span class="o">+</span> <span class="s2">&quot;::&quot;</span>
+<span class="linenos">11</span>            <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">latent_parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">)</span>
+<span class="linenos">12</span>            <span class="o">+</span> <span class="s2">&quot;::SOCKET&quot;</span>
+<span class="linenos">13</span>        <span class="p">)</span>
+<span class="linenos">14</span>        <span class="k">return</span> <span class="n">device_connection</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">latent_parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;address&#39;</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span>
+<span class="linenos">17</span>        <span class="bp">self</span><span class="o">.</span><span class="n">latent_parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">),</span> <span class="nb">str</span>
+<span class="linenos">18</span>    <span class="p">):</span>
+<span class="linenos">19</span>        <span class="n">just_com_number</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="linenos">20</span>            <span class="n">char</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">latent_parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;port&#39;</span><span class="p">)</span> <span class="k">if</span> <span class="n">char</span><span class="o">.</span><span class="n">isdigit</span><span class="p">()</span>
+<span class="linenos">21</span>        <span class="p">)</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span>        <span class="n">device_connection</span> <span class="o">=</span> <span class="n">rm</span><span class="o">.</span><span class="n">open_resource</span><span class="p">(</span>
+<span class="linenos">24</span>            <span class="s1">&#39;ASRL&#39;</span> <span class="o">+</span> <span class="n">just_com_number</span> <span class="o">+</span> <span class="s1">&#39;::INSTR&#39;</span><span class="p">,</span>
+<span class="linenos">25</span>            <span class="n">baud_rate</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">latent_parameters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;baud&#39;</span><span class="p">),</span>
+<span class="linenos">26</span>            <span class="n">data_bits</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+<span class="linenos">27</span>        <span class="p">)</span>
+<span class="linenos">28</span>        <span class="k">return</span> <span class="n">device_connection</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span>    <span class="n">err_msg</span> <span class="o">=</span> <span class="s2">&quot;Double check connection parameters, only supply address and port </span><span class="se">\</span>
+<span class="linenos">31</span><span class="s2">    for TCPIP, or only port for USB/serial.&quot;</span>
+<span class="linenos">32</span>    <span class="nb">print</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span>
+<span class="linenos">33</span>
+<span class="linenos">34</span>    <span class="k">return</span>
+</pre></div>
+</div>
+<p>We have two <code class="docutils literal notranslate"><span class="pre">if</span></code> statements to determine whether the connection parameters are
+for TCPIP or USB/serial. Connections are made to the device using <code class="docutils literal notranslate"><span class="pre">pyvisa.ResourceManager</span></code>
+which returns the object which we will use for communication. The syntax is given
+in the <a class="reference external" href="https://pyvisa.readthedocs.io">PyVISA</a> documentation.</p>
+<p>The method will print in error message when neither <code class="docutils literal notranslate"><span class="pre">if</span></code> statements are satisfied. Otherwise
+the <code class="docutils literal notranslate"><span class="pre">device_connection</span></code> is returned.</p>
+<p><em>Note: Since the baud rate for is fixed for the</em> <code class="docutils literal notranslate"><span class="pre">SG4400L</span></code> <em>, it is not a
+value we will want to change at all. So let’s remove</em> <code class="docutils literal notranslate"><span class="pre">baud</span></code> <em>from</em> <code class="docutils literal notranslate"><span class="pre">latent_parameters</span></code>
+<em>and hardcode the value into the connection function.</em></p>
+<p>Our intitional method for the <code class="docutils literal notranslate"><span class="pre">SG4400L</span></code> class now looks like the following, with
+the addition of the <code class="docutils literal notranslate"><span class="pre">super().__init__</span></code> method and the connection method.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">class</span> <span class="nc">SG4400L</span><span class="p">(</span><span class="n">Device</span><span class="p">):</span>
+<span class="linenos"> 2</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">configuration</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="linenos"> 3</span>        <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos"> 4</span>            <span class="s1">&#39;output_status&#39;</span><span class="p">:</span> <span class="s2">&quot;off&quot;</span><span class="p">,</span>
+<span class="linenos"> 5</span>            <span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+<span class="linenos"> 6</span>            <span class="s1">&#39;amplitude&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">30</span><span class="p">,</span>
+<span class="linenos"> 7</span>        <span class="p">}</span>
+<span class="linenos"> 8</span>        <span class="bp">self</span><span class="o">.</span><span class="n">latent_parameters</span> <span class="o">=</span> <span class="p">{</span>
+<span class="linenos"> 9</span>            <span class="s1">&#39;address&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="linenos">10</span>            <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+<span class="linenos">11</span>        <span class="p">}</span>
+<span class="linenos">12</span>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">configuration</span><span class="p">)</span>
+<span class="linenos">13</span>
+<span class="linenos">14</span>        <span class="bp">self</span><span class="o">.</span><span class="n">SG4400L_connection</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">connect_to_SG4400L</span><span class="p">()</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span>        <span class="k">return</span>
+</pre></div>
+</div>
+<div class="admonition-todo admonition" id="id3">
+<p class="admonition-title">Todo</p>
+<p>Maybe <code class="docutils literal notranslate"><span class="pre">connection</span></code> should be an <code class="docutils literal notranslate"><span class="pre">abstractmethod</span></code>?</p>
+</div>
+</section>
+<section id="communicating-with-the-device">
+<h2>Communicating with the Device<a class="headerlink" href="#communicating-with-the-device" title="Permalink to this heading">#</a></h2>
+<p>Communication to the device is limited to the two abstract methods, <code class="docutils literal notranslate"><span class="pre">write</span></code> and
+<code class="docutils literal notranslate"><span class="pre">read</span></code>. With <code class="docutils literal notranslate"><span class="pre">PyVISA</span></code>, we communicate based on string messages, so the
+two methods we need to implement will look something like this</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="linenos"> 2</span>
+<span class="linenos"> 3</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">some_function</span><span class="p">()</span> <span class="c1">## prepare a message to write to the device</span>
+<span class="linenos"> 4</span>    <span class="bp">self</span><span class="o">.</span><span class="n">SG4400L_connection</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="linenos"> 5</span>
+<span class="linenos"> 6</span>    <span class="k">return</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parameter</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span>    <span class="n">msg</span> <span class="o">=</span> <span class="n">some_other_function</span><span class="p">()</span> <span class="c1">## prepare a message to read a value from the device</span>
+<span class="linenos">11</span>    <span class="n">reading</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">SG4400L_connection</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+<span class="linenos">12</span>
+<span class="linenos">13</span>    <span class="k">return</span> <span class="n">reading</span>
+</pre></div>
+</div>
+<p><em>Note: The name of the method that</em> <code class="docutils literal notranslate"><span class="pre">PyVISA</span></code> <em>for changing a parameter on the device,
+is also called</em> <code class="docutils literal notranslate"><span class="pre">write</span></code>. <em>This is a coincidence.</em></p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#baecon-devices">Baecon Devices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#first-steps-determine-device-communication">First Steps: Determine Device Communication</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-are-device-parameters">What Are Device Parameters?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device-configuration-and-initialization">Device Configuration and Initialization</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device-connection">Device Connection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#communicating-with-the-device">Communicating with the Device</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div class="tocsection sourcelink">
+    <a href="../_sources/guides/tutorial_device_creation.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, Kevin S. Olsson.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.1.2.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.13.3.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
