@@ -7,3 +7,4 @@ Guides
    
    guides/quickstart
    guides/contribution_guide
+   guides/tutorial_device_creation

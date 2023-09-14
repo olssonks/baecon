@@ -289,7 +289,7 @@ that can be accessed by the ``parameter`` argument of the ``write`` and
 
 
 Ex: Frequency Method
-----------------
+--------------------
 
 In the command list for the ``SG4400L``, we see that the frequency accessed with
 the **FREQ:CW** command. A nice thing about SCPI commands, is that the difference
@@ -321,6 +321,7 @@ Similar methods are create for the amplitude (command **POWER**) and on/off
 (command **OUTPUT:STAT**).
 
 .. code-block:: python3
+
     def enable_output(self, value, is_read):
         ...
         return message
