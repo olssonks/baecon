@@ -105,7 +105,7 @@ def plot_data(
     fig = {
         "data": [],
         "layout": {
-            "margin": {"l": 15, "r": 0, "t": 0, "b": 15},
+            "margin": {"l": 50, "r": 50, "t": 50, "b": 50},
             "plot_bgcolor": "#E5ECF6",
             "xaxis": {"title": scan_parameters[0], "gridcolor": "white"},
             "yaxis": {"gridcolor": "white"},

@@ -14,7 +14,7 @@ data_file_format = ""
 data_analysis = ""
 plot_active = false
 abort_measurement = true
-measurement_threads = [ "<Thread(thr_90124229, stopped 1200)>", "<Thread(thr_70224298, stopped 21700)>",]
+measurement_threads = [ "<Thread(thr_44052096, stopped 28644)>", "<Thread(thr_23571013, stopped 45704)>",]
 
 [acquisition_devices.Daq1]
 name = "Daq1"
