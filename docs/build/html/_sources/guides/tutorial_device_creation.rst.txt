@@ -133,8 +133,13 @@ Device Configuration and Initialization
 =======================================
 
 The device ``configuration`` contains all the information needed to create a device.
+<<<<<<< HEAD
 The ``configuration`` is a ``dict`` (elements are `key:value`) where each key is an 
 attribute of the device, looking something like
+=======
+The ``configuration`` is a ``dict`` where each key is an attribute of the device,
+looking something like
+>>>>>>> main
 
 .. code-block:: python3
 
@@ -334,13 +339,19 @@ Support Method Dictionary
 -------------------------
 
 For the ``write`` and ``read`` method, we want to be able to access the 
+<<<<<<< HEAD
 support function simply with the ``parameter`` argument. We can accomplish this using a dictionary 
 which we'll call ``commands``. 
+=======
+support function simply with the ``parameter`` argument. We'll call this
+dictionary ``commands``.
+>>>>>>> main
 
 .. code-block:: python3
 
     commands = {'frequency': freq, 'amplitude': amp, 'output_status': enable_output}
 
+<<<<<<< HEAD
 The dictionary can be used like this 
 
 .. code-block:: python3
@@ -434,6 +445,8 @@ For our configuration above, the ``.toml`` file looks like
 Note that for ``.toml`` files, the order of the entries is important. Items 
 under brackets will be in sub-dictionary, like for parameters and latent_parameters.
 More info here `<https://toml.io/en/>`_.
+=======
+>>>>>>> main
 
 
 

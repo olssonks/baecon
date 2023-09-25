@@ -532,8 +532,13 @@ baud rate is important, as it is the rate specified in the manual.</p>
 <section id="device-configuration-and-initialization">
 <h2>Device Configuration and Initialization<a class="headerlink" href="#device-configuration-and-initialization" title="Permalink to this heading">#</a></h2>
 <p>The device <code class="docutils literal notranslate"><span class="pre">configuration</span></code> contains all the information needed to create a device.
+<<<<<<< HEAD
 The <code class="docutils literal notranslate"><span class="pre">configuration</span></code> is a <code class="docutils literal notranslate"><span class="pre">dict</span></code> (elements are <cite>key:value</cite>) where each key is an
 attribute of the device, looking something like</p>
+=======
+The <code class="docutils literal notranslate"><span class="pre">configuration</span></code> is a <code class="docutils literal notranslate"><span class="pre">dict</span></code> where each key is an attribute of the device,
+looking something like</p>
+>>>>>>> main
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">configuration</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;frequency&#39;</span><span class="p">:</span><span class="o">...</span><span class="p">},</span>
     <span class="s2">&quot;latent_parameters&quot;</span><span class="p">:</span> <span class="p">{</span><span class="o">...</span><span class="p">},</span>
@@ -700,6 +705,7 @@ us to have a single support method for reading and writing the frequency.</p>
 <section id="support-method-dictionary">
 <h3>Support Method Dictionary<a class="headerlink" href="#support-method-dictionary" title="Permalink to this heading">#</a></h3>
 <p>For the <code class="docutils literal notranslate"><span class="pre">write</span></code> and <code class="docutils literal notranslate"><span class="pre">read</span></code> method, we want to be able to access the
+<<<<<<< HEAD
 support function simply with the <code class="docutils literal notranslate"><span class="pre">parameter</span></code> argument. We can accomplish this using a dictionary
 which we’ll call <code class="docutils literal notranslate"><span class="pre">commands</span></code>.</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">commands</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="n">freq</span><span class="p">,</span> <span class="s1">&#39;amplitude&#39;</span><span class="p">:</span> <span class="n">amp</span><span class="p">,</span> <span class="s1">&#39;output_status&#39;</span><span class="p">:</span> <span class="n">enable_output</span><span class="p">}</span>
@@ -780,6 +786,13 @@ is used.</p>
 <p>Note that for <code class="docutils literal notranslate"><span class="pre">.toml</span></code> files, the order of the entries is important. Items
 under brackets will be in sub-dictionary, like for parameters and latent_parameters.
 More info here <a class="reference external" href="https://toml.io/en/">https://toml.io/en/</a>.</p>
+=======
+support function simply with the <code class="docutils literal notranslate"><span class="pre">parameter</span></code> argument. We’ll call this
+dictionary <code class="docutils literal notranslate"><span class="pre">commands</span></code>.</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="n">commands</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;frequency&#39;</span><span class="p">:</span> <span class="n">freq</span><span class="p">,</span> <span class="s1">&#39;amplitude&#39;</span><span class="p">:</span> <span class="n">amp</span><span class="p">,</span> <span class="s1">&#39;output_status&#39;</span><span class="p">:</span> <span class="n">enable_output</span><span class="p">}</span>
+</pre></div>
+</div>
+>>>>>>> main
 </section>
 </section>
 </section>
@@ -842,10 +855,13 @@ More info here <a class="reference external" href="https://toml.io/en/">https://
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#support-method-dictionary">Support Method Dictionary</a></li>
 </ul>
 </li>
+<<<<<<< HEAD
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#device-configuration">Device Configuration</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configuration-files">Configuration Files</a></li>
 </ul>
 </li>
+=======
+>>>>>>> main
 </ul>
   </nav></div>
 
