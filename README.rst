@@ -1,6 +1,6 @@
 .. _README:
 
-.. image:: ./docs/source/_static/baecon.svg
+.. image:: ./_static/baecon.png 
 
 |docs|
 

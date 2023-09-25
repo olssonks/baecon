@@ -77,7 +77,7 @@ class Device(ABC):
 
     def __del__(self) -> None:
         """Specialized deletion procedure for device. For example, reset
-        the physica device when the object is deleted.
+        the physical device when the object is deleted.
         """
 
         return

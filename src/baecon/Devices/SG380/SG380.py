@@ -35,20 +35,20 @@ class SG380(Device):
             self.write(param, value)
         return
 
-    def connnect_to_SG380(self, configuration: dict):
+    def connnect_to_SG380(self, configuration: dict) -> None:
         connection_settings = configuration["latent_parameters"]
         if "IPaddress" in connection_settings:
             pyvisa_connection = self.IP_connection(configuration)
         elif "GPIB" in connection_settings:
             pyvisa_connection = self.GPIB_connection(configuration)
         else:
-            print("No supported connection type found (TCPI or GPIB).")
+            print("No supported connection type found (TCPIP or GPIB).")
             print("Connection attempt aborted.")
             return
 
         return pyvisa_connection
 
-    def IP_connection(self, configuration: dict):
+    def IP_connection(self, configuration: dict) -> pyvisa.resources.TCPIPInstrument:
         """Takes IP address and port from the configuration dictionary and connects
         to the SG380. If no IP address is given, connection attempt is aborted.
 
