@@ -1,20 +1,20 @@
 averages = 1
 
 [GUI_Fields]
-exp_name = "odmr"
-exp_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Experiments\\odmr.toml"
+exp_name = "CW_ODMR"
+exp_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Experiments\\CW_ODMR.toml"
 engine_name = "default_engine_GUI.py"
 engine_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Engines\\default_engine_GUI.py"
 scan_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml"
-averages = 4.0
+averages = 1
 data_auto_save = ""
 data_folder = ""
-data_file = "2023_09_12_0_odmr"
+data_file = "2023_09_25_0_CW_ODMR"
 data_file_format = ""
 data_analysis = ""
 plot_active = false
-abort_measurement = false
-measurement_threads = []
+abort_measurement = true
+measurement_threads = [ "<Thread(thr_90124229, stopped 1200)>", "<Thread(thr_70224298, stopped 21700)>",]
 
 [acquisition_devices.Daq1]
 name = "Daq1"
@@ -23,6 +23,10 @@ device = "NIDAQ_Base"
 [scan_devices.SG1]
 name = "SG1"
 device = "SG380"
+
+[scan_devices.PS1]
+name = "PS1"
+device = "Pulse_Streamer"
 
 [scan_collection.SG1-frequency]
 name = "SG1"
@@ -40,6 +44,7 @@ note = ""
 
 [GUI_Fields.scan_dev_files]
 SG1 = ""
+PS1 = ""
 
 [GUI_Fields.acq_dev_files]
 Daq1 = ""
@@ -57,6 +62,7 @@ outputs_per_sample = 1
 output_samples_total = 1000.0
 output_channels = []
 input_sample_rate_out = 1000.0
+input_per_sample = 1
 
 [acquisition_devices.Daq1.latent_parameters]
 units = "volts"
@@ -94,3 +100,15 @@ modulation_rate = 0
 IPaddress = "10.229.42.86"
 port = "5025"
 read_termination = "r\n"
+
+[scan_devices.PS1.parameters]
+type_to_scan = "pi/2"
+scan_catagory = "start"
+scan_shift = "no_shift"
+add_time = true
+loop_number = -1
+
+[scan_devices.PS1.latent_parameters]
+IPaddress = "10.229.42.144"
+
+[scan_devices.PS1.parameters.pulse_sequence]
