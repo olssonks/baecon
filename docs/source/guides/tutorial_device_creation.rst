@@ -133,8 +133,8 @@ Device Configuration and Initialization
 =======================================
 
 The device ``configuration`` contains all the information needed to create a device.
-The ``configuration`` is a ``dict`` where each key is an attribute of the device,
-looking something like
+The ``configuration`` is a ``dict`` (elements are `key:value`) where each key is an 
+attribute of the device, looking something like
 
 .. code-block:: python3
 
@@ -334,13 +334,106 @@ Support Method Dictionary
 -------------------------
 
 For the ``write`` and ``read`` method, we want to be able to access the 
-support function simply with the ``parameter`` argument. We'll call this
-dictionary ``commands``.
+support function simply with the ``parameter`` argument. We can accomplish this using a dictionary 
+which we'll call ``commands``. 
 
 .. code-block:: python3
 
     commands = {'frequency': freq, 'amplitude': amp, 'output_status': enable_output}
 
+The dictionary can be used like this 
+
+.. code-block:: python3
+
+    commands['amplitude']*(value, is_read)
+
+allowing the ``write`` method to look like 
+
+.. code-block:: python3
+   :linenos: 
+
+    def write(self, parameter, value):
+
+        msg = commands[parameter](value, false)
+        self.SG4400L_connection.write(msg)
+        self.parameters[parameter] = value
+
+        return
+
+The ``read`` method is implemented similarly. 
+
+
+Device Configuration
+====================
+
+With all wanted methods implemented, we can look at what the required ``configuration``
+for the device. 
+
+The first two entries in the ``configuration`` dictionary are the same for all 
+devices, which are `name` and ``device``. The latter term is simply the class
+of the device, ``SG4400L`` in this case. The former term ``name`` is simply a 
+working name or nickname for the device, which distinguishes it from other
+devices of the same class. For example, if we were using two ``SG4400L``, one for
+driving an acousto-optic modulator and one for applying a signal to the sample,
+their names could be ``DSI_AOM`` and ``DSI_Signal``. 
+
+The next entries in the configuration are for ``parameters`` and ``latent_parameters``,
+which will contain the attributes defined in the ``__init__`` method. The resulting
+``configuration`` dictionary looks like 
+
+.. code-block:: python3
+
+    configuration = {
+        'name': 'DSI_AOM',
+        'device': 'SG4400L',
+        'parameters': {
+            'output_status': 'off', 
+            'frequency': 200,
+            'amplitude': -10,
+        },
+        'latent_parameters': {
+            'port': 3
+        }
+    }
+
+Note that the order of ``keys`` in a dictionary does not matter. The order I choose
+just made the most sense to me. 
+
+If we want to create a ``SG4400L`` instance using this dictionary, we would just
+call device class
+
+.. code-block:: python3
+
+    dsi_aom = SG4400L(configuration)
+
+
+Configuration Files
+-------------------
+
+Configuration files simply store the configuration dictionary in order to 
+recreate the instance of the device. The configuration files can be in one of 
+three formats (for now): ``.toml``, ``.yml``, and ``.json``. The parsing of the 
+configuration files is implements in :py:mod:`baecon.utils`. By default, ``.toml``
+is used.
+
+For our configuration above, the ``.toml`` file looks like
+
+.. code-block::
+
+    name = 'DSI_AOM'
+    device = 'SG4400L'
+
+    [parameters]
+    output_status = 'off'
+    'frequency' = 200
+    'amplitude' = - 10
+    
+    [latent_parameters]
+    port = 3
+
+Note that for ``.toml`` files, the order of the entries is important. Items 
+under brackets will be in sub-dictionary, like for parameters and latent_parameters.
+More info here `<https://toml.io/en/>`_.
 
 
 
