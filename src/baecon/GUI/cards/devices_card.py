@@ -14,9 +14,9 @@ devices_card_holder = gui_utils.Holder({})
 device_column_holder = gui_utils.Holder()
 
 """:todo:
-    Devices currenlty can only appear in the cards. Adding custom pages for devices
-    would be good, so for things like pulse generators can display the pulse
-    pattern, or for cameras show an image for aligning etc.
+   Device parameter fields in the drop down menus do not get updated if config set up
+   functions (e.g. NIDAQ preparation functions) change these values. Fields only
+   populated on config file load?
 """
 
 

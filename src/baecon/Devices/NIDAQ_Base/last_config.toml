@@ -4,9 +4,9 @@ device = "NIDAQ_Base"
 [parameters]
 device_name = "Dev1"
 input_sample_rate = 50000.0
-input_samples_per_chan = 10000.0
-inputs_per_sample = 1
-input_samples_total = 10000
+input_samples_per_chan = 501.0
+input_per_sample = 2
+input_samples_total = 1002
 input_channels = [ "ai1",]
 output_sample_rate = 5000.0
 output_samples_per_chan = 1000.0
@@ -14,13 +14,12 @@ outputs_per_sample = 1
 output_samples_total = 1000.0
 output_channels = []
 input_sample_rate_out = 1000.0
-input_per_sample = 1
 
 [latent_parameters]
 units = "volts"
 voltage_limits = 2
 terminal_type = "RSE"
-input_clock_source = "OnboardClock"
+input_clock_source = "OnBoardClock"
 input_active_edge = "rising_edge"
 input_sample_mode = "finite_samples"
 input_fill_mode = "by_channel"

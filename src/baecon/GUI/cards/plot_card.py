@@ -11,6 +11,8 @@ from baecon.GUI import gui_utils
 
 head_style = "color: #37474f; font-size: 200%; font-weight: 300"
 
+
+analyzer_holder = gui_utils.Holder()
 analyzer_name_holder = gui_utils.Holder('default_analyzer')
 
 
@@ -96,12 +98,6 @@ def plot_data(
     if (scan_parameters or acquisition_methods) is None:
         return  ## No plotting if measurement settings not defined
 
-    (
-        current_data,
-        completed_data,
-        average_data,
-    ) = default_analyzer.process_data(meas_data, acquisition_methods, scan_parameters)
-
     fig = {
         "data": [],
         "layout": {
@@ -115,6 +111,12 @@ def plot_data(
             "plotlyServerURL": "https://chart-studio.plotly.com",
         },
     }
+
+    (
+        current_data,
+        completed_data,
+        average_data,
+    ) = analyzer.process_data(meas_data, acquisition_methods, scan_parameters)
     if current_data is not None:
         try:
             fig = main_trace_style(fig, {**current_data, **average_data})
@@ -141,11 +143,6 @@ def process_data(
     average_data = average_processed_data(meas_data.raw_data_set, scan_parameters)
 
     return current_data, completed_data, average_data
-
-
-@dataclass
-class default_analyzer:
-    process_data = process_data
 
 
 def process_current_data(data_array: xr.DataArray, scan_parameters: list) -> dict:
@@ -231,7 +228,13 @@ def clear_plot(fig):
     return
 
 
+@dataclass
+class default_analyzer:
+    process_data = process_data
+
+
 analyzer_holder = gui_utils.Holder(default_analyzer)
+
 
 if __name__ in {"__main__", "__mp_main__"}:
     gui_fields = gui_utils.GUI_fields()

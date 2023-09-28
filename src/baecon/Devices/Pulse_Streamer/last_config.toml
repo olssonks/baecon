@@ -9,6 +9,6 @@ add_time = true
 loop_number = -1
 
 [latent_parameters]
-IPaddress = "10.229.42.144"
+IPaddress = "10.229.42.94"
 
 [parameters.pulse_sequence]

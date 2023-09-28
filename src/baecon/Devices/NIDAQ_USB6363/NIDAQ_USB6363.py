@@ -2,8 +2,8 @@
 .. todo::
    Needs to be tested. 
 """
-
-from baecon.Devices.NIDAQ_Base import NIDAQ_Base
+## need to import class not the full .py module
+from baecon.Devices.NIDAQ_Base.NIDAQ_Base import NIDAQ_Base
 from baecon.Devices.NIDAQ_Base.PyDAQmx_ref_values import PyDAQmx_lookup_value
 
 
@@ -20,7 +20,6 @@ class NIDAQ_USB6363(NIDAQ_Base):
 
     def __init__(self, configuration: dict) -> None:
         ## additional 6363 parameters
-
         self.latent_parameters = {
             "input_start_trigger_channel": "",
             "input_start_trigger_active_edge": "rising_edge",
@@ -29,10 +28,9 @@ class NIDAQ_USB6363(NIDAQ_Base):
             "analog_trigger_level": 0.5,
         }
         super().__init__(
-            self,
             ## ** on dicts appends them together
             ## want configuration last, so that it overwrites default values.
-            {**self.parameters, **self.latent_parameters, **configuration},
+            {**self.latent_parameters, **configuration},
         )
 
         return
@@ -114,7 +112,8 @@ class NIDAQ_USB6363(NIDAQ_Base):
         """
         preparation_types = {
             "analog_input": self.prepare_analog_input,
-            "digital_trigger": self.prepare_digital_trigger,
+            "input_digital_trigger": self.prepare_input_digital_trigger,
+            "output_digital_trigger": self.prepare_output_digital_trigger,
             "input_start_triger": self.prepare_input_start_trigger,
             "output_start_triger": self.prepare_output_start_trigger,
         }

@@ -38,7 +38,7 @@ class NIDAQ_Base(Device):
             "device_name": "",
             "input_sample_rate": 50e3,
             "input_samples_per_chan": 10e3,
-            "inputs_per_sample": 1,
+            "input_per_sample": 1,
             "input_samples_total": 10e3,
             "input_channels": [],
             "output_sample_rate": 5e3,
@@ -83,15 +83,15 @@ class NIDAQ_Base(Device):
 
         return
 
-    def __del__(self) -> None:
-        """Resets DAQ completely when object is closed
-        Note:
-            This may cause issues when use the same DAQ as multiple
-            devices, e.g., reading analog inputs (acquisition)
-            and writing analog outputs (scan).
-        """
-        PyDAQmx.ResetDevice(self.parameters["device_name"])
-        return
+    # def __del__(self) -> None:
+    #     """Resets DAQ completely when object is closed
+    #     Note:
+    #         This may cause issues when use the same DAQ as multiple
+    #         devices, e.g., reading analog inputs (acquisition)
+    #         and writing analog outputs (scan).
+    #     """
+    #     PyDAQmx.ResetDevice(self.parameters["device_name"])
+    #     return
 
     def enable_output(self, value: bool):
         ## this methods is required to be defined here by the Device class
@@ -164,12 +164,14 @@ class NIDAQ_Base(Device):
         time_source = str(self.latent_parameters["input_clock_source"])
 
         if time_source.upper()[0:3].find("PFI") >= 0:
-            time_source = ("/" + self.parameters["device_name"] + "/" + time_source.upper(),)
+            time_source = (
+                "/" + self.parameters.get("device_name") + "/" + time_source.upper()
+            )
 
         total_samples = int(
             number_of_channels
             * self.parameters["input_samples_per_chan"]
-            * self.parameters["inputs_per_sample"]
+            * self.parameters["input_per_sample"]
         )
 
         task.CfgSampClkTiming(
@@ -182,7 +184,7 @@ class NIDAQ_Base(Device):
 
         self.prepared_input_task = task
         self.input_data = np.zeros(total_samples)
-        self.parameters["input_samples_total"] = total_samples
+        self.parameters.update({"input_samples_total": total_samples})
         return
 
     def prepare_input_digital_trigger(self):

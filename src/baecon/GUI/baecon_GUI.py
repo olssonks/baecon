@@ -17,10 +17,10 @@ ui.colors(primary="#485696", secondary="#E7E7E7", accent="#FC7A1E", positive="#5
 
 
 ## "Globals"
-## gui_fields: All the main fields in the GUI for file names, plot
+##    gui_fields: All the main fields in the GUI for file names, plot
 ## meas_settings: actual measurement configuration with has instrument objects
-##     in it for communication
-## meas_data: measurement data
+##                in it for communication
+##     meas_data: measurement data
 
 meas_settings = bc.Measurement_Settings()
 

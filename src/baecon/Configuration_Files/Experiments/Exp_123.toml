@@ -2,18 +2,18 @@ averages = 1
 
 [GUI_Fields]
 exp_name = "Exp_123"
-exp_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Experiments\\Exp_123.toml"
+exp_file = "C:\\Users\\walsworth1\\Documents\\Kevin\\baecon\\src\\baecon\\Configuration_Files\\Experiments\\Exp_123.toml"
 engine_name = "default_engine_GUI.py"
-engine_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Engines\\default_engine_GUI.py"
-scan_file = "C:\\Users\\walsworth1\\Documents\\Jupyter_Notebooks\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml"
+engine_file = "C:\\Users\\walsworth1\\Documents\\Kevin\\baecon\\src\\baecon\\Configuration_Files\\Engines\\default_engine_GUI.py"
+scan_file = "C:\\Users\\walsworth1\\Documents\\Kevin\\baecon\\src\\baecon\\Configuration_Files\\Scans\\SRS_freq_scan.toml"
 averages = 1
 data_auto_save = ""
 data_folder = ""
-data_file = "2023_07_10_0_test"
-data_file_format = ""
+data_file = "2023_09_26_0_"
 data_analysis = ""
 plot_active = false
 abort_measurement = false
+measurement_threads = []
 
 [acquisition_devices.Daq1]
 name = "Daq1"
@@ -27,8 +27,8 @@ device = "SG380"
 name = "SG1"
 device = "SG380"
 parameter = "frequency"
-min = 2700.0
-max = 2900.0
+min = 2550.0
+max = 2700.0
 points = 101.0
 repetitions = 1.0
 scale = "linear"
@@ -45,36 +45,51 @@ Daq1 = ""
 
 [acquisition_devices.Daq1.parameters]
 device_name = "Dev1"
-read_sample_rate = 50000.0
-read_sample_rate_out = 1000.0
-read_samples_per_chan = 10000.0
-reads_per_sample = 1
-read_samples_total = 10000.0
-read_channels = [ "ai1",]
+input_sample_rate = 50000.0
+input_samples_per_chan = 501.0
+input_per_sample = 2
+input_samples_total = 1002
+input_channels = [ "ai1",]
+output_sample_rate = 5000.0
+output_samples_per_chan = 1000.0
+outputs_per_sample = 1
+output_samples_total = 1000.0
+output_channels = []
+input_sample_rate_out = 1000.0
 
 [acquisition_devices.Daq1.latent_parameters]
 units = "volts"
 voltage_limits = 2
 terminal_type = "RSE"
-read_clock_source = "OnboardClock"
-read_active_edge = "rising_edge"
-read_sample_mode = "finite_samples"
-read_timeout = "infinite_timeout"
-read_trigger_channel = "PFI0"
-read_fill_mode = "by_channel"
+input_clock_source = "OnBoardClock"
+input_active_edge = "rising_edge"
+input_sample_mode = "finite_samples"
+input_fill_mode = "by_channel"
+input_timeout = "infinite_timeout"
+input_trigger_channel = "PFI0"
+output_units = "volts"
+output_voltage_limits = "10"
+output_sample_mode = "finite_samples"
+output_clock_source = "OnBoardClock"
+output_trigger_edge = "rising_edge"
+output_fill_mode = "by_scan"
 
 [acquisition_devices.Daq1.preparations]
-read = [ "analog_input",]
-read_method = "analog_input"
+input = [ "analog_input",]
+input_method = "analog_input"
 
 [scan_devices.SG1.parameters]
-frequency = 2800.0
+frequency = "2550.0"
 phase = 0
 amplitude = 0.0
+enabled = 1
 modulation_enabled = false
 modulation_type = "IQ"
 modulation_function = "External"
+modulation_dev = 0
+modulation_rate = 0
 
 [scan_devices.SG1.latent_parameters]
-IPaddress = "10.229.42.86"
+IPaddress = "10.229.42.67"
 port = "5025"
+read_termination = "r\n"

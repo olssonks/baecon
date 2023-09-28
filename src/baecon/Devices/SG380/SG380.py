@@ -300,12 +300,23 @@ class SG380(Device):
 
     def mod_dev(self, value, read_toggle):
         deviation_types = {"AM": "ADEP", "FM": "FDEV", "PM": "PDEV", "Sweep": "SDEV"}
+        units = 'MHz'
 
         if self.parameters["modulation_type"] == 'IQ':
             return
 
+        if self.parameters["modulation_type"] == 'Sweep':
+            units = ''  ## Sweep range is <= 120 Hz
+            center = self.parameters["frequency"]
+            if (center - value) < 1900 or (center + value) > 4100:
+                print('Scan out of range: reduce span or shift center')
+                return
+
         message = (
-            deviation_types[self.parameters["modulation_type"]] + read_toggle + str(value)
+            deviation_types[self.parameters["modulation_type"]]
+            + read_toggle
+            + str(value)
+            + units
         )
         return message
 
